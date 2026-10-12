@@ -1,0 +1,131 @@
+---
+import Base from "../layouts/Base.astro";
+import Empty from "../components/Empty.astro";
+import Icon from "../components/Icon.astro";
+import Byline from "../components/Byline.astro";
+import Archive from "@lucide/astro/icons/archive";
+import ArrowRight from "@lucide/astro/icons/arrow-right";
+import Calendar from "@lucide/astro/icons/calendar";
+import Clock from "@lucide/astro/icons/clock";
+import Rss from "@lucide/astro/icons/rss";
+import { posts, minutes, ledeOf, opening, fullDate } from "../lib/posts";
+
+/* Only the posts meant for the front page; the rest are in the archive. */
+const all = (await posts()).filter((post) => post.data.front);
+/* The newest leads, set as its own page opens: on the margin grid, its
+   title, lede and byline on the line, then its first words,
+   so the page reads as the start of the post. */
+const [lead, ...rest] = all;
+
+const lede = lead && ledeOf(lead);
+---
+
+<Base description="Hypha's engineering blog: OCaml, systems and how software is put together, by the people who build Hypha Stack.">
+  {
+    lead ? (
+      <div class="mx-auto max-w-page px-4 sm:px-6">
+        <h1 class="sr-only">Hypha Pub</h1>
+        <article class="grid pt-14 md:grid-cols-margin md:pt-24" aria-labelledby="lead">
+          <div class="min-w-0 md:col-start-2">
+            <h2 id="lead" class="t-display max-w-[52rem]">
+              <a href={`/${lead.id}`} class="entry-link">
+                {lead.data.title}
+              </a>
+            </h2>
+            {lede && <p class="t-lede mt-5 max-w-[var(--measure)] text-graphite md:mt-6">{lede}</p>}
+            <div class="mt-6 md:mt-8"><Byline post={lead} /></div>
+
+            {lead.data.cover && (
+              <img
+                src={lead.data.cover}
+                alt=""
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                class="mt-10 aspect-video w-full max-w-[var(--measure)] rounded-panel bg-panel object-cover md:mt-14"
+              />
+            )}
+            {/* The first words, in the post's own type: the reader is
+                already reading. A figure stays where the text sets it,
+                further on, among the words it belongs to. */}
+            <div class="prose mt-9 max-w-[var(--measure)] md:mt-12">
+              <Fragment set:html={opening(lead).join("")} />
+            </div>
+            {/* The one thing to do here, so it is the one button filled
+                in ink: a button looks like one, as a link looks like a link. */}
+            <a
+              href={`/${lead.id}`}
+              class="group t-control rounded-control mt-10 inline-flex h-10 pointer-coarse:h-11 items-center gap-2 bg-ink px-5 text-ivory transition-colors hover:bg-ink/85"
+              aria-label={`Continue reading ${lead.data.title}`}
+            >
+              Continue reading
+              <Icon icon={ArrowRight} class="transition-transform duration-300 ease-glide group-hover:translate-x-0.5" />
+            </a>
+          </div>
+        </article>
+
+        {/* The rest beneath it, a line each on the same grid, so none
+            outweighs the lead: the date in the margin, the title and its
+            description on the line, and the cover small at the line's
+            end. The whole line answers the pointer, lifted to a panel as
+            Read next is: a ground drawn behind it out to the page's
+            gutters, so the words keep their places. No rules between
+            them: a hairline against a panel's rounded corner reads as a
+            mistake, and the room around each line already parts them.
+            On a phone the cover heads its post. */}
+        {rest.length > 0 && (
+          <ol class="mt-14 space-y-2 md:mt-20">
+            {rest.map((post) => (
+              <li class="group relative isolate grid gap-y-4 py-8 before:absolute before:inset-y-0 before:-inset-x-4 before:-z-10 before:rounded-panel before:transition-colors hover:before:bg-panel sm:before:-inset-x-6 md:grid-cols-margin md:py-10">
+                <time datetime={post.data.date.toISOString()} class="t-label hidden text-graphite md:block md:pt-2">
+                  {fullDate(post.data.date)}
+                </time>
+                <div class="grid min-w-0 gap-5 sm:grid-cols-[minmax(0,1fr)_16rem] sm:gap-8 md:col-start-2">
+                  <div class="flex min-w-0 flex-col">
+                    <h2 class="t-entry">
+                      <a href={`/${post.id}`} class="entry-link stretch group-hover:decoration-graphite">
+                        {post.data.title}
+                      </a>
+                    </h2>
+                    <p class="mt-2 line-clamp-2 max-w-[var(--measure-entry)] text-[0.9375rem] leading-[1.55] text-graphite">
+                      {post.data.description}
+                    </p>
+                    <p class="t-label mt-4 flex flex-wrap gap-x-5 gap-y-2 text-graphite">
+                      <span class="flex items-center gap-2 md:hidden">
+                        <Icon icon={Calendar} />
+                        <time datetime={post.data.date.toISOString()}>{fullDate(post.data.date)}</time>
+                      </span>
+                      <span class="flex items-center gap-2">
+                        <Icon icon={Clock} />
+                        {minutes(post)} min read
+                      </span>
+                    </p>
+                  </div>
+                  {post.data.cover && (
+                    <span class="order-first block overflow-hidden rounded-panel bg-panel sm:order-none">
+                      <img
+                        src={post.data.cover}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        class="aspect-video w-full object-cover transition-transform duration-700 ease-glide group-hover:scale-[1.025]"
+                      />
+                    </span>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ol>
+        )}
+      </div>
+    ) : (
+      /* With nothing on the front page, it says so as the 404 does and
+         sends the reader to what there is: the archive, and the feed
+         for what comes next. */
+      <Empty title="Nothing on the front page yet." lede="Every post so far is in the archive. The feed tells you when the next one is out.">
+        <a class="btn" href="/archive"><Icon icon={Archive} />Read the archive</a>
+        <a class="btn" href="/rss.xml"><Icon icon={Rss} />Follow the feed</a>
+      </Empty>
+    )
+  }
+</Base>

@@ -1,0 +1,22 @@
+---
+import type { AstroComponent } from "@lucide/astro";
+
+/* One set: Lucide. Every icon is rendered at one of
+   three sizes with the stroke scaled by the size, so the LINE is 1.35px
+   whichever is asked for: a set drawn at one stroke-width and rendered at
+   three sizes has three weights in it. Icons beside words are `sm` and
+   say nothing to a screen reader; the words do. */
+interface Props {
+  icon: AstroComponent;
+  size?: "sm" | "md" | "lg";
+  class?: string;
+}
+
+const ICON_PX = { sm: 16, md: 20, lg: 24 } as const;
+const LINE_PX = 1.35;
+
+const { icon: Drawn, size = "sm", class: className } = Astro.props;
+const px = ICON_PX[size];
+---
+
+<Drawn size={px} stroke-width={(LINE_PX * 24) / px} aria-hidden="true" class:list={["shrink-0", className]} />

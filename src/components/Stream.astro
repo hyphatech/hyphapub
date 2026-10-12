@@ -1,0 +1,65 @@
+---
+import Icon from "./Icon.astro";
+import Calendar from "@lucide/astro/icons/calendar";
+import Clock from "@lucide/astro/icons/clock";
+import { dayMonth, minutes, year, type Post } from "../lib/posts";
+
+/* Posts newest first, a section to a year: the year in the margin as
+   the principles set their numbers, held there while its posts pass;
+   on the line each post's title, its description whole to two lines,
+   and when and how long, as the front page gives them; the
+   title is the link, stretched over the entry. On a phone the year
+   heads its posts. Room parts the posts, as on the front page; the
+   one hairline is between years, the only edge room alone would not
+   say. */
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+const years: { year: number; posts: Post[] }[] = [];
+for (const post of posts) {
+  const y = year(post.data.date);
+  if (years.at(-1)?.year !== y) years.push({ year: y, posts: [] });
+  years.at(-1)!.posts.push(post);
+}
+---
+
+<div>
+  {
+    years.map(({ year: y, posts }) => (
+      <section
+        class="grid gap-y-6 py-12 not-first:border-t not-first:border-rule first:pt-0 last:pb-0 md:grid-cols-margin md:py-16"
+        aria-labelledby={`y${y}`}
+      >
+        <h2 id={`y${y}`} class="t-number t-h2 md:sticky md:top-8 md:self-start">
+          {y}
+        </h2>
+        <ol class="min-w-0 space-y-10 md:space-y-12">
+          {posts.map((post) => (
+            <li class="group relative">
+              <h3 class="t-entry max-w-[44rem]">
+                <a href={`/${post.id}`} class="entry-link stretch group-hover:decoration-graphite">
+                  {post.data.title}
+                </a>
+              </h3>
+              <p class="mt-2 line-clamp-2 max-w-[var(--measure-entry)] text-[0.9375rem] leading-[1.55] text-graphite">
+                {post.data.description}
+              </p>
+              <p class="t-label mt-4 flex flex-wrap gap-x-5 gap-y-2 text-graphite">
+                <span class="flex items-center gap-2">
+                  <Icon icon={Calendar} />
+                  <time datetime={post.data.date.toISOString()}>{dayMonth(post.data.date)}</time>
+                </span>
+                <span class="flex items-center gap-2">
+                  <Icon icon={Clock} />
+                  {minutes(post)} min read
+                </span>
+              </p>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))
+  }
+</div>

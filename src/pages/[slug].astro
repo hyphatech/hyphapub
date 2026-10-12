@@ -1,0 +1,295 @@
+---
+import { render } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import Byline from "../components/Byline.astro";
+import Clock from "@lucide/astro/icons/clock";
+import ArrowLeft from "@lucide/astro/icons/arrow-left";
+import ArrowRight from "@lucide/astro/icons/arrow-right";
+import Copy from "@lucide/astro/icons/copy";
+import Check from "@lucide/astro/icons/check";
+import X from "@lucide/astro/icons/x";
+import { authors } from "../lib/authors";
+import { posts, minutes, ledeOf, type Post } from "../lib/posts";
+
+/* Read next runs within a post's series: a series is read through on
+   its own, and never leads out into another. */
+export async function getStaticPaths() {
+  const all = await posts();
+  return all.map((post) => {
+    const run = all.filter((p) => p.data.series === post.data.series);
+    const i = run.indexOf(post);
+    return {
+      params: { slug: post.id },
+      props: { post, later: run[i - 1], earlier: run[i + 1] },
+    };
+  });
+}
+
+interface Props {
+  post: Post;
+  later?: Post;
+  earlier?: Post;
+}
+
+const { post, later, earlier } = Astro.props;
+const { Content, headings } = await render(post);
+/* Contents only where there is somewhere to go: two sections or more.
+   The footnotes' heading is for screen readers, not a section. */
+const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-label");
+const contents = sections.length >= 2 ? sections : [];
+const { name: author } = authors[post.data.author];
+const lede = ledeOf(post);
+const plain = (s: string) => s.replace(/\*\*|__/g, "");
+/* Read next: the later post, as a series is read; the newest has none,
+   so the earlier. Where both exist the earlier is a line beneath. */
+const next = later ?? earlier;
+/* Which way the card points: on to the next part, or back to the one
+   before, where the post is its series' last. */
+const ahead = next === later;
+const back = later ? earlier : undefined;
+---
+
+<Base
+  title={post.data.title}
+  description={post.data.description}
+  article={{ image: post.data.cover, published: post.data.date, modified: post.data.updated, author }}
+>
+  <article class="mx-auto max-w-page px-4 sm:px-6">
+    {/* Set as hyphatech.io's principles are: the margin under the mark
+        holds the contents, the line beside it holds the title and the
+        text, and from 80rem the sidenotes stand to the text's right. */}
+    <header class="grid pt-14 pb-9 md:grid-cols-margin md:pt-24 md:pb-12">
+      <div class="min-w-0 md:col-start-2">
+        <h1 class="t-display max-w-[52rem]">{post.data.title}</h1>
+        {lede && <p class="t-lede mt-5 md:mt-6 max-w-[var(--measure)] text-graphite">{lede}</p>}
+        <div class="mt-6 md:mt-8"><Byline post={post} /></div>
+      </div>
+    </header>
+
+    <div class="grid md:grid-cols-margin">
+      <aside class="hidden lg:block">
+        {
+          /* The contents follow the reader down the margin. The nav
+             scrolls, so it clips: its padding, taken back by a margin,
+             is room for a link's focus ring. */
+          contents.length > 0 && (
+            <nav
+              class="sticky top-6.5 -mx-1.5 -mt-1.5 max-h-[calc(100dvh-4rem)] overflow-y-auto px-1.5 pt-1.5 pb-8"
+              aria-label="Contents"
+              data-contents
+            >
+              <ol class="space-y-2.5 border-l border-rule">
+                {contents.map((h) => (
+                  <li>
+                    <a
+                      href={`#${h.slug}`}
+                      class="-ml-px block border-l border-transparent pl-3 pointer-coarse:py-[0.8125rem] text-[0.8125rem] leading-snug text-graphite transition-colors hover:text-ink aria-[current]:border-ink aria-[current]:text-ink"
+                    >
+                      {plain(h.text)}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )
+        }
+      </aside>
+      <div class="prose min-w-0 md:col-start-2">
+        <Content />
+      </div>
+    </div>
+
+    {/* The post's floor, on the text's measure: the post to read next
+        as a card, its cover beside its words, its title the link, and
+        the way back as a single line under it. */}
+    <footer class="grid md:grid-cols-margin">
+      <div class="min-w-0 max-w-[var(--measure)] md:col-start-2">
+        {
+          next && (
+            <nav class="mt-16 md:mt-20" aria-label="More posts">
+              <div
+                class:list={[
+                  "group relative grid items-center gap-5 rounded-panel border border-rule bg-ivory p-4 transition-colors hover:bg-panel sm:p-5",
+                  next.data.cover && "sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]",
+                ]}
+              >
+                {
+                  next.data.cover && (
+                    <span class="block overflow-hidden rounded-panel bg-panel">
+                      <img
+                        src={next.data.cover}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        class="aspect-video w-full object-cover transition-transform duration-700 ease-glide group-hover:scale-[1.025]"
+                      />
+                    </span>
+                  )
+                }
+                <span class="flex min-w-0 flex-col sm:py-1">
+                  <a href={`/${next.id}`} class="t-entry entry-link stretch focus-inset group-hover:decoration-graphite">
+                    {next.data.title}
+                  </a>
+                  <span class="mt-2 line-clamp-2 font-serif text-base leading-normal text-graphite">{next.data.description}</span>
+                  {/* How long, and which way: one row, the way on at its end.
+                      The date is the archive's business, not a reader's
+                      choosing the next part. */}
+                  <span class="t-label mt-4 flex items-center gap-5 text-graphite">
+                    <span class="flex items-center gap-2"><Icon icon={Clock} />{minutes(next)} min read</span>
+                    <span class="ml-auto flex items-center gap-2 whitespace-nowrap text-ink">
+                      {ahead ? (
+                        <>
+                          Read next
+                          <Icon icon={ArrowRight} class="transition-transform duration-300 ease-glide group-hover:translate-x-0.5" />
+                        </>
+                      ) : (
+                        <>
+                          <Icon icon={ArrowLeft} class="transition-transform duration-300 ease-glide group-hover:-translate-x-0.5" />
+                          Previous in series
+                        </>
+                      )}
+                    </span>
+                  </span>
+                </span>
+              </div>
+              {
+                back && (
+                  <a href={`/${back.id}`} class="group tap mt-5 flex items-center gap-3 text-graphite">
+                    <span class="t-label flex shrink-0 items-center gap-2">
+                      <Icon icon={ArrowLeft} class="transition-transform duration-300 ease-glide group-hover:-translate-x-0.5" />
+                      Previous
+                    </span>
+                    <span class="entry-link min-w-0 truncate text-base text-ink group-hover:decoration-graphite">{back.data.title}</span>
+                  </a>
+                )
+              }
+            </nav>
+          )
+        }
+      </div>
+    </footer>
+  </article>
+
+  {/* Drawn once here, cloned into each block of code by the script. */}
+  <template id="copy-icons"><Icon icon={Copy} /><Icon icon={Check} /><Icon icon={X} /></template>
+  {/* Where a copy's outcome is told to a screen reader. */}
+  <p class="sr-only" role="status" data-copy-status></p>
+
+  <script>
+    /* Copy, on every block of code: the lines as written, without the
+       highlighting. Only where the browser can write to the clipboard;
+       elsewhere the code is selected by hand, as it always could be. */
+    const [copy, done, failed] = document.querySelector<HTMLTemplateElement>("#copy-icons")!.content.children;
+    const status = document.querySelector<HTMLElement>("[data-copy-status]")!;
+    const LABEL = "Copy code";
+    /* Emptied first, so the same message twice is heard twice. */
+    const tell = (message: string) => {
+      status.textContent = "";
+      requestAnimationFrame(() => (status.textContent = message));
+    };
+    if (navigator.clipboard) {
+      document.querySelectorAll<HTMLElement>(".prose .code").forEach((block) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "copy";
+        button.setAttribute("aria-label", LABEL);
+        button.append(copy.cloneNode(true));
+        let reset: number | undefined;
+        /* A failure stays longer: it asks something of the reader. */
+        const show = (icon: Element, state: "copied" | "failed", label: string, message: string) => {
+          button.replaceChildren(icon.cloneNode(true));
+          button.setAttribute("aria-label", label);
+          button.title = message;
+          button.dataset.state = state;
+          tell(message);
+          clearTimeout(reset);
+          reset = setTimeout(
+            () => {
+              button.replaceChildren(copy.cloneNode(true));
+              button.setAttribute("aria-label", LABEL);
+              button.removeAttribute("title");
+              delete button.dataset.state;
+            },
+            state === "failed" ? 4000 : 1600,
+          );
+        };
+        button.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(block.querySelector("code")?.innerText ?? "");
+            show(done, "copied", "Copied", "Code copied");
+          } catch {
+            show(failed, "failed", "Not copied", "Couldn't copy: select the code and copy it by hand");
+          }
+        });
+        block.append(button);
+      });
+    }
+  </script>
+
+  <script>
+    /* Code, tables and drawings that run past the line scroll, and a box
+       that scrolls has to be reachable from the keyboard: each is built
+       as a tab stop, named for what it holds, so a screen reader says
+       where focus has gone. One that fits its line is passed over
+       instead -- a stop that does nothing -- and that is measured again
+       as the line changes width. A drawing's box is found from the
+       drawing, not by `:has()`, which an older browser would refuse,
+       and the script with it. */
+    const scrollers = [
+      ...[...document.querySelectorAll<HTMLElement>(".prose pre")].map((box) => [box, "Code"] as const),
+      ...[...document.querySelectorAll<HTMLElement>(".prose > .table-wrap")].map((box) => [box, "Table"] as const),
+      ...[...document.querySelectorAll<HTMLImageElement>(".prose > p > img.drawing:only-child")].map(
+        (img) => [img.parentElement!, "Figure"] as const,
+      ),
+    ];
+    const names = new Map<Element, string>(scrollers);
+    const fit = (box: HTMLElement) => {
+      if (box.scrollWidth > box.clientWidth) {
+        box.setAttribute("tabindex", "0");
+        box.setAttribute("role", "region");
+        box.setAttribute("aria-label", names.get(box)!);
+      } else {
+        box.removeAttribute("tabindex");
+        box.removeAttribute("role");
+        box.removeAttribute("aria-label");
+      }
+    };
+    const watch = new ResizeObserver((entries) => entries.forEach(({ target }) => fit(target as HTMLElement)));
+    scrollers.forEach(([box]) => watch.observe(box));
+    /* Code is set in the mono, which can arrive after the first measure. */
+    document.fonts.ready.then(() => scrollers.forEach(([box]) => fit(box)));
+  </script>
+
+  <script>
+    /* The contents follow the reader: the section whose heading last
+       passed the top third of the screen is the one in ink. */
+    const nav = document.querySelector<HTMLElement>("[data-contents]");
+    if (nav) {
+      const links = [...nav.querySelectorAll<HTMLAnchorElement>("a")];
+      const targets = links
+        .map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1))))
+        .filter((el): el is HTMLElement => el !== null);
+      const mark = () => {
+        const line = window.innerHeight / 3;
+        let current = -1;
+        targets.forEach((el, i) => {
+          if (el.getBoundingClientRect().top <= line) current = i;
+        });
+        links.forEach((a, i) => (i === current ? a.setAttribute("aria-current", "location") : a.removeAttribute("aria-current")));
+      };
+      let queued = false;
+      const onScroll = () => {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(() => {
+          queued = false;
+          mark();
+        });
+      };
+      addEventListener("scroll", onScroll, { passive: true });
+      addEventListener("resize", onScroll);
+      mark();
+    }
+  </script>
+</Base>

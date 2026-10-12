@@ -1,0 +1,28 @@
+---
+/* A page with nothing to show -- the 404, an empty front page -- set
+   one way: a numeral in the margin where there is one, as the archive
+   sets its years; the heading on the line, a sentence under it, and the
+   ways on as buttons. On a laptop it stands in the middle of the room
+   between masthead and footer, not stranded at the top of it. */
+interface Props {
+  /* What the margin holds, a number: 404. */
+  mark?: string;
+  title: string;
+  lede?: string;
+}
+
+const { mark, title, lede } = Astro.props;
+---
+
+<div class="mx-auto max-w-page px-4 pt-14 sm:px-6 md:my-auto md:py-16">
+  <div class="grid gap-y-5 md:grid-cols-margin">
+    {mark && <span class="t-number t-h2 md:pt-2.5">{mark}</span>}
+    <div class="md:col-start-2">
+      <h1 class="t-display max-w-[40rem]">{title}</h1>
+      {lede && <p class="t-lede mt-7 max-w-[34rem] text-balance text-graphite">{lede}</p>}
+      <p class="mt-10 flex flex-wrap gap-3">
+        <slot />
+      </p>
+    </div>
+  </div>
+</div>

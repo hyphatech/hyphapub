@@ -1,0 +1,108 @@
+<svg viewBox="0 0 680 524" width="680" height="524" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t d">
+  <title id="t">The Unix family tree, 1970 to 2007</title>
+  <desc id="d">Unix at Bell Labs, from 1971 to 1989, by Ken Thompson and Dennis Ritchie, gives rise to two families. BSD, from 1978 to 1995, by Bill Joy, leads to SunOS and from it Solaris, to NeXTSTEP and through it Mac OS X, and in 1993 to NetBSD and FreeBSD. OpenBSD forks from NetBSD and is first released in 1996. Xenix, Microsoft and SCO, from 1980 to 1991, comes from Bell Labs Unix, as do the System V systems HP-UX, AIX, IRIX, which ends in 2006, and UnixWare. Minix, by Andrew S. Tanenbaum, from 1987, is a clone of Unix rather than a descendant, and the GNU Project, by Richard Stallman, from 1983, stands outside both families. Linux, by Linus Torvalds, from 1991, joins GNU and owes Minix its start.</desc>
+  <!-- Dates are first and last releases to the month, from each system's article on Wikipedia. Text that stands on the paper carries a halo of paper, so a decade's hairline stops at its words. -->
+  <style>
+    /* Inter Tight 400, its Latin letters only, carried inside the drawing:
+       an image cannot load the page's fonts. */
+    @font-face { font-family: 'Inter Tight'; font-weight: 400; src: url(data:font/woff2;base64,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) format('woff2'); }
+    text { font-family: 'Inter Tight', 'Inter', -apple-system, 'Segoe UI', system-ui, sans-serif; }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#655d54"/>
+    </marker>
+  </defs>
+  <rect width="680" height="524" fill="#f3efe8"/>
+  <path d="M24,40 L630.0,40" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M24.5,36 L24.5,40" stroke="#655d54" stroke-width="1"/>
+  <path d="M24.5,46 L24.5,500" stroke="#d6cfc2" stroke-width="1" stroke-dasharray="2,4"/>
+  <text x="24.5" y="28" font-size="10" fill="#655d54" stroke="#f3efe8" stroke-width="4" stroke-linejoin="round" paint-order="stroke" text-anchor="middle">1970</text>
+  <path d="M104.5,38 L104.5,40" stroke="#655d54" stroke-width="1"/>
+  <path d="M184.5,36 L184.5,40" stroke="#655d54" stroke-width="1"/>
+  <path d="M184.5,46 L184.5,500" stroke="#d6cfc2" stroke-width="1" stroke-dasharray="2,4"/>
+  <text x="184.5" y="28" font-size="10" fill="#655d54" stroke="#f3efe8" stroke-width="4" stroke-linejoin="round" paint-order="stroke" text-anchor="middle">1980</text>
+  <path d="M264.5,38 L264.5,40" stroke="#655d54" stroke-width="1"/>
+  <path d="M344.5,36 L344.5,40" stroke="#655d54" stroke-width="1"/>
+  <path d="M344.5,46 L344.5,500" stroke="#d6cfc2" stroke-width="1" stroke-dasharray="2,4"/>
+  <text x="344.5" y="28" font-size="10" fill="#655d54" stroke="#f3efe8" stroke-width="4" stroke-linejoin="round" paint-order="stroke" text-anchor="middle">1990</text>
+  <path d="M424.5,38 L424.5,40" stroke="#655d54" stroke-width="1"/>
+  <path d="M504.5,36 L504.5,40" stroke="#655d54" stroke-width="1"/>
+  <path d="M504.5,46 L504.5,500" stroke="#d6cfc2" stroke-width="1" stroke-dasharray="2,4"/>
+  <text x="504.5" y="28" font-size="10" fill="#655d54" stroke="#f3efe8" stroke-width="4" stroke-linejoin="round" paint-order="stroke" text-anchor="middle">2000</text>
+  <path d="M584.5,38 L584.5,40" stroke="#655d54" stroke-width="1"/>
+  <text x="624.0" y="28" font-size="10" fill="#655d54" stroke="#f3efe8" stroke-width="4" stroke-linejoin="round" paint-order="stroke" text-anchor="end">2007</text>
+  <path d="M112.5,368 L112.5,160.0 Q112.5,154.0 118.5,154.0 L143.7,154.0" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M112.5,368 L112.5,272.0 Q112.5,266.0 118.5,266.0 L182.3,266.0" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M112.5,368 L112.5,356.0 Q112.5,350.0 118.5,350.0 L285,350.0" stroke="#655d54" stroke-width="1" fill="none" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <path d="M168.5,388 L168.5,400.0 Q168.5,406.0 174.5,406.0 L205,406.0" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M168.5,388 L168.5,428.0 Q168.5,434.0 174.5,434.0 L270.3,434.0" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M168.5,388 L168.5,456.0 Q168.5,462.0 174.5,462.0 L301,462.0" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M168.5,388 L168.5,484.0 Q168.5,490.0 174.5,490.0 L365,490.0" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M360.5,144 L360.5,76.0 Q360.5,70.0 366.5,70.0 L394.3,70.0" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M360.5,144 L360.5,104.0 Q360.5,98.0 366.5,98.0 L385.0,98.0" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M424.5,108 L424.5,120.0 Q424.5,126.0 430.5,126.0 L437.0,126.0" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M184.5,164 L184.5,176.0 Q184.5,182.0 190.5,182.0 L205,182.0" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M184.5,164 L184.5,232.0 Q184.5,238.0 190.5,238.0 L327.7,238.0" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M352.5,192 L352.5,204.0 Q352.5,210.0 358.5,210.0 L371.7,210.0" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M328.5,304 L328.5,316.0 Q328.5,322.0 334.5,322.0 L359.7,322.0" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M328.5,340 L328.5,328.0 Q328.5,322.0 334.5,322.0 L359.7,322.0" stroke="#655d54" stroke-width="1" fill="none" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <path d="M433.0,238.0 L511.70000000000005,238.0" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <!-- FreeBSD: (1993, 11) to 2007, x=405.3..624.0, row 0 -->
+  <rect x="405.3" y="60" width="218.7" height="20" rx="4" fill="#e3d9c1" stroke="#9a7410" stroke-width="1.25"/>
+  <text x="413.3" y="74" font-size="11" fill="#15120e">FreeBSD</text>
+  <!-- NetBSD: (1993, 4) to 2007, x=396.0..624.0, row 1 -->
+  <rect x="396.0" y="88" width="228.0" height="20" rx="4" fill="#f3efe8" stroke="#9a7410"/>
+  <text x="404.0" y="102" font-size="11" fill="#15120e">NetBSD</text>
+  <!-- OpenBSD: (1996, 7) to 2007, x=448.0..624.0, row 2 -->
+  <rect x="448.0" y="116" width="176.0" height="20" rx="4" fill="#f3efe8" stroke="#9a7410"/>
+  <text x="456.0" y="130" font-size="11" fill="#15120e">OpenBSD</text>
+  <!-- BSD: (1978, 3) to (1995, 6), x=154.7..430.7, row 3 -->
+  <rect x="154.7" y="144" width="276.0" height="20" rx="4" fill="#f3efe8" stroke="#9a7410"/>
+  <text x="162.7" y="158" font-size="11" fill="#15120e">BSD</text>
+  <text x="438.7" y="158" font-size="10" fill="#655d54" stroke="#f3efe8" stroke-width="4" stroke-linejoin="round" paint-order="stroke">Bill Joy</text>
+  <!-- SunOS: 1982 to (1994, 11), x=216..421.3, row 4 -->
+  <rect x="216" y="172" width="205.3" height="20" rx="4" fill="#f3efe8" stroke="#9a7410"/>
+  <text x="224" y="186" font-size="11" fill="#15120e">SunOS</text>
+  <!-- Solaris: (1992, 6) to 2007, x=382.7..624.0, row 5 -->
+  <rect x="382.7" y="200" width="241.3" height="20" rx="4" fill="#f3efe8" stroke="#9a7410"/>
+  <text x="390.7" y="214" font-size="11" fill="#15120e">Solaris</text>
+  <!-- NeXTSTEP: (1989, 9) to (1995, 4), x=338.7..428.0, row 6 -->
+  <rect x="338.7" y="228" width="89.3" height="20" rx="4" fill="#f3efe8" stroke="#9a7410"/>
+  <text x="346.7" y="242" font-size="11" fill="#15120e">NeXTSTEP</text>
+  <!-- Mac OS X: (2001, 3) to 2007, x=522.7..624.0, row 6 -->
+  <rect x="522.7" y="228" width="101.3" height="20" rx="4" fill="#f3efe8" stroke="#9a7410"/>
+  <text x="530.7" y="242" font-size="11" fill="#15120e">Mac OS X</text>
+  <!-- Xenix: (1980, 8) to (1991, 8), x=193.3..369.3, row 7 -->
+  <rect x="193.3" y="256" width="176.0" height="20" rx="4" fill="#ebe6dd" stroke="#d6cfc2"/>
+  <text x="201.3" y="270" font-size="11" fill="#15120e">Xenix</text>
+  <text x="377.3" y="270" font-size="10" fill="#655d54" stroke="#f3efe8" stroke-width="4" stroke-linejoin="round" paint-order="stroke">Microsoft, SCO</text>
+  <!-- GNU Project: (1983, 9) to 2007, x=242.7..624.0, row 8 -->
+  <rect x="242.7" y="284" width="381.3" height="20" rx="4" fill="#f3efe8" stroke="#655d54"/>
+  <text x="250.7" y="298" font-size="11" fill="#15120e">GNU Project<tspan dx="8" font-size="10" fill="#655d54">Richard Stallman</tspan></text>
+  <!-- Linux: (1991, 9) to 2007, x=370.7..624.0, row 9 -->
+  <rect x="370.7" y="312" width="253.3" height="20" rx="4" fill="#f3efe8" stroke="#655d54"/>
+  <text x="378.7" y="326" font-size="11" fill="#15120e">Linux<tspan dx="8" font-size="10" fill="#655d54">Linus Torvalds</tspan></text>
+  <!-- Minix: 1987 to 2007, x=296..624.0, row 10 -->
+  <rect x="296" y="340" width="328.0" height="20" rx="4" fill="#f3efe8" stroke="#655d54"/>
+  <text x="304" y="354" font-size="11" fill="#15120e">Minix<tspan dx="8" font-size="10" fill="#655d54">Andrew S. Tanenbaum</tspan></text>
+  <!-- Unix, Bell Labs: (1971, 11) to (1989, 10), x=53.3..340.0, row 11 -->
+  <rect x="53.3" y="368" width="286.7" height="20" rx="4" fill="#15120e" />
+  <text x="61.3" y="382" font-size="11" fill="#f3efe8">Unix, Bell Labs</text>
+  <text x="348.0" y="382" font-size="10" fill="#655d54" stroke="#f3efe8" stroke-width="4" stroke-linejoin="round" paint-order="stroke">Ken Thompson, Dennis Ritchie</text>
+  <!-- HP-UX: 1982 to 2007, x=216..624.0, row 12 -->
+  <rect x="216" y="396" width="408.0" height="20" rx="4" fill="#ebe6dd" stroke="#d6cfc2"/>
+  <text x="224" y="410" font-size="11" fill="#15120e">HP-UX</text>
+  <!-- AIX: (1986, 2) to 2007, x=281.3..624.0, row 13 -->
+  <rect x="281.3" y="424" width="342.7" height="20" rx="4" fill="#ebe6dd" stroke="#d6cfc2"/>
+  <text x="289.3" y="438" font-size="11" fill="#15120e">AIX</text>
+  <!-- IRIX: 1988 to (2006, 8), x=312..609.3, row 14 -->
+  <rect x="312" y="452" width="297.3" height="20" rx="4" fill="#ebe6dd" stroke="#d6cfc2"/>
+  <text x="320" y="466" font-size="11" fill="#15120e">IRIX</text>
+  <!-- UnixWare: 1992 to 2007, x=376..624.0, row 15 -->
+  <rect x="376" y="480" width="248.0" height="20" rx="4" fill="#ebe6dd" stroke="#d6cfc2"/>
+  <text x="384" y="494" font-size="11" fill="#15120e">UnixWare</text>
+  <text x="24" y="102.0" font-size="10" fill="#655d54" stroke="#f3efe8" stroke-width="4" stroke-linejoin="round" paint-order="stroke" letter-spacing="1.2">BSD FAMILY</text>
+  <text x="24" y="438.0" font-size="10" fill="#655d54" stroke="#f3efe8" stroke-width="4" stroke-linejoin="round" paint-order="stroke" letter-spacing="1.2">SYSTEM III</text>
+  <text x="24" y="452.0" font-size="10" fill="#655d54" stroke="#f3efe8" stroke-width="4" stroke-linejoin="round" paint-order="stroke" letter-spacing="1.2">AND V FAMILY</text>
+</svg>

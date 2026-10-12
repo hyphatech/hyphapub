@@ -1,0 +1,12 @@
+---
+import Base from "../layouts/Base.astro";
+import Empty from "../components/Empty.astro";
+import Icon from "../components/Icon.astro";
+import Archive from "@lucide/astro/icons/archive";
+---
+
+<Base title="Not found" description="This address holds no post." lost>
+  <Empty mark="404" title="Nothing is written here.">
+    <a class="btn" href="/archive"><Icon icon={Archive} />Read the archive</a>
+  </Empty>
+</Base>

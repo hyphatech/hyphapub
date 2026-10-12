@@ -1,0 +1,665 @@
+@import "@fontsource/inter-tight/400.css";
+@import "@fontsource/inter-tight/500.css";
+@import "@fontsource-variable/roboto-slab/index.css";
+
+@import "tailwindcss";
+
+/* hyphatech.io's system, carried over whole: five colours, two faces;
+   hairline rules, no shadow, no bold. `accent` is for marks, never text:
+   text is ink and graphite only. */
+:root {
+  --night: #15120e;
+  --paper: #f3efe8;
+  --graphite-on-night: #948c83; /* 5.6:1 */
+  --graphite-on-paper: #655d54; /* 5.6:1 */
+  --rule-on-night: #3d362c;
+  --rule-on-paper: #d6cfc2;
+  --accent-on-night: #d4a820;
+  --accent-on-paper: #9a7410;
+}
+
+@theme {
+  /* Role names: `ivory` is the ground, `ink` the text. */
+  --color-ivory: var(--night);
+  --color-ink: var(--paper);
+  --color-graphite: var(--graphite-on-night);
+  --color-rule: var(--rule-on-night);
+  --color-accent: var(--accent-on-night);
+
+  /* Surfaces lift the ground toward ink instead of using shadows. Mixed in
+     oklab: oklch loses the near-grey ground's hue. */
+  --color-panel: color-mix(in oklab, var(--color-ink) 4%, var(--color-ivory));
+  --color-raised: color-mix(in oklab, var(--color-ink) 7%, var(--color-ivory));
+
+  --container-page: 72rem;
+
+  --font-serif: "Roboto Slab Variable", ui-serif, Georgia, serif;
+  --font-sans: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1.4;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.35;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.4;
+
+  --radius-control: 4px;
+  --radius-panel: 10px;
+
+  --ease-glide: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-state: cubic-bezier(0.4, 0, 0.2, 1);
+  --default-transition-duration: 120ms;
+  --default-transition-timing-function: var(--ease-state);
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    scrollbar-color: var(--color-rule) var(--color-ivory);
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: var(--night);
+  }
+  /* Grid: the margin is the first sixth; words start on the line at its
+     end. The margin holds the apparatus -- year, date, subject, contents
+     -- never running text. Below a laptop it keeps a label's width; on a
+     phone the line is the page edge and the apparatus follows the
+     title. */
+  :root {
+    --margin: 11.5rem;
+    /* A post's text: about 78 characters of the sans at its 19px, the
+       width of hyphatech.io's principles. `ch` counts the wide zero and
+       would allow 95. */
+    --measure: 42rem;
+    /* An entry's description, in the stream and on the front page: the
+       same 70-odd characters in its smaller 15px, where the text's
+       measure would let it run to 104. */
+    --measure-entry: 30rem;
+    /* A sidenote, to the right of the text from 80rem: the line's width
+       left over there. */
+    --sidebar: 12rem;
+  }
+  @media (width >= 64rem) {
+    :root {
+      --margin: calc(100% / 6);
+    }
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: var(--ring-offset, 3px);
+  }
+  /* A word longer than its box -- a path, an address, a title with a
+     long compound -- breaks rather than widening the page. `anywhere`,
+     not `break-word`: a box in a grid or a flex row sizes itself to its
+     longest word otherwise, and the card grid would follow it. */
+  body {
+    overflow-wrap: anywhere;
+  }
+  .font-serif {
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/* A lead post's title; sized so a long one sets in two lines on a
+   laptop. */
+@utility t-display {
+  text-wrap: balance;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2.375rem, 5.6vw, 4.5rem);
+  line-height: 1.03;
+  letter-spacing: -0.02em;
+}
+
+@utility t-h1 {
+  text-wrap: balance;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+@utility t-h2 {
+  text-wrap: balance;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-size: clamp(1.5rem, 2.8vw, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.005em;
+}
+
+/* A title in the stream. */
+@utility t-entry {
+  text-wrap: balance;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.375rem, 2.2vw, 1.625rem);
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+}
+
+@utility t-lede {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.125rem, 1.6vw, 1.25rem);
+  line-height: 1.5;
+}
+
+/* The year, in the margin. */
+@utility t-number {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--color-graphite);
+  line-height: 1;
+}
+
+@utility t-label {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--text-xs);
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@utility t-control {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--text-sm);
+  line-height: 1.25;
+}
+
+@utility t-caption {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
+/* Label in the margin, words on the line. */
+@utility grid-cols-margin {
+  grid-template-columns: calc(var(--margin) - 2.5rem) minmax(0, 1fr);
+  column-gap: 2.5rem;
+}
+
+/* A control that leads somewhere, as hyphatech.io sets its secondary
+   button. */
+@utility btn {
+  @apply t-control rounded-control inline-flex h-10 pointer-coarse:h-11 cursor-pointer items-center gap-2 border border-rule bg-panel px-5 text-graphite transition-colors hover:border-graphite hover:bg-raised hover:text-ink;
+}
+
+/* A standalone link: control height on touch, so it can be hit. */
+@utility link {
+  @apply t-control pointer-coarse:min-h-11 cursor-pointer items-center text-graphite underline decoration-graphite/50 underline-offset-4 transition-colors pointer-coarse:inline-flex hover:text-ink hover:decoration-ink;
+}
+
+@utility tap {
+  @apply pointer-coarse:inline-flex pointer-coarse:min-h-11 pointer-coarse:items-center;
+}
+
+/* A link that fills a cell of a hairline grid keeps its focus ring
+   inside itself: outside, the frame's clip and the next cell's ground
+   would hide it. Clear of the frame's rounded corners. */
+@utility focus-inset {
+  --ring-offset: -6px;
+}
+
+/* An entry -- a card, a line of the archive, Read next -- is one link,
+   its title: stretched over the entry, so all of it answers the pointer,
+   while a screen reader names it by the title alone and reads the rest
+   as text. Set on the title's link; the entry is `relative`, and its
+   focus ring is drawn round the whole of it. */
+@utility stretch {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+  &:focus-visible {
+    outline: none;
+  }
+  &:focus-visible::after {
+    outline: 2px solid var(--color-accent);
+    outline-offset: var(--ring-offset, 3px);
+  }
+}
+
+/* A place in the phone's row of links: graphite, on `panel` under the
+   pointer, and the one you are on in ink on `raised`; control height on
+   touch, as every other link has. */
+@utility nav-item {
+  @apply t-control rounded-control pointer-coarse:min-h-11 flex items-center whitespace-nowrap text-graphite transition-colors aria-[current]:bg-raised aria-[current]:text-ink not-aria-[current]:hover:bg-panel not-aria-[current]:hover:text-ink;
+}
+
+/* An entry's title: the whole row is its link, the title answers the
+   pointer. */
+@utility entry-link {
+  @apply transition-colors;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  &:hover {
+    text-decoration-color: var(--color-graphite);
+  }
+}
+
+/* The article, on Tufte's grid: everything -- text, code, figures,
+   quotes -- keeps one measure and one pair of edges, and from 80rem the
+   room to its right takes the sidenotes. Below that a note opens in
+   place, under its line: never at the end. */
+.prose {
+  font-size: 1.1875rem;
+  line-height: 1.7;
+  letter-spacing: 0.003em;
+  color: var(--color-ink);
+  /* A path or an address longer than the line breaks rather than push
+     the page sideways: on a phone with large text, `/etc/lxc/…` would. */
+  overflow-wrap: break-word;
+
+  & > * {
+    max-width: var(--measure);
+  }
+  & > * + * {
+    margin-top: 1.25em;
+  }
+  & > :first-child {
+    margin-top: 0;
+  }
+  & h2 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(1.5rem, 2.4vw, 1.875rem);
+    line-height: 1.2;
+    letter-spacing: -0.005em;
+    text-wrap: balance;
+    margin-top: 2.4em;
+    scroll-margin-top: 2rem;
+  }
+  & h3 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 1.3125rem;
+    line-height: 1.3;
+    text-wrap: balance;
+    margin-top: 2.2em;
+    scroll-margin-top: 2rem;
+  }
+  & h4 {
+    font-weight: 500;
+    margin-top: 2em;
+  }
+  & h2 + *,
+  & h3 + *,
+  & h4 + * {
+    margin-top: 0.75em;
+  }
+  & a {
+    text-decoration-line: underline;
+    text-decoration-color: color-mix(in oklab, var(--color-ink) 40%, transparent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    transition: text-decoration-color 120ms var(--ease-state);
+  }
+  & a:hover {
+    text-decoration-color: var(--color-ink);
+  }
+  & strong {
+    font-weight: 500;
+  }
+  & ul,
+  & ol {
+    padding-left: 1.25em;
+  }
+  & ul {
+    list-style: none;
+  }
+  & ul > li {
+    position: relative;
+  }
+  & ul > li::before {
+    content: "";
+    position: absolute;
+    left: -1.05em;
+    top: 0.82em;
+    width: 0.45em;
+    height: 1px;
+    background: var(--color-graphite);
+  }
+  & ol {
+    list-style: decimal;
+  }
+  & ol > li::marker {
+    font-family: var(--font-serif);
+    color: var(--color-graphite);
+  }
+  & li + li,
+  & li > p + p {
+    margin-top: 0.5em;
+  }
+  & li > p {
+    margin: 0;
+  }
+  /* A quotation sits in the slab, indented to its own hairline. */
+  & blockquote {
+    border-left: 1px solid var(--color-rule);
+    padding-left: 1.5rem;
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    line-height: 1.55;
+    color: var(--color-ink);
+  }
+  & blockquote > * + * {
+    margin-top: 0.75em;
+  }
+  & hr {
+    border: 0;
+    border-top: 1px solid var(--color-rule);
+    margin-block: 3em;
+  }
+  & :not(pre) > code {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    padding: 0.12em 0.36em;
+    border-radius: var(--radius-control);
+    background: var(--color-raised);
+  }
+  /* Code on a panel lifted from the ground, the text's width; a line
+     longer than it scrolls. Blocks between paragraphs get a little more
+     air than paragraphs do. */
+  & > .code {
+    position: relative;
+    margin-block: 1.75em;
+  }
+  & > .code + .code {
+    margin-top: 1em;
+  }
+  & pre {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.65;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-panel);
+    background-color: var(--color-panel) !important;
+    overflow-x: auto;
+    tab-size: 2;
+    scrollbar-color: var(--color-rule) transparent;
+  }
+  /* On a phone code runs to the screen's edges: every column counts.
+     Its focus ring goes inside, or the screen's edge would cut it. */
+  @media (width < 40rem) {
+    & > .code {
+      margin-inline: -1rem;
+    }
+    & pre {
+      border-inline: 0;
+      border-radius: 0;
+      padding-inline: 1rem;
+      outline-offset: -2px;
+    }
+  }
+  & pre code {
+    font-family: inherit;
+  }
+  /* Copy, in the block's corner: there under the pointer, always there
+     to a finger. */
+  & .copy {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--radius-control);
+    color: var(--color-graphite);
+    background: var(--color-panel);
+    opacity: 0;
+    cursor: pointer;
+    transition:
+      opacity 120ms var(--ease-state),
+      color 120ms var(--ease-state),
+      background-color 120ms var(--ease-state);
+  }
+  /* A first line longer than the block runs under the button: it fades
+     into the panel before it, rather than ending mid-letter at its edge. */
+  & .copy::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 100%;
+    bottom: 0;
+    width: 1.5rem;
+    background: linear-gradient(to right, transparent, var(--color-panel));
+    pointer-events: none;
+  }
+  & .code:hover .copy,
+  & .copy:focus-visible,
+  & .copy[data-state] {
+    opacity: 1;
+  }
+  & .copy:hover,
+  & .copy[data-state] {
+    color: var(--color-ink);
+    background: var(--color-raised);
+  }
+  @media (pointer: coarse) {
+    & .copy {
+      opacity: 1;
+      top: 0.25rem;
+      right: 0.25rem;
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+  }
+  /* A figure is a plate: screenshots arrive white, so they sit as paper
+     on the night ground, rounded as panels are, the text's width. */
+  & > p:has(> img:only-child),
+  & > p:has(> a:only-child > img:only-child) {
+    margin-block: 2.25em;
+  }
+  & img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-panel);
+    background: var(--paper);
+  }
+  /* A drawing -- a diagram, an SVG -- shrinks with the line until its
+     type would be too small to read, and from there scrolls in its own
+     box, as code does; on a phone it runs to the screen's edges, and its
+     focus ring goes inside, as code's does. */
+  & > p:has(> img.drawing:only-child) {
+    overflow-x: auto;
+    scrollbar-color: var(--color-rule) transparent;
+  }
+  & img.drawing {
+    min-width: 34rem;
+  }
+  @media (width < 40rem) {
+    & > p:has(> img.drawing:only-child) {
+      margin-inline: -1rem;
+      outline-offset: -2px;
+    }
+    & img.drawing {
+      border-radius: 0;
+    }
+  }
+  /* A talk plays in a panel the text's width, at the screen's shape, with
+     a figure's air around it and its title under it, in the notes' type. */
+  & > .video {
+    margin-block: 2.25em;
+  }
+  & > .video .player {
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-panel);
+    overflow: hidden;
+    background: var(--color-panel);
+  }
+  & > .video figcaption {
+    margin-top: 0.75rem;
+    font-size: var(--text-sm);
+    line-height: 1.4;
+    color: var(--color-graphite);
+  }
+  & > .video .player iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  /* A table wider than the line scrolls in its own box, as code does. */
+  & > .table-wrap {
+    overflow-x: auto;
+    scrollbar-color: var(--color-rule) transparent;
+  }
+  & table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+    font-variant-numeric: tabular-nums;
+  }
+  & th {
+    font-weight: 500;
+    text-align: left;
+    color: var(--color-graphite);
+    border-bottom: 1px solid var(--color-rule);
+    padding: 0.5rem 1rem 0.5rem 0;
+  }
+  & td {
+    border-bottom: 1px solid var(--color-rule);
+    padding: 0.625rem 1rem 0.625rem 0;
+    vertical-align: top;
+  }
+  /* A note's call: a slab numeral, raised, without an underline; under
+     the pointer it lifts to ink, and an open note keeps it there. */
+  & sup {
+    font-family: var(--font-serif);
+    font-size: 0.7em;
+    line-height: 0;
+    color: var(--color-graphite);
+  }
+  & .sidenote-toggle {
+    padding-inline: 0.1em;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: color 120ms var(--ease-state);
+  }
+  & .sidenote-toggle:hover,
+  & sup:has(+ .sidenote-state:checked) .sidenote-toggle {
+    color: var(--color-ink);
+  }
+  /* The box is the numeral's: unseen, where it stands in the line, so
+     focus never moves the page; its ring is drawn on the numeral. */
+  & .sidenote-state {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+    appearance: none;
+  }
+  & sup:has(+ .sidenote-state:focus-visible) .sidenote-toggle {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  /* A numeral wide to the eye; to a finger, a control's height, without
+     moving a line. */
+  @media (pointer: coarse) {
+    & .sidenote-toggle {
+      position: relative;
+    }
+    & .sidenote-toggle::after {
+      content: "";
+      position: absolute;
+      inset: -0.75rem -0.625rem;
+    }
+  }
+  /* The note: graphite, smaller, its number repeated and raised so the
+     eye finds its way back to the call. */
+  & .sidenote {
+    display: none;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    letter-spacing: 0;
+    color: var(--color-graphite);
+  }
+  & .sidenote-n {
+    position: relative;
+    top: -0.4em;
+    margin-right: 0.35em;
+    font-family: var(--font-serif);
+    font-size: 0.8em;
+    line-height: 0;
+  }
+  & .sidenote-p + .sidenote-p {
+    display: block;
+    margin-top: 0.5em;
+  }
+  /* Without the column, the numeral opens the note in place: a block
+     under the line that calls it, on its own hairline as a quotation
+     is, and the paragraph runs on below. */
+  @media (width < 80rem) {
+    & .sidenote-state:checked + .sidenote {
+      display: block;
+      margin-block: 0.5em 0.75em;
+      padding-left: 1rem;
+      border-left: 1px solid var(--color-rule);
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+  }
+  /* With room, a note stands in the column to the text's right, its
+     first line beside the line that calls it; one that would meet the
+     note above drops below it. The numeral is only a numeral there. */
+  @media (width >= 80rem) {
+    & .sidenote {
+      display: block;
+      float: right;
+      clear: right;
+      position: relative;
+      width: var(--sidebar);
+      margin-right: calc(-1 * (var(--sidebar) + 2.5rem));
+      margin-top: 0.35em;
+      margin-bottom: 1em;
+    }
+    & .sidenote-state {
+      display: none;
+    }
+    & .sidenote-toggle {
+      cursor: auto;
+      pointer-events: none;
+    }
+    /* Its number hangs in the gutter, so every line of the note starts
+       on the column's edge. */
+    & .sidenote-n {
+      position: absolute;
+      top: 0;
+      right: 100%;
+      line-height: 1.6;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0ms !important;
+  }
+  html {
+    scroll-behavior: auto !important;
+  }
+}
