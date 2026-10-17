@@ -2,9 +2,9 @@
 import Base from "../layouts/Base.astro";
 import Empty from "../components/Empty.astro";
 import Icon from "../components/Icon.astro";
+import Arrow from "../components/Arrow.astro";
 import Byline from "../components/Byline.astro";
 import Archive from "@lucide/astro/icons/archive";
-import ArrowRight from "@lucide/astro/icons/arrow-right";
 import Calendar from "@lucide/astro/icons/calendar";
 import Clock from "@lucide/astro/icons/clock";
 import Rss from "@lucide/astro/icons/rss";
@@ -47,11 +47,11 @@ const lede = lead && ledeOf(lead);
             {/* The one button filled in ink: it is the one thing to do here. */}
             <a
               href={`/${lead.id}`}
-              class="group t-control rounded-control mt-10 inline-flex h-10 pointer-coarse:h-11 items-center gap-2 bg-ink px-5 text-ivory transition-colors hover:bg-ink/85"
+              class="btn-primary group mt-10"
               aria-label={`Continue reading ${lead.data.title}`}
             >
               Continue reading
-              <Icon icon={ArrowRight} class="transition-transform duration-300 ease-glide group-hover:translate-x-0.5" />
+              <Arrow way="on" />
             </a>
           </div>
         </article>

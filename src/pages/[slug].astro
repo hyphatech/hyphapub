@@ -2,10 +2,9 @@
 import { render } from "astro:content";
 import Base from "../layouts/Base.astro";
 import Icon from "../components/Icon.astro";
+import Arrow from "../components/Arrow.astro";
 import Byline from "../components/Byline.astro";
 import Clock from "@lucide/astro/icons/clock";
-import ArrowLeft from "@lucide/astro/icons/arrow-left";
-import ArrowRight from "@lucide/astro/icons/arrow-right";
 import Copy from "@lucide/astro/icons/copy";
 import Check from "@lucide/astro/icons/check";
 import X from "@lucide/astro/icons/x";
@@ -127,11 +126,11 @@ const back = later ? earlier : undefined;
                       {ahead ? (
                         <>
                           Read next
-                          <Icon icon={ArrowRight} class="transition-transform duration-300 ease-glide group-hover:translate-x-0.5" />
+                          <Arrow way="on" />
                         </>
                       ) : (
                         <>
-                          <Icon icon={ArrowLeft} class="transition-transform duration-300 ease-glide group-hover:-translate-x-0.5" />
+                          <Arrow way="back" />
                           Previous in series
                         </>
                       )}
@@ -143,7 +142,7 @@ const back = later ? earlier : undefined;
                 back && (
                   <a href={`/${back.id}`} class="group tap mt-5 flex items-center gap-3 text-graphite">
                     <span class="t-label flex shrink-0 items-center gap-2">
-                      <Icon icon={ArrowLeft} class="transition-transform duration-300 ease-glide group-hover:-translate-x-0.5" />
+                      <Arrow way="back" />
                       Previous
                     </span>
                     <span class="entry-link min-w-0 truncate text-base text-ink group-hover:decoration-graphite">{back.data.title}</span>

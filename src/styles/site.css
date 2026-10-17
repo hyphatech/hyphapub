@@ -182,7 +182,12 @@
   column-gap: 2.5rem;
 }
 
-/* hyphatech.io's secondary button. */
+/* hyphatech.io's buttons. The clear border keeps its edge where forced
+   colours drop the fill. */
+@utility btn-primary {
+  @apply t-control rounded-control inline-flex h-10 pointer-coarse:h-11 cursor-pointer items-center gap-2 border border-transparent bg-ink px-5 text-ivory transition-opacity hover:opacity-85;
+}
+
 @utility btn {
   @apply t-control rounded-control inline-flex h-10 pointer-coarse:h-11 cursor-pointer items-center gap-2 border border-rule bg-panel px-5 text-graphite transition-colors hover:border-graphite hover:bg-raised hover:text-ink;
 }
