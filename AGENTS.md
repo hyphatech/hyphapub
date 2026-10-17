@@ -64,11 +64,12 @@ layout: `src/lib/prose.ts` marks a post's, and `Base.astro` its own.
 keeps a post as it was last rendered whatever changed in the code that
 renders it.
 
-Addresses never change once published: the old blog's posts, `/archive`,
-`/author/<key>` and `/rss.xml` all keep theirs, and the feed's GUIDs are the post
-addresses without a trailing slash. The blog keeps no subjects; the old
-blog's tag pages (`/tag/<slug>`) lead to the archive, as
-`astro.config.mjs` redirects them.
+The old blog's posts, `/archive`, `/author/<key>` and `/rss.xml` keep
+their addresses, and the feed's GUIDs are the post addresses without a
+trailing slash. A post's address follows its title: a retitled post is
+renamed, and its old address is left to lapse, with no redirect. The
+blog keeps no subjects; the old blog's tag pages (`/tag/<slug>`) lead to
+the archive, as `astro.config.mjs` redirects them.
 
 ## Git
 

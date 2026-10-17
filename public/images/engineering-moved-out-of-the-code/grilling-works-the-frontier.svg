@@ -1,6 +1,6 @@
-<svg viewBox="0 0 694 266" width="694" height="266" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t d">
-  <title id="t">People decide, the system enforces</title>
-  <desc id="d">What the product must do, in the people's own words, is questioned until it becomes a decision a person signs off. The agent starts from that decision and writes the code, which passes three checks in turn, on every change: the vocabulary, the house rules, and the compiler with the tests. What passes lands as one commit with its tests and documents. What a check refuses goes back to the agent, which fixes it and tries again.</desc>
+<svg viewBox="0 0 694 248" width="694" height="248" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t d">
+  <title id="t">Grilling works the frontier</title>
+  <desc id="d">The plan opens into decisions, and the agent asks them in rounds. Each round puts the whole frontier to you, every decision whose prerequisites are settled, each with the answer the agent recommends. A fact it can look up is never asked, a sub-agent finds it, and only the decision that hangs on it waits. Each answer unblocks the decisions that depend on it, so the next round reaches further, until the frontier is empty and you confirm a shared understanding.</desc>
   <style>
     /* Inter Tight 400, its Latin letters only, carried inside the drawing:
        an image cannot load the page's fonts. */
@@ -11,67 +11,60 @@
     <marker id="arrow" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#655d54"/>
     </marker>
-    <marker id="arrow-accent" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto" markerUnits="userSpaceOnUse">
-      <path d="M0,0 L8,4 L0,8 L2,4 z" fill="#9a7410"/>
-    </marker>
   </defs>
 
-  <rect width="694" height="266" fill="#f3efe8"/>
+  <rect width="694" height="248" fill="#f3efe8"/>
 
-  <!-- Columns of the flow, 86 wide, 26 apart: x=24, 136, 248, 360, 472, 584; centres 67, 179, 291, 403, 515, 627. Row y=116..180, centre line 148. -->
+  <!-- Columns: the plan x=24..104, rounds x=136..236, 268..368, 400..500, the understanding x=540..670.
+       Rows 44 tall, 10 apart: y=72, 126, 180; centres 94, 148, 202. The plan and the understanding sit on 148. -->
 
   <!-- Layer 2: connectors -->
-  <!-- Intent (bottom 76) down to the decision (top 116), on the decision's centre line -->
-  <path d="M67,81 L67,105" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
-  <text x="79" y="100" font-size="10" fill="#655d54">questioned</text>
+  <!-- The plan opens into the first frontier -->
+  <path d="M104,148 L120,148" stroke="#655d54" stroke-width="1" fill="none"/>
+  <path d="M120,94 L120,202" stroke="#655d54" stroke-width="1" fill="none"/>
+  <path d="M120,94 L125,94" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M120,148 L125,148" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M120,202 L125,202" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <!-- What each answer unblocks: the second decision and the fact both hold up the one below them -->
+  <path d="M236,94 L257,94" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M236,148 L257,148" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M236,202 L250,202 L250,148" stroke="#655d54" stroke-width="1" fill="none"/>
+  <path d="M368,94 L389,94" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
+  <!-- The frontier empties into the understanding -->
+  <path d="M500,94 L516,94 L516,148" stroke="#655d54" stroke-width="1" fill="none"/>
+  <path d="M368,148 L529,148" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
 
-  <path d="M115,148 L125,148" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
-  <path d="M227,148 L237,148" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
-  <path d="M339,148 L349,148" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
-  <path d="M451,148 L461,148" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
-  <path d="M563,148 L573,148" stroke="#655d54" stroke-width="1" fill="none" marker-end="url(#arrow)"/>
-
-  <!-- The bracket over the three checks: x=248..558 -->
-  <path d="M248,106 L248,100 L558,100 L558,106" stroke="#9a7410" stroke-width="1" fill="none"/>
-  <text x="403" y="86" font-size="10" fill="#655d54" letter-spacing="1.2" text-anchor="middle">CHECKED ON EVERY CHANGE</text>
+  <!-- The rounds: each bracket is one frontier, asked together -->
+  <path d="M136,58 L136,52 L236,52 L236,58" stroke="#9a7410" stroke-width="1" fill="none"/>
+  <text x="186" y="40" font-size="10" fill="#655d54" letter-spacing="1.2" text-anchor="middle">ROUND 1</text>
+  <path d="M268,58 L268,52 L368,52 L368,58" stroke="#9a7410" stroke-width="1" fill="none"/>
+  <text x="318" y="40" font-size="10" fill="#655d54" letter-spacing="1.2" text-anchor="middle">ROUND 2</text>
+  <path d="M400,58 L400,52 L500,52 L500,58" stroke="#9a7410" stroke-width="1" fill="none"/>
+  <text x="450" y="40" font-size="10" fill="#655d54" letter-spacing="1.2" text-anchor="middle">ROUND 3</text>
 
   <!-- Layer 3: boxes and their text -->
-  <!-- Intent: x=24..222, y=24..76 -->
-  <rect x="24" y="24" width="198" height="52" rx="8" fill="#ebe6dd" stroke="#d6cfc2"/>
-  <text x="123" y="46" font-size="13" fill="#15120e" text-anchor="middle">What the product must do</text>
-  <text x="123" y="63" font-size="11" fill="#655d54" text-anchor="middle">in the people's own words</text>
-
-  <!-- Decision: x=24..110 -->
-  <rect x="24" y="116" width="86" height="64" rx="8" fill="#ebe6dd" stroke="#d6cfc2"/>
-  <text x="67" y="144" font-size="13" fill="#15120e" text-anchor="middle">Decision</text>
-  <text x="67" y="161" font-size="11" fill="#655d54" text-anchor="middle">signed off</text>
-
-  <!-- Agent: x=136..222 -->
-  <rect x="136" y="116" width="86" height="64" rx="8" fill="#f3efe8" stroke="#15120e"/>
-  <text x="179" y="144" font-size="13" fill="#15120e" text-anchor="middle">Agent</text>
-  <text x="179" y="161" font-size="11" fill="#655d54" text-anchor="middle">writes code</text>
-
-  <!-- Vocabulary: x=248..334 -->
-  <rect x="248" y="116" width="86" height="64" rx="8" fill="#f3efe8" stroke="#9a7410" stroke-width="1.25"/>
-  <text x="291" y="144" font-size="13" fill="#15120e" text-anchor="middle">Vocabulary</text>
-  <text x="291" y="161" font-size="11" fill="#655d54" text-anchor="middle">one meaning</text>
-
-  <!-- House rules: x=360..446 -->
-  <rect x="360" y="116" width="86" height="64" rx="8" fill="#f3efe8" stroke="#9a7410" stroke-width="1.25"/>
-  <text x="403" y="144" font-size="13" fill="#15120e" text-anchor="middle">House rules</text>
-  <text x="403" y="161" font-size="11" fill="#655d54" text-anchor="middle">each checked</text>
-
-  <!-- Compiler and tests: x=472..558 -->
-  <rect x="472" y="116" width="86" height="64" rx="8" fill="#f3efe8" stroke="#9a7410" stroke-width="1.25"/>
-  <text x="515" y="144" font-size="13" fill="#15120e" text-anchor="middle">Compiler</text>
-  <text x="515" y="161" font-size="11" fill="#655d54" text-anchor="middle">and tests</text>
-
-  <!-- Commit: x=584..670 -->
-  <rect x="584" y="116" width="86" height="64" rx="8" fill="#15120e"/>
-  <text x="627" y="144" font-size="13" fill="#f3efe8" text-anchor="middle">One commit</text>
-  <text x="627" y="161" font-size="11" fill="#948c83" text-anchor="middle">tests, docs</text>
-
-  <!-- Layer 4: refused, from the compiler (bottom 180) back to the agent (bottom 180) -->
-  <path d="M515,185 C515,224 179,224 179,191" stroke="#9a7410" stroke-width="1" stroke-dasharray="5,4" fill="none" marker-end="url(#arrow-accent)"/>
-  <text x="347" y="240" font-size="10" fill="#655d54" text-anchor="middle">refused: the agent fixes it and tries again</text>
+  <rect x="24" y="116" width="80" height="64" rx="8" fill="#ebe6dd" stroke="#d6cfc2"/>
+  <text x="64" y="144" font-size="13" fill="#15120e" text-anchor="middle">Your plan</text>
+  <text x="64" y="161" font-size="11" fill="#655d54" text-anchor="middle">unsettled</text>
+  <rect x="136" y="72" width="100" height="44" rx="8" fill="#f3efe8" stroke="#15120e"/>
+  <text x="186" y="91" font-size="13" fill="#15120e" text-anchor="middle">Decision</text>
+  <text x="186" y="106" font-size="11" fill="#655d54" text-anchor="middle">answer proposed</text>
+  <rect x="136" y="126" width="100" height="44" rx="8" fill="#f3efe8" stroke="#15120e"/>
+  <text x="186" y="145" font-size="13" fill="#15120e" text-anchor="middle">Decision</text>
+  <text x="186" y="160" font-size="11" fill="#655d54" text-anchor="middle">answer proposed</text>
+  <rect x="268" y="72" width="100" height="44" rx="8" fill="#f3efe8" stroke="#15120e"/>
+  <text x="318" y="91" font-size="13" fill="#15120e" text-anchor="middle">Decision</text>
+  <text x="318" y="106" font-size="11" fill="#655d54" text-anchor="middle">answer proposed</text>
+  <rect x="268" y="126" width="100" height="44" rx="8" fill="#f3efe8" stroke="#15120e"/>
+  <text x="318" y="145" font-size="13" fill="#15120e" text-anchor="middle">Decision</text>
+  <text x="318" y="160" font-size="11" fill="#655d54" text-anchor="middle">answer proposed</text>
+  <rect x="400" y="72" width="100" height="44" rx="8" fill="#f3efe8" stroke="#15120e"/>
+  <text x="450" y="91" font-size="13" fill="#15120e" text-anchor="middle">Decision</text>
+  <text x="450" y="106" font-size="11" fill="#655d54" text-anchor="middle">answer proposed</text>
+  <rect x="136" y="180" width="100" height="44" rx="8" fill="#f3efe8" stroke="#655d54" stroke-dasharray="4,3"/>
+  <text x="186" y="199" font-size="13" fill="#15120e" text-anchor="middle">Fact</text>
+  <text x="186" y="214" font-size="11" fill="#655d54" text-anchor="middle">a sub-agent finds</text>
+  <rect x="540" y="116" width="130" height="64" rx="8" fill="#ebe6dd" stroke="#d6cfc2"/>
+  <text x="605" y="144" font-size="13" fill="#15120e" text-anchor="middle">Shared</text>
+  <text x="605" y="161" font-size="11" fill="#655d54" text-anchor="middle">understanding</text>
 </svg>

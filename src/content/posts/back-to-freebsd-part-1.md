@@ -2,7 +2,7 @@
 title: "Back to FreeBSD: Part 1 — Intro"
 date: 2026-02-20T18:33:48.307Z
 updated: 2026-03-26T11:21:21.154Z
-description: "A few decades ago, the only well-known way to deliver something to a server, to make it accessible over the internet, was moving files via FTP in Total Commander, FileZilla or FAR Manager, manually copying files and folders from the left pane to the right one."
+description: "Containers ran in production on FreeBSD thirteen years before Docker. So why does nobody talk about it?"
 author: roman
 front: false
 series: back-to-freebsd

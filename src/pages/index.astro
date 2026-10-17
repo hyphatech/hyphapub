@@ -27,7 +27,7 @@ const lede = lead && ledeOf(lead);
         <h1 class="sr-only">Hypha Pub</h1>
         <article class="grid pt-14 md:grid-cols-margin md:pt-24" aria-labelledby="lead">
           <div class="min-w-0 md:col-start-2">
-            <h2 id="lead" class="t-display max-w-[52rem]">
+            <h2 id="lead" class="t-display max-w-[var(--measure)]">
               <a href={`/${lead.id}`} class="entry-link">
                 {lead.data.title}
               </a>
@@ -68,26 +68,30 @@ const lede = lead && ledeOf(lead);
             outweighs the lead: the date in the margin, the title and its
             description on the line, and the cover small at the line's
             end. The whole line answers the pointer, lifted to a panel as
-            Read next is: a ground drawn behind it out to the page's
-            gutters, so the words keep their places. No rules between
+            Read next is: a ground drawn behind it from the page's gutter
+            to the measure's end, where Read next ends too, so the words
+            keep their places. The row itself keeps the page's width, as
+            the margin is a share of it and the dates stand under the
+            lead's. The description is set as Read next's is, across
+            the whole line, so the words fill the panel. No rules between
             them: a hairline against a panel's rounded corner reads as a
             mistake, and the room around each line already parts them.
             On a phone the cover heads its post. */}
         {rest.length > 0 && (
           <ol class="mt-14 space-y-2 md:mt-20">
             {rest.map((post) => (
-              <li class="group relative isolate grid gap-y-4 py-8 before:absolute before:inset-y-0 before:-inset-x-4 before:-z-10 before:rounded-panel before:transition-colors hover:before:bg-panel sm:before:-inset-x-6 md:grid-cols-margin md:py-10">
+              <li class="group relative isolate grid gap-y-4 py-8 before:absolute before:inset-y-0 before:-inset-x-4 before:-z-10 before:rounded-panel before:transition-colors hover:before:bg-panel sm:before:-inset-x-6 md:grid-cols-margin md:py-10 md:before:right-auto md:before:w-[min(100%_+_3rem,var(--margin)_+_var(--measure)_+_3rem)]">
                 <time datetime={post.data.date.toISOString()} class="t-label hidden text-graphite md:block md:pt-2">
                   {fullDate(post.data.date)}
                 </time>
-                <div class="grid min-w-0 gap-5 sm:grid-cols-[minmax(0,1fr)_16rem] sm:gap-8 md:col-start-2">
+                <div class="grid min-w-0 max-w-[var(--measure)] gap-5 sm:grid-cols-[minmax(0,1fr)_16rem] sm:gap-8 md:col-start-2">
                   <div class="flex min-w-0 flex-col">
                     <h2 class="t-entry">
                       <a href={`/${post.id}`} class="entry-link stretch group-hover:decoration-graphite">
                         {post.data.title}
                       </a>
                     </h2>
-                    <p class="mt-2 line-clamp-2 max-w-[var(--measure-entry)] text-[0.9375rem] leading-[1.55] text-graphite">
+                    <p class="mt-2 line-clamp-2 font-serif text-base leading-normal text-graphite">
                       {post.data.description}
                     </p>
                     <p class="t-label mt-4 flex flex-wrap gap-x-5 gap-y-2 text-graphite">

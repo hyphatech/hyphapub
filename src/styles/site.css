@@ -77,9 +77,9 @@
        width of hyphatech.io's principles. `ch` counts the wide zero and
        would allow 95. */
     --measure: 42rem;
-    /* An entry's description, in the stream and on the front page: the
-       same 70-odd characters in its smaller 15px, where the text's
-       measure would let it run to 104. */
+    /* An entry's description in the stream: the same 70-odd
+       characters in its smaller 15px, where the text's measure would
+       let it run to 104. */
     --measure-entry: 30rem;
     /* A sidenote, to the right of the text from 80rem: the line's width
        left over there. */

@@ -61,7 +61,7 @@ const back = later ? earlier : undefined;
         text, and from 80rem the sidenotes stand to the text's right. */}
     <header class="grid pt-14 pb-9 md:grid-cols-margin md:pt-24 md:pb-12">
       <div class="min-w-0 md:col-start-2">
-        <h1 class="t-display max-w-[52rem]">{post.data.title}</h1>
+        <h1 class="t-display max-w-[var(--measure)]">{post.data.title}</h1>
         {lede && <p class="t-lede mt-5 md:mt-6 max-w-[var(--measure)] text-graphite">{lede}</p>}
         <div class="mt-6 md:mt-8"><Byline post={post} /></div>
       </div>
