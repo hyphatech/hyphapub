@@ -12,8 +12,7 @@ import X from "@lucide/astro/icons/x";
 import { authors } from "../lib/authors";
 import { posts, minutes, ledeOf, type Post } from "../lib/posts";
 
-/* Read next runs within a post's series: a series is read through on
-   its own, and never leads out into another. */
+/* Read next stays within a post's series: a series never leads out into another. */
 export async function getStaticPaths() {
   const all = await posts();
   return all.map((post) => {
@@ -34,18 +33,14 @@ interface Props {
 
 const { post, later, earlier } = Astro.props;
 const { Content, headings } = await render(post);
-/* Contents only where there is somewhere to go: two sections or more.
-   The footnotes' heading is for screen readers, not a section. */
+/* The footnotes' heading is for screen readers, not a section. */
 const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-label");
 const contents = sections.length >= 2 ? sections : [];
 const { name: author } = authors[post.data.author];
 const lede = ledeOf(post);
 const plain = (s: string) => s.replace(/\*\*|__/g, "");
-/* Read next: the later post, as a series is read; the newest has none,
-   so the earlier. Where both exist the earlier is a line beneath. */
+/* The later post, as a series is read: its last part has none, so the earlier. */
 const next = later ?? earlier;
-/* Which way the card points: on to the next part, or back to the one
-   before, where the post is its series' last. */
 const ahead = next === later;
 const back = later ? earlier : undefined;
 ---
@@ -56,9 +51,6 @@ const back = later ? earlier : undefined;
   article={{ image: post.data.cover, published: post.data.date, modified: post.data.updated, author }}
 >
   <article class="mx-auto max-w-page px-4 sm:px-6">
-    {/* Set as hyphatech.io's principles are: the margin under the mark
-        holds the contents, the line beside it holds the title and the
-        text, and from 80rem the sidenotes stand to the text's right. */}
     <header class="grid pt-14 pb-9 md:grid-cols-margin md:pt-24 md:pb-12">
       <div class="min-w-0 md:col-start-2">
         <h1 class="t-display max-w-[var(--measure)]">{post.data.title}</h1>
@@ -70,9 +62,8 @@ const back = later ? earlier : undefined;
     <div class="grid md:grid-cols-margin">
       <aside class="hidden lg:block">
         {
-          /* The contents follow the reader down the margin. The nav
-             scrolls, so it clips: its padding, taken back by a margin,
-             is room for a link's focus ring. */
+          /* The nav scrolls, so it clips: its padding, taken back by a
+             margin, is room for a link's focus ring. */
           contents.length > 0 && (
             <nav
               class="sticky top-6.5 -mx-1.5 -mt-1.5 max-h-[calc(100dvh-4rem)] overflow-y-auto px-1.5 pt-1.5 pb-8"
@@ -100,9 +91,6 @@ const back = later ? earlier : undefined;
       </div>
     </div>
 
-    {/* The post's floor, on the text's measure: the post to read next
-        as a card, its cover beside its words, its title the link, and
-        the way back as a single line under it. */}
     <footer class="grid md:grid-cols-margin">
       <div class="min-w-0 max-w-[var(--measure)] md:col-start-2">
         {
@@ -132,9 +120,7 @@ const back = later ? earlier : undefined;
                     {next.data.title}
                   </a>
                   <span class="mt-2 line-clamp-2 font-serif text-base leading-normal text-graphite">{next.data.description}</span>
-                  {/* How long, and which way: one row, the way on at its end.
-                      The date is the archive's business, not a reader's
-                      choosing the next part. */}
+                  {/* No date: that is the archive's business, not a reader's choosing the next part. */}
                   <span class="t-label mt-4 flex items-center gap-5 text-graphite">
                     <span class="flex items-center gap-2"><Icon icon={Clock} />{minutes(next)} min read</span>
                     <span class="ml-auto flex items-center gap-2 whitespace-nowrap text-ink">
@@ -171,15 +157,10 @@ const back = later ? earlier : undefined;
     </footer>
   </article>
 
-  {/* Drawn once here, cloned into each block of code by the script. */}
   <template id="copy-icons"><Icon icon={Copy} /><Icon icon={Check} /><Icon icon={X} /></template>
-  {/* Where a copy's outcome is told to a screen reader. */}
   <p class="sr-only" role="status" data-copy-status></p>
 
   <script>
-    /* Copy, on every block of code: the lines as written, without the
-       highlighting. Only where the browser can write to the clipboard;
-       elsewhere the code is selected by hand, as it always could be. */
     const [copy, done, failed] = document.querySelector<HTMLTemplateElement>("#copy-icons")!.content.children;
     const status = document.querySelector<HTMLElement>("[data-copy-status]")!;
     const LABEL = "Copy code";
@@ -228,14 +209,8 @@ const back = later ? earlier : undefined;
   </script>
 
   <script>
-    /* Code, tables and drawings that run past the line scroll, and a box
-       that scrolls has to be reachable from the keyboard: each is built
-       as a tab stop, named for what it holds, so a screen reader says
-       where focus has gone. One that fits its line is passed over
-       instead -- a stop that does nothing -- and that is measured again
-       as the line changes width. A drawing's box is found from the
-       drawing, not by `:has()`, which an older browser would refuse,
-       and the script with it. */
+    /* A drawing's box is found from the drawing, not by `:has()`, which an
+       older browser would refuse, and the script with it. */
     const scrollers = [
       ...[...document.querySelectorAll<HTMLElement>(".prose pre")].map((box) => [box, "Code"] as const),
       ...[...document.querySelectorAll<HTMLElement>(".prose > .table-wrap")].map((box) => [box, "Table"] as const),
@@ -262,8 +237,6 @@ const back = later ? earlier : undefined;
   </script>
 
   <script>
-    /* The contents follow the reader: the section whose heading last
-       passed the top third of the screen is the one in ink. */
     const nav = document.querySelector<HTMLElement>("[data-contents]");
     if (nav) {
       const links = [...nav.querySelectorAll<HTMLAnchorElement>("a")];

@@ -2,7 +2,6 @@ import { getCollection, type CollectionEntry } from "astro:content";
 
 export type Post = CollectionEntry<"posts">;
 
-/* Newest first. */
 export async function posts(): Promise<Post[]> {
   const all = await getCollection("posts");
   return all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -21,18 +20,16 @@ export const dayMonth = (d: Date) => day.format(d);
 export const fullDate = (d: Date) => full.format(d);
 export const year = (d: Date) => d.getUTCFullYear();
 
-/* The description doubles as the lede only where the post asks for one
-   and it is not the post's own opening sentence, which the reader is
-   about to read anyway. */
+/* No lede where the description is the post's own opening sentence,
+   which the reader is about to read anyway. */
 export function ledeOf(post: Post): string | undefined {
   if (!post.data.lede) return undefined;
   const opening = (post.body ?? "").replace(/^#.*$/m, "").trim().slice(0, 60);
   return opening.startsWith(post.data.description.slice(0, 60)) ? undefined : post.data.description;
 }
 
-/* The paragraphs a post opens with, as rendered, for the front page to
-   set under its title: up to two, and none past the first that calls a
-   note or holds anything but words, which want the post around them. */
+/* None from the first paragraph that calls a note or holds anything but
+   words: those want the post around them. */
 export function opening(post: Post, most = 2): string[] {
   let html = (post.rendered?.html ?? "").trim();
   const taken: string[] = [];

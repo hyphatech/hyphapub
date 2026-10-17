@@ -1,6 +1,3 @@
-/* The article's grid, in the manner of Tufte's books: text keeps to a
-   measure and a column of notes stands to its right. These run at build
-   time, so a post is plain Markdown. */
 import type { ShikiTransformer } from "shiki";
 import { defineHastPlugin } from "satteri";
 import sharp from "sharp";
@@ -34,11 +31,8 @@ const walk = (node: Node, visit: (node: Node) => void) => {
 
 const has = (node: Node | undefined, key: string) => node?.properties?.[key] !== undefined;
 
-/* A footnote is a sidenote, by Tufte's rule: it is read where it is
-   called, never at the end. With room the stylesheet sets it beside its
-   line, in the notes' column; without, its numeral opens it in place,
-   under the line -- a checkbox and its label, so it opens without a
-   script. The footnotes at the end are dropped: each note is read once. */
+/* A checkbox and its label open a note without a script. The footnotes
+   at the end are dropped: each note is read once. */
 const sidenotes = () => {
   const notes = new Map<string, Node[]>();
   return defineHastPlugin({
@@ -48,7 +42,6 @@ const sidenotes = () => {
       walk(root as Node, (node) => {
         const id = node.properties?.id;
         if (node.tagName !== "li" || typeof id !== "string" || !id.includes("fn-")) return;
-        /* Its paragraphs, without the way back to the call. */
         const paragraphs = (node.children ?? []).filter((c) => c.tagName === "p");
         notes.set(
           id,
@@ -74,10 +67,8 @@ const sidenotes = () => {
         if (!id || !notes.has(id)) return;
         const n = ctx.textContent(node);
         const state = `sn-${id}`;
-        /* The call is the numeral, a label for the box that opens the
-           note. A screen reader hears the box, named for the note, and
-           the note once it is open; beside the line the box is gone and
-           it hears the note where it stands. */
+        /* The label is hidden from a screen reader: it hears the box, named
+           for the note, and then the note. */
         ctx.replaceNode(node, [
           {
             type: "element",
@@ -113,11 +104,8 @@ const sidenotes = () => {
   });
 };
 
-/* A figure holds its place before it arrives, so the words around it never
-   move, and it is fetched only as the reader nears it. Its size is read
-   from the file in public/. A figure whose file is missing is said so in
-   the build's output and left unsized: the content loader logs a thrown
-   error and ships the post anyway, without its text. */
+/* A missing file is warned of and left unsized, never thrown: the content
+   loader would log the error and ship the post without its text. */
 const figures = () => {
   const sizes = new Map<string, Promise<{ width?: number; height?: number }>>();
   const sizeOf = (src: string) => {
@@ -149,16 +137,13 @@ const figures = () => {
         }
         ctx.setProperty(node, "loading", "lazy");
         ctx.setProperty(node, "decoding", "async");
-        /* A drawing's type is drawn to its own size: the stylesheet keeps
-           it from shrinking past reading. */
+        /* Marked so the stylesheet keeps a drawing's type from shrinking past reading. */
         if (src.endsWith(".svg")) ctx.setProperty(node, "className", ["drawing"]);
       },
     },
   });
 };
 
-/* A table wider than the line scrolls inside its own box, as code does,
-   rather than pushing the page sideways. */
 const tables = () =>
   defineHastPlugin({
     name: "tables",
@@ -170,11 +155,8 @@ const tables = () =>
     },
   });
 
-/* A talk is a link to it alone on its line, `[Its title](https://www.youtube.com/watch?v=…)`,
-   and the page plays it in place: from YouTube's privacy-enhanced host,
-   fetched only as the reader nears it, named by the link's text. The link
-   stays under it as its caption: a feed reader, which plays nothing,
-   keeps that. */
+/* Played from YouTube's privacy-enhanced host. The link stays under it
+   as its caption: a feed reader, which plays nothing, keeps that. */
 const youtubeId = (href: string) => {
   try {
     const url = new URL(href);
@@ -220,9 +202,7 @@ const videos = () =>
     },
   });
 
-/* A link that leaves hypha.pub opens in a tab of its own, as the
-   layout's do: the reader keeps their place in the post. It runs first,
-   so a note's links are marked before the note moves beside its line. */
+/* Runs first, so a note's links are marked before the note moves beside its line. */
 const outside = () =>
   defineHastPlugin({
     name: "outside",

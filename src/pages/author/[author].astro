@@ -4,8 +4,6 @@ import Stream from "../../components/Stream.astro";
 import { authors, author, type AuthorKey } from "../../lib/authors";
 import { posts, type Post } from "../../lib/posts";
 
-/* One archive to an author, at /author/<key>, for every author who has
-   signed a post: the byline's name leads here. */
 export async function getStaticPaths() {
   const all = await posts();
   return (Object.keys(authors) as AuthorKey[])
@@ -25,9 +23,6 @@ const { name, avatar, about } = author(key);
 
 <Base title={name} description={about ? `${name}: ${about}` : `Every post by ${name} on hypha.pub, newest first.`}>
   <div class="mx-auto max-w-page px-4 sm:px-6">
-    {/* As the archive opens: the photograph beside the name, and under
-        the name a line about the author; the margin below is the
-        years'. */}
     <header class="grid pt-14 pb-12 md:grid-cols-margin md:pt-24 md:pb-16">
       <div class="flex items-center gap-5 md:col-start-2 md:gap-6">
         <img src={avatar} alt="" width="80" height="80" class="size-16 shrink-0 rounded-full bg-panel object-cover md:size-20" />

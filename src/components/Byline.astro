@@ -5,10 +5,6 @@ import Clock from "@lucide/astro/icons/clock";
 import { authors } from "../lib/authors";
 import { fullDate, minutes, type Post } from "../lib/posts";
 
-/* A post's byline, on the line, set one way wherever the post opens --
-   its own page and the front page's lead: the margin holds only a
-   label, and a person is more than one. The photograph and the name in
-   the slab lead; the date and reading time follow, quieter. */
 interface Props {
   post: Post;
 }
@@ -21,7 +17,6 @@ const { name, avatar } = authors[post.data.author];
   <img src={avatar} alt="" width="64" height="64" class="size-12 shrink-0 rounded-full bg-panel object-cover md:size-16" />
   <dl class="flex min-w-0 flex-wrap items-center gap-x-5 gap-y-2">
     <dt class="sr-only">Author</dt>
-    {/* The name leads to everything its author has written. */}
     <dd class="basis-full font-serif text-xl leading-tight text-ink md:text-[1.375rem]">
       <a
         href={`/author/${post.data.author}`}

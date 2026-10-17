@@ -3,8 +3,8 @@ import type { APIContext } from "astro";
 import { authors } from "../lib/authors";
 import { posts } from "../lib/posts";
 
-/* At the old blog's address, with each post whole, as before: readers
-   subscribed here. Images are made absolute, so a reader shows them. */
+/* At the old blog's address, each post whole: readers subscribed here.
+   Addresses are made absolute, or a reader shows no images. */
 export async function GET(context: APIContext) {
   const site = context.site!;
   const absolute = (html: string) => html.replace(/(src|href)="\/(?!\/)/g, `$1="${site.origin}/`);

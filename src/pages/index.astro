@@ -10,11 +10,7 @@ import Clock from "@lucide/astro/icons/clock";
 import Rss from "@lucide/astro/icons/rss";
 import { posts, minutes, ledeOf, opening, fullDate } from "../lib/posts";
 
-/* Only the posts meant for the front page; the rest are in the archive. */
 const all = (await posts()).filter((post) => post.data.front);
-/* The newest leads, set as its own page opens: on the margin grid, its
-   title, lede and byline on the line, then its first words,
-   so the page reads as the start of the post. */
 const [lead, ...rest] = all;
 
 const lede = lead && ledeOf(lead);
@@ -45,14 +41,10 @@ const lede = lead && ledeOf(lead);
                 class="mt-10 aspect-video w-full max-w-[var(--measure)] rounded-panel bg-panel object-cover md:mt-14"
               />
             )}
-            {/* The first words, in the post's own type: the reader is
-                already reading. A figure stays where the text sets it,
-                further on, among the words it belongs to. */}
             <div class="prose mt-9 max-w-[var(--measure)] md:mt-12">
               <Fragment set:html={opening(lead).join("")} />
             </div>
-            {/* The one thing to do here, so it is the one button filled
-                in ink: a button looks like one, as a link looks like a link. */}
+            {/* The one button filled in ink: it is the one thing to do here. */}
             <a
               href={`/${lead.id}`}
               class="group t-control rounded-control mt-10 inline-flex h-10 pointer-coarse:h-11 items-center gap-2 bg-ink px-5 text-ivory transition-colors hover:bg-ink/85"
@@ -64,19 +56,7 @@ const lede = lead && ledeOf(lead);
           </div>
         </article>
 
-        {/* The rest beneath it, a line each on the same grid, so none
-            outweighs the lead: the date in the margin, the title and its
-            description on the line, and the cover small at the line's
-            end. The whole line answers the pointer, lifted to a panel as
-            Read next is: a ground drawn behind it from the page's gutter
-            to the measure's end, where Read next ends too, so the words
-            keep their places. The row itself keeps the page's width, as
-            the margin is a share of it and the dates stand under the
-            lead's. The description is set as Read next's is, across
-            the whole line, so the words fill the panel. No rules between
-            them: a hairline against a panel's rounded corner reads as a
-            mistake, and the room around each line already parts them.
-            On a phone the cover heads its post. */}
+        {/* No rules between rows: a hairline against a panel's rounded corner reads as a mistake. */}
         {rest.length > 0 && (
           <ol class="mt-14 space-y-2 md:mt-20">
             {rest.map((post) => (
@@ -123,9 +103,6 @@ const lede = lead && ledeOf(lead);
         )}
       </div>
     ) : (
-      /* With nothing on the front page, it says so as the 404 does and
-         sends the reader to what there is: the archive, and the feed
-         for what comes next. */
       <Empty title="Nothing on the front page yet." lede="Every post so far is in the archive. The feed tells you when the next one is out.">
         <a class="btn" href="/archive"><Icon icon={Archive} />Read the archive</a>
         <a class="btn" href="/rss.xml"><Icon icon={Rss} />Follow the feed</a>

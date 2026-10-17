@@ -1,7 +1,7 @@
 import type { APIContext } from "astro";
 import { posts } from "../lib/posts";
 
-/* At the old blog's address; every page a search engine should know. */
+/* At the old blog's address, where search engines already look. */
 export async function GET(context: APIContext) {
   const all = await posts();
   const at = (path: string, date?: Date) =>

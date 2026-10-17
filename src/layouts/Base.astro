@@ -7,38 +7,30 @@ import Rss from "@lucide/astro/icons/rss";
 import Layers from "@lucide/astro/icons/layers";
 import CodeXml from "@lucide/astro/icons/code-xml";
 import "../styles/site.css";
-/* Preloaded: every page opens on a title in the slab, and its text in
-   the sans; fetched late, the words would reflow as it arrives. */
+/* Preloaded: fetched late, either face would reflow the words as it arrives. */
 import slab from "@fontsource-variable/roboto-slab/files/roboto-slab-latin-wght-normal.woff2?url";
 import sans from "@fontsource/inter-tight/files/inter-tight-latin-400-normal.woff2?url";
 
 interface Props {
-  /* The page's own name; the site's is added after it. */
   title?: string;
   description: string;
-  /* A post: its share card, dates and author. */
   article?: { image?: string; published: Date; modified?: Date; author: string };
-  /* The 404: noindex, no canonical. */
   lost?: boolean;
 }
 
 const { title, description, article, lost = false } = Astro.props;
 const site = "Hypha Pub";
 const fullTitle = title ? `${title} · ${site}` : site;
-/* Pages are built as files; their address has no ".html" and no
-   trailing slash. */
+/* Built as files: the canonical address has no ".html" and no trailing slash. */
 const path = Astro.url.pathname.replace(/\.html$/, "").replace(/(.)\/$/, "$1").replace(/^\/index$/, "/");
 const canonical = new URL(path, Astro.site);
 const image = new URL(article?.image ?? "/og.jpg", Astro.site);
 
-/* The masthead's places; the feed is in the footer, and in the head for
-   readers that look for it there. */
 const nav = [
   { label: "Archive", href: "/archive", icon: Archive },
   { label: "Hypha Stack", href: "https://hyphatech.io/stack", icon: Layers },
 ];
-/* A place on another site opens in a tab of its own: the reader keeps
-   their place here. */
+/* Another site opens in a tab of its own: the reader keeps their place here. */
 const away = (href: string) => (/^https?:/.test(href) ? { target: "_blank", rel: "noopener" } : {});
 const footer = [
   nav[0],
@@ -111,7 +103,6 @@ const footer = [
           }
         </nav>
       </div>
-      {/* On a phone the same links stand in a row under the masthead. */}
       <nav class="border-y border-rule md:hidden" aria-label="Site">
         <ul class="mx-auto flex max-w-page gap-1 overflow-x-auto px-2 py-2 sm:px-4">
           {
@@ -128,8 +119,7 @@ const footer = [
       </nav>
     </header>
 
-    {/* A column, so a page with little to show can stand in the middle
-        of it; each page still takes the full width. */}
+    {/* A column, so the 404 can stand in its middle: `*:w-full` keeps every page full width. */}
     <main class="flex flex-1 flex-col *:w-full">
       <slot />
     </main>
@@ -141,8 +131,7 @@ const footer = [
             <Mark class="h-6" />
             <span class="text-base leading-none font-medium">hypha</span>
           </a>
-          {/* Required by the trading disclosure rules. The year is the
-              build's. */}
+          {/* Required by the trading disclosure rules. */}
           <p class="t-caption mt-4 text-graphite">
             <span class="block">
               © {new Date().getFullYear()} Hypha Technologies Ltd. Registered in England and Wales,

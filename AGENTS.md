@@ -71,6 +71,12 @@ renamed, and its old address is left to lapse, with no redirect. The
 blog keeps no subjects; the old blog's tag pages (`/tag/<slug>`) lead to
 the archive, as `astro.config.mjs` redirects them.
 
+## Code
+
+A comment says only what the code cannot: a decision a later change
+would otherwise undo, in a line or two. What the code does, and how it
+came to be, is the commit's.
+
 ## Git
 
 How work becomes a commit -- its format, where it happens, what is pushed

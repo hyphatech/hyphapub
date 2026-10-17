@@ -6,13 +6,11 @@ import { codeBlock, columnPlugins } from "./src/lib/prose.ts";
 
 export default defineConfig({
   site: "https://hypha.pub",
-  /* Posts are files, not directories: the old blog's addresses carry no
-     trailing slash, and GitHub Pages serves `/slug` from `slug.html`
-     without a redirect. */
+  /* Files, not directories: the old blog's addresses carry no trailing
+     slash, and Pages serves `/slug` from `slug.html` without a redirect. */
   build: { format: "file" },
   trailingSlash: "never",
-  /* The old blog's pages with nothing to carry over, and its subjects,
-     which this blog does not keep: each now leads to the archive. */
+  /* The old blog's pages and subjects, which this blog does not keep. */
   redirects: {
     "/members": "/",
     "/recommendations": "/",

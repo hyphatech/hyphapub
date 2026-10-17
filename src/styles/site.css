@@ -4,9 +4,8 @@
 
 @import "tailwindcss";
 
-/* hyphatech.io's system, carried over whole: five colours, two faces;
-   hairline rules, no shadow, no bold. `accent` is for marks, never text:
-   text is ink and graphite only. */
+/* hyphatech.io's system. `accent` is for marks, never text: text is ink
+   and graphite only. */
 :root {
   --night: #15120e;
   --paper: #f3efe8;
@@ -66,23 +65,14 @@
     background: var(--color-accent);
     color: var(--night);
   }
-  /* Grid: the margin is the first sixth; words start on the line at its
-     end. The margin holds the apparatus -- year, date, subject, contents
-     -- never running text. Below a laptop it keeps a label's width; on a
-     phone the line is the page edge and the apparatus follows the
-     title. */
+  /* Grid: the margin holds the apparatus, never running text. */
   :root {
     --margin: 11.5rem;
-    /* A post's text: about 78 characters of the sans at its 19px, the
-       width of hyphatech.io's principles. `ch` counts the wide zero and
-       would allow 95. */
+    /* About 78 characters at 19px. Not in `ch`, which counts the wide
+       zero and would allow 95. */
     --measure: 42rem;
-    /* An entry's description in the stream: the same 70-odd
-       characters in its smaller 15px, where the text's measure would
-       let it run to 104. */
+    /* The same 70-odd characters at 15px, where `--measure` allows 104. */
     --measure-entry: 30rem;
-    /* A sidenote, to the right of the text from 80rem: the line's width
-       left over there. */
     --sidebar: 12rem;
   }
   @media (width >= 64rem) {
@@ -94,10 +84,8 @@
     outline: 2px solid var(--color-accent);
     outline-offset: var(--ring-offset, 3px);
   }
-  /* A word longer than its box -- a path, an address, a title with a
-     long compound -- breaks rather than widening the page. `anywhere`,
-     not `break-word`: a box in a grid or a flex row sizes itself to its
-     longest word otherwise, and the card grid would follow it. */
+  /* `anywhere`, not `break-word`: otherwise a grid or flex box sizes itself
+     to its longest word, and the card grid follows it. */
   body {
     overflow-wrap: anywhere;
   }
@@ -109,8 +97,7 @@
   }
 }
 
-/* A lead post's title; sized so a long one sets in two lines on a
-   laptop. */
+/* Sized so a long lead title sets in two lines on a laptop. */
 @utility t-display {
   text-wrap: balance;
   font-family: var(--font-serif);
@@ -195,8 +182,7 @@
   column-gap: 2.5rem;
 }
 
-/* A control that leads somewhere, as hyphatech.io sets its secondary
-   button. */
+/* hyphatech.io's secondary button. */
 @utility btn {
   @apply t-control rounded-control inline-flex h-10 pointer-coarse:h-11 cursor-pointer items-center gap-2 border border-rule bg-panel px-5 text-graphite transition-colors hover:border-graphite hover:bg-raised hover:text-ink;
 }
@@ -210,18 +196,14 @@
   @apply pointer-coarse:inline-flex pointer-coarse:min-h-11 pointer-coarse:items-center;
 }
 
-/* A link that fills a cell of a hairline grid keeps its focus ring
-   inside itself: outside, the frame's clip and the next cell's ground
-   would hide it. Clear of the frame's rounded corners. */
+/* The ring goes inside, clear of rounded corners: outside, a frame's clip
+   or the next cell's ground would hide it. */
 @utility focus-inset {
   --ring-offset: -6px;
 }
 
-/* An entry -- a card, a line of the archive, Read next -- is one link,
-   its title: stretched over the entry, so all of it answers the pointer,
-   while a screen reader names it by the title alone and reads the rest
-   as text. Set on the title's link; the entry is `relative`, and its
-   focus ring is drawn round the whole of it. */
+/* An entry is one link, its title, stretched over it: a screen reader
+   names it by the title alone and reads the rest as text. */
 @utility stretch {
   &::after {
     content: "";
@@ -237,15 +219,10 @@
   }
 }
 
-/* A place in the phone's row of links: graphite, on `panel` under the
-   pointer, and the one you are on in ink on `raised`; control height on
-   touch, as every other link has. */
 @utility nav-item {
   @apply t-control rounded-control pointer-coarse:min-h-11 flex items-center whitespace-nowrap text-graphite transition-colors aria-[current]:bg-raised aria-[current]:text-ink not-aria-[current]:hover:bg-panel not-aria-[current]:hover:text-ink;
 }
 
-/* An entry's title: the whole row is its link, the title answers the
-   pointer. */
 @utility entry-link {
   @apply transition-colors;
   text-decoration-line: underline;
@@ -257,17 +234,14 @@
   }
 }
 
-/* The article, on Tufte's grid: everything -- text, code, figures,
-   quotes -- keeps one measure and one pair of edges, and from 80rem the
-   room to its right takes the sidenotes. Below that a note opens in
-   place, under its line: never at the end. */
+/* The article, on Tufte's grid. */
 .prose {
   font-size: 1.1875rem;
   line-height: 1.7;
   letter-spacing: 0.003em;
   color: var(--color-ink);
-  /* A path or an address longer than the line breaks rather than push
-     the page sideways: on a phone with large text, `/etc/lxc/…` would. */
+  /* A long path breaks: on a phone with large text, `/etc/lxc/…` would
+     push the page sideways. */
   overflow-wrap: break-word;
 
   & > * {
@@ -353,7 +327,6 @@
   & li > p {
     margin: 0;
   }
-  /* A quotation sits in the slab, indented to its own hairline. */
   & blockquote {
     border-left: 1px solid var(--color-rule);
     padding-left: 1.5rem;
@@ -377,9 +350,6 @@
     border-radius: var(--radius-control);
     background: var(--color-raised);
   }
-  /* Code on a panel lifted from the ground, the text's width; a line
-     longer than it scrolls. Blocks between paragraphs get a little more
-     air than paragraphs do. */
   & > .code {
     position: relative;
     margin-block: 1.75em;
@@ -399,8 +369,7 @@
     tab-size: 2;
     scrollbar-color: var(--color-rule) transparent;
   }
-  /* On a phone code runs to the screen's edges: every column counts.
-     Its focus ring goes inside, or the screen's edge would cut it. */
+  /* On a phone the focus ring goes inside, or the screen's edge would cut it. */
   @media (width < 40rem) {
     & > .code {
       margin-inline: -1rem;
@@ -415,8 +384,7 @@
   & pre code {
     font-family: inherit;
   }
-  /* Copy, in the block's corner: there under the pointer, always there
-     to a finger. */
+  /* Always shown to a finger, which has no hover. */
   & .copy {
     position: absolute;
     top: 0.5rem;
@@ -435,8 +403,7 @@
       color 120ms var(--ease-state),
       background-color 120ms var(--ease-state);
   }
-  /* A first line longer than the block runs under the button: it fades
-     into the panel before it, rather than ending mid-letter at its edge. */
+  /* A line that runs under the button fades out, not ending mid-letter. */
   & .copy::before {
     content: "";
     position: absolute;
@@ -466,8 +433,7 @@
       height: 2.75rem;
     }
   }
-  /* A figure is a plate: screenshots arrive white, so they sit as paper
-     on the night ground, rounded as panels are, the text's width. */
+  /* Screenshots arrive white, so a figure sits as paper on the night ground. */
   & > p:has(> img:only-child),
   & > p:has(> a:only-child > img:only-child) {
     margin-block: 2.25em;
@@ -479,10 +445,8 @@
     border-radius: var(--radius-panel);
     background: var(--paper);
   }
-  /* A drawing -- a diagram, an SVG -- shrinks with the line until its
-     type would be too small to read, and from there scrolls in its own
-     box, as code does; on a phone it runs to the screen's edges, and its
-     focus ring goes inside, as code's does. */
+  /* A drawing shrinks until its type would be too small to read, then
+     scrolls in its own box. */
   & > p:has(> img.drawing:only-child) {
     overflow-x: auto;
     scrollbar-color: var(--color-rule) transparent;
@@ -499,8 +463,6 @@
       border-radius: 0;
     }
   }
-  /* A talk plays in a panel the text's width, at the screen's shape, with
-     a figure's air around it and its title under it, in the notes' type. */
   & > .video {
     margin-block: 2.25em;
   }
@@ -522,7 +484,6 @@
     height: 100%;
     border: 0;
   }
-  /* A table wider than the line scrolls in its own box, as code does. */
   & > .table-wrap {
     overflow-x: auto;
     scrollbar-color: var(--color-rule) transparent;
@@ -545,8 +506,6 @@
     padding: 0.625rem 1rem 0.625rem 0;
     vertical-align: top;
   }
-  /* A note's call: a slab numeral, raised, without an underline; under
-     the pointer it lifts to ink, and an open note keeps it there. */
   & sup {
     font-family: var(--font-serif);
     font-size: 0.7em;
@@ -563,8 +522,7 @@
   & sup:has(+ .sidenote-state:checked) .sidenote-toggle {
     color: var(--color-ink);
   }
-  /* The box is the numeral's: unseen, where it stands in the line, so
-     focus never moves the page; its ring is drawn on the numeral. */
+  /* Hidden in place, not removed, so focusing it never scrolls the page. */
   & .sidenote-state {
     position: absolute;
     width: 1px;
@@ -577,8 +535,7 @@
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
   }
-  /* A numeral wide to the eye; to a finger, a control's height, without
-     moving a line. */
+  /* To a finger, a control's height, without moving a line. */
   @media (pointer: coarse) {
     & .sidenote-toggle {
       position: relative;
@@ -589,8 +546,6 @@
       inset: -0.75rem -0.625rem;
     }
   }
-  /* The note: graphite, smaller, its number repeated and raised so the
-     eye finds its way back to the call. */
   & .sidenote {
     display: none;
     font-size: 0.875rem;
@@ -610,9 +565,6 @@
     display: block;
     margin-top: 0.5em;
   }
-  /* Without the column, the numeral opens the note in place: a block
-     under the line that calls it, on its own hairline as a quotation
-     is, and the paragraph runs on below. */
   @media (width < 80rem) {
     & .sidenote-state:checked + .sidenote {
       display: block;
@@ -623,9 +575,7 @@
       line-height: 1.6;
     }
   }
-  /* With room, a note stands in the column to the text's right, its
-     first line beside the line that calls it; one that would meet the
-     note above drops below it. The numeral is only a numeral there. */
+  /* A note that would meet the one above drops below it, by `clear`. */
   @media (width >= 80rem) {
     & .sidenote {
       display: block;
@@ -644,8 +594,6 @@
       cursor: auto;
       pointer-events: none;
     }
-    /* Its number hangs in the gutter, so every line of the note starts
-       on the column's edge. */
     & .sidenote-n {
       position: absolute;
       top: 0;
