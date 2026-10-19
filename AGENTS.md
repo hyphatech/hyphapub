@@ -76,12 +76,3 @@ the archive, as `astro.config.mjs` redirects them.
 A comment says only what the code cannot: a decision a later change
 would otherwise undo, in a line or two. What the code does, and how it
 came to be, is the commit's.
-
-## Git
-
-How work becomes a commit -- its format, where it happens, what is pushed
--- is [GIT.md](GIT.md), the same in every Hypha repository and changed in
-all of them together, never in one. It is imported here, so it is read
-with this file:
-
-@GIT.md
