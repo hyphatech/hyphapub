@@ -15,7 +15,7 @@ Linux containers are not a single kernel feature. They are a combination of seve
 
 *   **namespaces** — isolate what a process can see: its own PID space, network interfaces, mount points, hostname, users
     
-*   **cgroups** — limit and account for what a process can consume: CPU, I/O, memory, network bandwidth
+*   **cgroups** — limit and account for what a process can consume: CPU, I/&#8288;O, memory, network bandwidth
     
 *   **seccomp** — restrict which system calls a process is allowed to make
     

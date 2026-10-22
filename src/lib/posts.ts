@@ -28,16 +28,19 @@ export function ledeOf(post: Post): string | undefined {
   return opening.startsWith(post.data.description.slice(0, 60)) ? undefined : post.data.description;
 }
 
-/* None from the first paragraph that calls a note or holds anything but
-   words: those want the post around them. */
+/* None from the first paragraph or quote that calls a note or holds
+   anything but words: those want the post around them. A quote is taken
+   with the paragraphs around it and is not one of the `most`. */
 export function opening(post: Post, most = 2): string[] {
   let html = (post.rendered?.html ?? "").trim();
   const taken: string[] = [];
-  while (taken.length < most) {
-    const p = html.match(/^<p>[\s\S]*?<\/p>/)?.[0];
-    if (!p || /<(img|input|label|code)\b/.test(p)) break;
-    taken.push(p);
-    html = html.slice(p.length).trim();
+  let paragraphs = 0;
+  while (paragraphs < most) {
+    const block = html.match(/^<(p|blockquote)>[\s\S]*?<\/\1>/);
+    if (!block || /<(img|input|label|code)\b/.test(block[0])) break;
+    taken.push(block[0]);
+    if (block[1] === "p") paragraphs++;
+    html = html.slice(block[0].length).trim();
   }
   return taken;
 }

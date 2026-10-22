@@ -521,10 +521,24 @@
     padding-inline: 0.1em;
     border-radius: 2px;
     cursor: pointer;
-    transition: color 120ms var(--ease-state);
+    text-decoration-line: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: color-mix(in oklab, var(--color-graphite) 60%, transparent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    transition:
+      color 120ms var(--ease-state),
+      text-decoration-color 120ms var(--ease-state);
   }
-  & .sidenote-toggle:hover,
+  /* A numeral and its note light up together, from either side. */
+  & sup:hover .sidenote-toggle,
+  & sup:has(+ .sidenote-state + .sidenote:hover) .sidenote-toggle,
   & sup:has(+ .sidenote-state:checked) .sidenote-toggle {
+    color: var(--color-ink);
+    text-decoration-color: var(--color-ink);
+  }
+  & sup:hover + .sidenote-state + .sidenote,
+  & .sidenote:hover {
     color: var(--color-ink);
   }
   /* Hidden in place, not removed, so focusing it never scrolls the page. */
@@ -557,6 +571,7 @@
     line-height: 1.55;
     letter-spacing: 0;
     color: var(--color-graphite);
+    transition: color 120ms var(--ease-state);
   }
   & .sidenote-n {
     position: relative;
@@ -598,6 +613,12 @@
     & .sidenote-toggle {
       cursor: auto;
       pointer-events: none;
+    }
+    /* In the margin a note is no part of its line, so selecting the line
+       leaves it out. */
+    & .sidenote,
+    & .sidenote-toggle {
+      user-select: none;
     }
     & .sidenote-n {
       position: absolute;
