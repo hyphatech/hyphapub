@@ -198,7 +198,7 @@ Every word Rust adds is about memory, and none of it is about users. An agent wr
 
 ![Six languages against six properties of their types. Java checks every case since version 21, has null, is sound, infers only local types, collects garbage and has no async colours since its virtual threads. TypeScript checks every case only with a manual idiom, keeps null out only under a flag, is unsound by design, infers locally, collects garbage and colours functions with async. Python has none of the checks, collects garbage and colours functions with async. Go has no variant types, has nil, is sound, infers only locals, collects garbage and has no colours. Rust checks every case, has no null, is sound, infers inside function bodies, manages memory through ownership instead of a collector, and colours functions with async. OCaml has all six.](/images/the-language-that-says-no/six-languages.svg)
 
-Every one of them traded something away. OCaml is the one that did not, and it reads like what it means. Every module has its contract in an interface file, every state is named in a type, so nobody has to read the code, and anybody can.
+Every one of them traded something away, and OCaml traded the least. It reads like what it means. Every module has its contract in an interface file, every state is named in a type, so nobody has to read the code, and anybody can.
 
 ## Who bet on it
 
