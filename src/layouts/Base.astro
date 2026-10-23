@@ -10,6 +10,9 @@ import "../styles/site.css";
 /* Preloaded: fetched late, either face would reflow the words as it arrives. */
 import slab from "@fontsource-variable/roboto-slab/files/roboto-slab-latin-wght-normal.woff2?url";
 import sans from "@fontsource/inter-tight/files/inter-tight-latin-400-normal.woff2?url";
+/* Built under a name that hashes its bytes: a site that cached the card
+   by its address fetches it again once the card changes. */
+import card from "../assets/og.jpg?url";
 
 interface Props {
   title?: string;
@@ -24,7 +27,7 @@ const fullTitle = title ? `${title} · ${site}` : site;
 /* Built as files: the canonical address has no ".html" and no trailing slash. */
 const path = Astro.url.pathname.replace(/\.html$/, "").replace(/(.)\/$/, "$1").replace(/^\/index$/, "/");
 const canonical = new URL(path, Astro.site);
-const image = new URL(article?.image ?? "/og.jpg", Astro.site);
+const image = new URL(article?.image ?? card, Astro.site);
 
 const nav = [
   { label: "Archive", href: "/archive", icon: Archive },

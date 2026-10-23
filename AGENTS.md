@@ -9,6 +9,11 @@ in `src/styles/site.css` and `src/layouts/Base.astro` are copied from the
 [hyphatech](https://github.com/hyphatech) site, not imported. A change to
 one belongs in both.
 
+`src/assets/og.jpg` is the image a shared link shows, for every page but
+a post with a `cover`. `design/og.html` draws it: open it in a browser
+1200 × 630 wide and save a screenshot. It is built under a name that
+hashes its bytes, so a site that cached the old card fetches the new one.
+
 ## Commands
 
 ```sh
