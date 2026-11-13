@@ -27,6 +27,9 @@ make help    # every other target, each with its one line
 `.github/workflows/pages.yml` checks, builds and publishes the site to
 hypha.pub on every push to `main`.
 
+Work lands on `main` directly, without a pull request: its owner
+pushes `main`, which publishes it.
+
 ## Posts
 
 A post is one Markdown file in `src/content/posts/`; its file name is its
