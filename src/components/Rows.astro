@@ -1,0 +1,62 @@
+---
+import Icon from "./Icon.astro";
+import Calendar from "@lucide/astro/icons/calendar";
+import Clock from "@lucide/astro/icons/clock";
+import { fullDate, minutes, type Post } from "../lib/posts";
+
+interface Props {
+  posts: Post[];
+  level?: "h2" | "h3";
+  class?: string;
+}
+
+const { posts, level: Title = "h2", class: className } = Astro.props;
+---
+
+<ol class:list={["space-y-10 md:space-y-12", className]}>
+  {
+    posts.map((post) => (
+      <li class="grid gap-y-4 md:grid-cols-margin">
+        <time datetime={post.data.date.toISOString()} class="text-sm hidden text-graphite md:block md:pt-1.5">
+          {fullDate(post.data.date)}
+        </time>
+        <div
+          class:list={[
+            "group relative grid min-w-0 gap-5 md:col-start-2",
+            post.data.cover ? "max-w-[var(--measure)] sm:grid-cols-[minmax(0,1fr)_16rem] sm:gap-8" : "max-w-[var(--measure-entry)]",
+          ]}
+        >
+          <div class="flex min-w-0 flex-col">
+            <Title class="t-h3">
+              <a href={`/${post.id}`} class="entry-link stretch group-hover:decoration-graphite">
+                {post.data.title}
+              </a>
+            </Title>
+            <p class="leading-relaxed text-graphite mt-2 line-clamp-2">{post.data.description}</p>
+            <p class="text-sm mt-4 flex flex-wrap gap-x-5 gap-y-2 text-graphite">
+              <span class="flex items-center gap-2 md:hidden">
+                <Icon icon={Calendar} />
+                <time datetime={post.data.date.toISOString()}>{fullDate(post.data.date)}</time>
+              </span>
+              <span class="flex items-center gap-2">
+                <Icon icon={Clock} />
+                {minutes(post)} min read
+              </span>
+            </p>
+          </div>
+          {post.data.cover && (
+            <span class="order-first block self-start overflow-hidden rounded-panel bg-panel sm:order-none">
+              <img
+                src={post.data.cover}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                class="aspect-video w-full object-cover transition-transform duration-700 ease-glide group-hover:scale-[1.025]"
+              />
+            </span>
+          )}
+        </div>
+      </li>
+    ))
+  }
+</ol>

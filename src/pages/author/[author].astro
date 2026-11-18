@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Stream from "../../components/Stream.astro";
+import Band from "../../components/Band.astro";
 import { authors, author, type AuthorKey } from "../../lib/authors";
 import { posts, type Post } from "../../lib/posts";
 
@@ -21,17 +22,19 @@ const { key, signed } = Astro.props;
 const { name, avatar, about } = author(key);
 ---
 
-<Base title={name} description={about ? `${name}: ${about}` : `Every post by ${name} on hypha.pub, newest first.`}>
-  <div class="mx-auto max-w-page px-4 sm:px-6">
-    <header class="grid pt-14 pb-12 md:grid-cols-margin md:pt-24 md:pb-16">
+<Base banded title={name} description={about ? `${name}: ${about}` : `Every post by ${name} on hypha.pub, newest first.`}>
+  <Band>
+    <header class="grid md:grid-cols-margin">
       <div class="flex items-center gap-5 md:col-start-2 md:gap-6">
         <img src={avatar} alt="" width="80" height="80" class="size-16 shrink-0 rounded-full bg-panel object-cover md:size-20" />
         <div class="min-w-0">
           <h1 class="t-h1">{name}</h1>
-          {about && <p class="t-lede mt-2 max-w-[var(--measure)] text-graphite">{about}</p>}
+          {about && <p class="t-lede mt-2 max-w-[var(--measure)]">{about}</p>}
         </div>
       </div>
     </header>
+  </Band>
+  <div class="mx-auto max-w-page px-4 pt-16 sm:px-6 md:pt-20">
     <Stream posts={signed} />
   </div>
 </Base>

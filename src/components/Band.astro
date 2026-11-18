@@ -1,0 +1,14 @@
+---
+interface Props {
+  hero?: boolean;
+}
+const { hero = false } = Astro.props;
+---
+
+<section class="theme-ember relative isolate overflow-hidden -mt-(--masthead) pt-(--masthead)">
+  <div class="k-grain" aria-hidden="true"></div>
+  <div class="k-halftone max-md:top-(--masthead)" aria-hidden="true"></div>
+  <div class:list={["relative mx-auto max-w-page px-4 sm:px-6", hero ? "pt-24 pb-20 md:pt-32 md:pb-28" : "py-16 md:py-20"]}>
+    <slot />
+  </div>
+</section>

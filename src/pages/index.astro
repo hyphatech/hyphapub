@@ -1,14 +1,14 @@
 ---
 import Base from "../layouts/Base.astro";
 import Empty from "../components/Empty.astro";
+import Band from "../components/Band.astro";
 import Icon from "../components/Icon.astro";
-import Arrow from "../components/Arrow.astro";
 import Byline from "../components/Byline.astro";
+import Rows from "../components/Rows.astro";
 import Archive from "@lucide/astro/icons/archive";
-import Calendar from "@lucide/astro/icons/calendar";
-import Clock from "@lucide/astro/icons/clock";
+import BookOpen from "@lucide/astro/icons/book-open";
 import Rss from "@lucide/astro/icons/rss";
-import { posts, minutes, ledeOf, opening, fullDate } from "../lib/posts";
+import { posts, ledeOf, opening } from "../lib/posts";
 
 const all = (await posts()).filter((post) => post.data.front);
 const [lead, ...rest] = all;
@@ -16,21 +16,27 @@ const [lead, ...rest] = all;
 const lede = lead && ledeOf(lead);
 ---
 
-<Base description="Hypha's engineering blog: OCaml, systems and how software is put together, by the people who build Hypha Stack.">
+<Base banded={!!lead} description="Hypha's engineering blog: OCaml, systems and how software is put together, by the people who build Hypha Stack.">
   {
     lead ? (
-      <div class="mx-auto max-w-page px-4 sm:px-6">
+      <div>
         <h1 class="sr-only">Hypha Pub</h1>
-        <article class="grid pt-14 md:grid-cols-margin md:pt-24" aria-labelledby="lead">
+        <article aria-labelledby="lead">
+          <Band hero>
+            <div class="grid md:grid-cols-margin">
+              <div class="min-w-0 md:col-start-2">
+                <h2 id="lead" class="t-display">
+                  <a href={`/${lead.id}`} class="transition-opacity hover:opacity-80">
+                    {lead.data.title}
+                  </a>
+                </h2>
+                {lede && <p class="t-lede mt-8 max-w-[var(--measure)]">{lede}</p>}
+                <div class="mt-10"><Byline post={lead} /></div>
+              </div>
+            </div>
+          </Band>
+          <div class="mx-auto grid max-w-page px-4 py-16 sm:px-6 md:grid-cols-margin md:py-20">
           <div class="min-w-0 md:col-start-2">
-            <h2 id="lead" class="t-display max-w-[var(--measure)]">
-              <a href={`/${lead.id}`} class="entry-link">
-                {lead.data.title}
-              </a>
-            </h2>
-            {lede && <p class="t-lede mt-5 max-w-[var(--measure)] text-graphite md:mt-6">{lede}</p>}
-            <div class="mt-6 md:mt-8"><Byline post={lead} /></div>
-
             {lead.data.cover && (
               <img
                 src={lead.data.cover}
@@ -38,68 +44,25 @@ const lede = lead && ledeOf(lead);
                 loading="eager"
                 fetchpriority="high"
                 decoding="async"
-                class="mt-10 aspect-video w-full max-w-[var(--measure)] rounded-panel bg-panel object-cover md:mt-14"
+                class="aspect-video w-full max-w-[var(--measure)] rounded-panel bg-panel object-cover"
               />
             )}
-            <div class="prose mt-9 max-w-[var(--measure)] md:mt-12">
+            <div class:list={["prose max-w-[var(--measure)]", lead.data.cover && "mt-8"]}>
               <Fragment set:html={opening(lead).join("")} />
             </div>
-            {/* The one button filled in ink: it is the one thing to do here. */}
-            <a
-              href={`/${lead.id}`}
-              class="btn-primary group mt-10"
-              aria-label={`Continue reading ${lead.data.title}`}
-            >
+            <a href={`/${lead.id}`} class="btn mt-8" aria-label={`Continue reading ${lead.data.title}`}>
+              <Icon icon={BookOpen} />
               Continue reading
-              <Arrow way="on" />
             </a>
           </div>
+          </div>
         </article>
-
-        {/* No rules between rows: a hairline against a panel's rounded corner reads as a mistake. */}
         {rest.length > 0 && (
-          <ol class="mt-14 space-y-2 md:mt-20">
-            {rest.map((post) => (
-              <li class="group relative isolate grid gap-y-4 py-8 before:absolute before:inset-y-0 before:-inset-x-4 before:-z-10 before:rounded-panel before:transition-colors hover:before:bg-panel sm:before:-inset-x-6 md:grid-cols-margin md:py-10 md:before:right-auto md:before:w-[min(100%_+_3rem,var(--margin)_+_var(--measure)_+_3rem)]">
-                <time datetime={post.data.date.toISOString()} class="t-label hidden text-graphite md:block md:pt-2">
-                  {fullDate(post.data.date)}
-                </time>
-                <div class="grid min-w-0 max-w-[var(--measure)] gap-5 sm:grid-cols-[minmax(0,1fr)_16rem] sm:gap-8 md:col-start-2">
-                  <div class="flex min-w-0 flex-col">
-                    <h2 class="t-entry">
-                      <a href={`/${post.id}`} class="entry-link stretch group-hover:decoration-graphite">
-                        {post.data.title}
-                      </a>
-                    </h2>
-                    <p class="mt-2 line-clamp-2 font-serif text-base leading-normal text-graphite">
-                      {post.data.description}
-                    </p>
-                    <p class="t-label mt-4 flex flex-wrap gap-x-5 gap-y-2 text-graphite">
-                      <span class="flex items-center gap-2 md:hidden">
-                        <Icon icon={Calendar} />
-                        <time datetime={post.data.date.toISOString()}>{fullDate(post.data.date)}</time>
-                      </span>
-                      <span class="flex items-center gap-2">
-                        <Icon icon={Clock} />
-                        {minutes(post)} min read
-                      </span>
-                    </p>
-                  </div>
-                  {post.data.cover && (
-                    <span class="order-first block overflow-hidden rounded-panel bg-panel sm:order-none">
-                      <img
-                        src={post.data.cover}
-                        alt=""
-                        loading="lazy"
-                        decoding="async"
-                        class="aspect-video w-full object-cover transition-transform duration-700 ease-glide group-hover:scale-[1.025]"
-                      />
-                    </span>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ol>
+          <section class="border-t border-rule" aria-label="Earlier posts">
+            <div class="mx-auto max-w-page px-4 pt-16 sm:px-6 md:pt-20">
+              <Rows posts={rest} />
+            </div>
+          </section>
         )}
       </div>
     ) : (

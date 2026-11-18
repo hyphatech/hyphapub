@@ -2,9 +2,9 @@
 import Wordmark from "../components/Wordmark.astro";
 import Mark from "../components/Mark.astro";
 import Icon from "../components/Icon.astro";
+import Factory from "@lucide/astro/icons/factory";
 import Archive from "@lucide/astro/icons/archive";
 import Rss from "@lucide/astro/icons/rss";
-import Layers from "@lucide/astro/icons/layers";
 import CodeXml from "@lucide/astro/icons/code-xml";
 import "../styles/site.css";
 /* Preloaded: fetched late, either face would reflow the words as it arrives. */
@@ -19,19 +19,21 @@ interface Props {
   description: string;
   article?: { image?: string; published: Date; modified?: Date; author: string };
   lost?: boolean;
+  banded?: boolean;
 }
 
-const { title, description, article, lost = false } = Astro.props;
+const { title, description, article, lost = false, banded = false } = Astro.props;
 const site = "Hypha Pub";
 const fullTitle = title ? `${title} · ${site}` : site;
 /* Built as files: the canonical address has no ".html" and no trailing slash. */
 const path = Astro.url.pathname.replace(/\.html$/, "").replace(/(.)\/$/, "$1").replace(/^\/index$/, "/");
 const canonical = new URL(path, Astro.site);
+const within = (href: string) => path === href || path.startsWith(`${href}/`);
 const image = new URL(article?.image ?? card, Astro.site);
 
 const nav = [
   { label: "Archive", href: "/archive", icon: Archive },
-  { label: "Hypha Stack", href: "https://hyphatech.io/stack", icon: Layers },
+  { label: "Foundation", href: "https://hyphatech.io/", icon: Factory },
 ];
 /* Another site opens in a tab of its own: the reader keeps their place here. */
 const away = (href: string) => (/^https?:/.test(href) ? { target: "_blank", rel: "noopener" } : {});
@@ -84,19 +86,27 @@ const footer = [
   </head>
 
   <body class="flex min-h-dvh flex-col bg-ivory text-ink">
-    <header class="md:border-b md:border-rule">
+    <a href="#main" class="btn-primary absolute top-3 left-4 z-10 -translate-y-24 focus-visible:translate-y-0 sm:left-6">Skip to content</a>
+    <div>
+    <header class:list={["relative z-10", !banded && "md:border-b md:border-rule"]}>
       <div class="mx-auto flex h-16 max-w-page items-center gap-6 px-4 sm:px-6">
         <Wordmark />
-        <nav class="ml-auto hidden items-center gap-6 md:flex" aria-label="Site">
+        <nav
+          class:list={[
+            "ml-auto hidden items-center gap-6 md:flex",
+            banded && "[--color-graphite:color-mix(in_oklab,var(--graphite-on-night)_70%,var(--paper))]",
+          ]}
+          aria-label="Site"
+        >
           {
             nav.map((item) => (
               <a
                 href={item.href}
                 {...away(item.href)}
-                aria-current={path === item.href ? "page" : undefined}
+                aria-current={path === item.href ? "page" : within(item.href) ? "true" : undefined}
                 class:list={[
                   "t-control tap inline-flex items-center gap-2 transition-colors hover:text-ink",
-                  path === item.href ? "text-ink" : "text-graphite",
+                  within(item.href) ? "text-ink" : "text-graphite",
                 ]}
               >
                 <Icon icon={item.icon} />
@@ -106,14 +116,17 @@ const footer = [
           }
         </nav>
       </div>
-      {/* Too wide for the screen, the row scrolls under a finger, with no
-          bar drawn under it. */}
-      <nav class="border-y border-rule md:hidden" aria-label="Site">
-        <ul class="mx-auto flex max-w-page gap-1 overflow-x-auto px-2 py-2 [scrollbar-width:none] sm:px-4 [&::-webkit-scrollbar]:hidden">
+      <nav class:list={["h-14 border-y border-rule md:hidden", banded && "[--color-graphite:color-mix(in_oklab,var(--graphite-on-night)_70%,var(--paper))]"]} aria-label="Site">
+        <ul class="mx-auto flex h-full max-w-page items-center gap-0.5 overflow-x-auto px-1.5 [scrollbar-width:none] min-[22.5rem]:gap-1 min-[22.5rem]:px-2 sm:px-4 [&::-webkit-scrollbar]:hidden">
           {
             nav.map((item) => (
               <li class="shrink-0">
-                <a href={item.href} {...away(item.href)} aria-current={path === item.href ? "page" : undefined} class="nav-item gap-2 px-3 py-2.5">
+                <a
+                  href={item.href}
+                  {...away(item.href)}
+                  aria-current={path === item.href ? "page" : within(item.href) ? "true" : undefined}
+                  class="nav-item gap-1.5 px-2 py-2.5 min-[22.5rem]:gap-2 min-[22.5rem]:px-3"
+                >
                   <Icon icon={item.icon} />
                   {item.label}
                 </a>
@@ -123,30 +136,33 @@ const footer = [
         </ul>
       </nav>
     </header>
+    </div>
 
-    {/* A column, so the 404 can stand in its middle: `*:w-full` keeps every page full width. */}
-    <main class="flex flex-1 flex-col *:w-full">
+    <main id="main" tabindex="-1" class="theme-light flex grow flex-col pb-16 outline-none md:pb-20 *:w-full">
       <slot />
     </main>
 
-    <footer class="mt-28 border-t border-rule">
-      <div class="mx-auto grid max-w-page gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1fr_auto] md:gap-16">
+    <div>
+    <footer class="k-horizon border-t border-rule bg-bottom bg-no-repeat [background-size:100%_260%]">
+      <div class="k-grain" aria-hidden="true"></div>
+      <div class="relative mx-auto grid max-w-page gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1fr_auto] md:gap-16">
         <div class="max-w-lg">
-          <a href="https://hyphatech.io" {...away("https://hyphatech.io")} class="inline-flex items-center gap-2 pointer-coarse:min-h-11">
+          <div class="flex items-center gap-2">
             <Mark class="h-6" />
             <span class="text-base leading-none font-medium">hypha</span>
-          </a>
+          </div>
           {/* Required by the trading disclosure rules. */}
           <p class="t-caption mt-4 text-graphite">
             <span class="block">
-              © {new Date().getFullYear()} Hypha Technologies Ltd. Registered in England and Wales,
-              no.&nbsp;16665133.
+              <span class="inline-block">© {new Date().getFullYear()} Hypha Technologies Ltd.</span> <span class="inline-block">Registered in England and Wales, no.&nbsp;16665133.</span>
             </span>
-            <span class="block">Registered office: 86–90&nbsp;Paul Street, London EC2A&nbsp;4NE.</span>
+            <span class="block">
+              <span class="inline-block">Registered office:</span> <span class="inline-block">86–90&nbsp;Paul Street, London EC2A&nbsp;4NE.</span>
+            </span>
             <span class="mt-3 block">Made in London.</span>
           </p>
         </div>
-        <ul class="t-control space-y-3 text-graphite pointer-coarse:space-y-0">
+        <ul class="t-control grid grid-cols-2 content-start gap-x-10 gap-y-3 text-graphite pointer-coarse:gap-y-0">
           {
             footer.map((item) => (
               <li>
@@ -160,5 +176,12 @@ const footer = [
         </ul>
       </div>
     </footer>
+    </div>
+    <script>
+      const rest = new IntersectionObserver((entries) => {
+        for (const e of entries) e.target.toggleAttribute("data-off", !e.isIntersecting);
+      });
+      for (const el of document.querySelectorAll(".theme-ember")) rest.observe(el);
+    </script>
   </body>
 </html>

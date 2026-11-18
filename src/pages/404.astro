@@ -1,12 +1,41 @@
 ---
 import Base from "../layouts/Base.astro";
-import Empty from "../components/Empty.astro";
+import Band from "../components/Band.astro";
+import Rows from "../components/Rows.astro";
 import Icon from "../components/Icon.astro";
 import Archive from "@lucide/astro/icons/archive";
+import House from "@lucide/astro/icons/house";
+import { posts } from "../lib/posts";
+
+const latest = (await posts()).slice(0, 3);
 ---
 
-<Base title="Not found" description="This address holds no post." lost>
-  <Empty mark="404" title="Nothing is written here.">
-    <a class="btn" href="/archive"><Icon icon={Archive} />Read the archive</a>
-  </Empty>
+<Base banded title="Not found" description="There is no page at this address." lost>
+  <Band hero>
+    <div class="grid md:grid-cols-margin">
+      <div class="md:col-start-2">
+        <h1 class="t-display max-w-3xl">
+          Nothing at
+          <br />
+          <span class="text-accent">this address.</span>
+        </h1>
+        <p class="t-lede mt-8 max-w-2xl">The page may have moved.</p>
+        <div class="mt-10 flex flex-wrap gap-3">
+          <a href="/archive" class="btn-primary"><Icon icon={Archive} />Read the archive</a>
+          <a href="/" class="btn"><Icon icon={House} />Front page</a>
+        </div>
+      </div>
+    </div>
+  </Band>
+
+  {
+    latest.length > 0 && (
+      <section class="mx-auto max-w-page px-4 pt-16 sm:px-6 md:pt-20" aria-labelledby="latest">
+        <div class="grid md:grid-cols-margin">
+          <h2 id="latest" class="t-h1 md:col-start-2">Latest posts.</h2>
+        </div>
+        <Rows posts={latest} level="h3" class="mt-12" />
+      </section>
+    )
+  }
 </Base>
