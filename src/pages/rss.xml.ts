@@ -10,7 +10,7 @@ export async function GET(context: APIContext) {
   const absolute = (html: string) => html.replace(/(src|href)="\/(?!\/)/g, `$1="${site.origin}/`);
   return rss({
     title: "Hypha Pub",
-    description: "Hypha's engineering blog: OCaml, systems and how software is put together.",
+    description: "An engineering blog on AI, functional programming, system design and the history of IT.",
     site,
     /* Without a trailing slash, as the old feed spelt its GUIDs. */
     trailingSlash: false,
