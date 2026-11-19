@@ -53,7 +53,7 @@ const back = earlier;
     <Band hero>
       <header class="grid md:grid-cols-margin">
         <div class="min-w-0 md:col-start-2">
-          <h1 class="t-display">{post.data.title}</h1>
+          <h1 class="t-display max-w-[var(--measure)]">{post.data.title}</h1>
           {lede && <p class="t-lede mt-6 max-w-[var(--measure)] md:mt-8">{lede}</p>}
           <div class="mt-8 md:mt-10"><Byline post={post} /></div>
         </div>
