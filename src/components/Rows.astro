@@ -17,7 +17,7 @@ const { posts, level: Title = "h2", class: className } = Astro.props;
   {
     posts.map((post) => (
       <li class="grid gap-y-4 md:grid-cols-margin">
-        <time datetime={post.data.date.toISOString()} class="text-sm hidden text-graphite md:block md:pt-1.5">
+        <time datetime={post.data.date.toISOString()} class="text-sm hidden text-graphite md:block md:leading-8">
           {fullDate(post.data.date)}
         </time>
         <div
@@ -32,7 +32,7 @@ const { posts, level: Title = "h2", class: className } = Astro.props;
                 {post.data.title}
               </a>
             </Title>
-            <p class="leading-relaxed text-graphite mt-2 line-clamp-2">{post.data.description}</p>
+            <p class=" text-graphite mt-2 line-clamp-2">{post.data.description}</p>
             <p class="text-sm mt-4 flex flex-wrap gap-x-5 gap-y-2 text-graphite">
               <span class="flex items-center gap-2 md:hidden">
                 <Icon icon={Calendar} />

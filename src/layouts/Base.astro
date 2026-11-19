@@ -117,7 +117,7 @@ const footer = [
         </nav>
       </div>
       <nav class:list={["h-14 border-y border-rule md:hidden", banded && "[--color-graphite:color-mix(in_oklab,var(--graphite-on-night)_70%,var(--paper))]"]} aria-label="Site">
-        <ul class="mx-auto flex h-full max-w-page items-center gap-0.5 overflow-x-auto px-1.5 [scrollbar-width:none] min-[22.5rem]:gap-1 min-[22.5rem]:px-2 sm:px-4 [&::-webkit-scrollbar]:hidden">
+        <ul class="mx-auto flex h-full max-w-page items-center gap-1 overflow-x-auto px-2 [scrollbar-width:none] sm:px-4 [&::-webkit-scrollbar]:hidden">
           {
             nav.map((item) => (
               <li class="shrink-0">
@@ -125,7 +125,7 @@ const footer = [
                   href={item.href}
                   {...away(item.href)}
                   aria-current={path === item.href ? "page" : within(item.href) ? "true" : undefined}
-                  class="nav-item gap-1.5 px-2 py-2.5 min-[22.5rem]:gap-2 min-[22.5rem]:px-3"
+                  class="nav-item gap-2 px-2 py-2 min-[22.5rem]:px-3"
                 >
                   <Icon icon={item.icon} />
                   {item.label}
@@ -138,14 +138,14 @@ const footer = [
     </header>
     </div>
 
-    <main id="main" tabindex="-1" class="theme-light flex grow flex-col pb-16 outline-none md:pb-20 *:w-full">
+    <main id="main" tabindex="-1" class="theme-light flex grow flex-col pb-12 outline-none md:pb-16 *:w-full">
       <slot />
     </main>
 
     <div>
     <footer class="k-horizon border-t border-rule bg-bottom bg-no-repeat [background-size:100%_260%]">
       <div class="k-grain" aria-hidden="true"></div>
-      <div class="relative mx-auto grid max-w-page gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1fr_auto] md:gap-16">
+      <div class="relative mx-auto grid max-w-page gap-6 px-4 py-12 sm:px-6 md:grid-cols-[1fr_auto] md:gap-16 md:py-16">
         <div class="max-w-lg">
           <div class="flex items-center gap-2">
             <Mark class="h-6" />

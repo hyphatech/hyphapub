@@ -15,12 +15,12 @@ const { name, avatar } = authors[post.data.author];
 
 <div class="flex items-center gap-4 md:gap-5">
   <img src={avatar} alt="" width="64" height="64" class="size-12 shrink-0 rounded-full bg-panel object-cover md:size-16" />
-  <dl class="flex min-w-0 flex-wrap items-center gap-x-5 gap-y-2">
+  <dl class="flex min-w-0 flex-wrap items-center gap-x-5 gap-y-1 md:gap-y-2">
     <dt class="sr-only">Author</dt>
-    <dd class="basis-full font-serif text-xl leading-tight text-ink md:text-2xl">
+    <dd class="basis-full font-serif text-xl text-ink md:text-2xl">
       <a
         href={`/author/${post.data.author}`}
-        class="tap underline decoration-graphite/50 decoration-1 underline-offset-[0.18em] transition-colors hover:decoration-ink"
+        class="relative underline after:absolute after:inset-x-0 after:-inset-y-2 after:content-[''] decoration-graphite/50 decoration-1 underline-offset-[0.18em] transition-colors hover:decoration-ink"
       >
         {name}
       </a>

@@ -54,30 +54,30 @@ const back = earlier;
       <header class="grid md:grid-cols-margin">
         <div class="min-w-0 md:col-start-2">
           <h1 class="t-display">{post.data.title}</h1>
-          {lede && <p class="t-lede mt-8 max-w-[var(--measure)]">{lede}</p>}
-          <div class="mt-10"><Byline post={post} /></div>
+          {lede && <p class="t-lede mt-6 max-w-[var(--measure)] md:mt-8">{lede}</p>}
+          <div class="mt-8 md:mt-10"><Byline post={post} /></div>
         </div>
       </header>
     </Band>
 
     <div class="mx-auto max-w-page px-4 sm:px-6">
-    <div class="grid pt-16 md:grid-cols-margin md:pt-20">
+    <div class="grid pt-12 md:grid-cols-margin md:pt-16">
       <aside class="hidden lg:block">
         {
           /* The nav scrolls, so it clips: its padding, taken back by a
              margin, is room for a link's focus ring. */
           contents.length > 0 && (
             <nav
-              class="sticky top-6.5 -mx-1.5 -mt-1.5 max-h-[calc(100dvh-4rem)] overflow-y-auto px-1.5 pt-1.5 pb-8"
+              class="sticky top-6 -mx-2 -mt-2 max-h-[calc(100dvh-4rem)] overflow-y-auto px-2 pt-2 pb-8"
               aria-label="Contents"
               data-contents
             >
-              <ol class="space-y-2.5 border-l border-rule">
+              <ol class="space-y-2 border-l border-rule">
                 {contents.map((h) => (
                   <li>
                     <a
                       href={`#${h.slug}`}
-                      class="-ml-px block border-l border-transparent pl-3 pointer-coarse:py-[0.8125rem] text-sm leading-[1.4] text-graphite transition-colors hover:text-ink aria-[current]:border-ink aria-[current]:text-ink"
+                      class="-ml-px block border-l border-transparent pl-3 pointer-coarse:py-3 text-sm  text-graphite transition-colors hover:text-ink aria-[current]:border-ink aria-[current]:text-ink"
                     >
                       {plain(h.text)}
                     </a>
@@ -123,7 +123,7 @@ const back = earlier;
                     <a href={`/${next.id}`} class="t-h3 entry-link stretch focus-inset group-hover:decoration-graphite">
                       {next.data.title}
                     </a>
-                    <span class="leading-relaxed text-graphite mt-2 line-clamp-2">{next.data.description}</span>
+                    <span class=" text-graphite mt-2 line-clamp-2">{next.data.description}</span>
                     {/* No date: that is the archive's business, not a reader's choosing the next part. */}
                     <span class="text-sm mt-4 flex items-center gap-5 text-graphite">
                       <span class="flex items-center gap-2"><Icon icon={Clock} />{minutes(next)} min read</span>

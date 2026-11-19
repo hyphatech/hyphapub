@@ -35,7 +35,7 @@ const lede = lead && ledeOf(lead);
               </div>
             </div>
           </Band>
-          <div class="mx-auto grid max-w-page px-4 py-16 sm:px-6 md:grid-cols-margin md:py-20">
+          <div class="mx-auto grid max-w-page px-4 py-12 sm:px-6 md:grid-cols-margin md:py-16">
           <div class="min-w-0 md:col-start-2">
             {lead.data.cover && (
               <img
@@ -59,7 +59,7 @@ const lede = lead && ledeOf(lead);
         </article>
         {rest.length > 0 && (
           <section class="border-t border-rule" aria-label="Earlier posts">
-            <div class="mx-auto max-w-page px-4 pt-16 sm:px-6 md:pt-20">
+            <div class="mx-auto max-w-page px-4 pt-12 sm:px-6 md:pt-16">
               <Rows posts={rest} />
             </div>
           </section>

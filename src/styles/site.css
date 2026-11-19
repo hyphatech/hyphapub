@@ -37,13 +37,21 @@
   --font-sans: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
 
+  /* The ladder: every size with its line, both whole steps of the 4px
+     unit (0.25rem), so every line of text sits on one grid. */
   --text-xs: 0.75rem;
-  --text-xs--line-height: 1.35;
+  --text-xs--line-height: 1rem;
   --text-sm: 0.875rem;
-  --text-sm--line-height: 1.4;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
 
   --radius-control: 4px;
-  --radius-panel: 10px;
+  --radius-panel: 12px;
 
   --ease-glide: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-state: cubic-bezier(0.4, 0, 0.2, 1);
@@ -103,7 +111,7 @@
   }
   :focus-visible {
     outline: 2px solid var(--color-accent);
-    outline-offset: var(--ring-offset, 3px);
+    outline-offset: var(--ring-offset, 4px);
   }
   .theme-light {
     --color-ivory: var(--paper);
@@ -207,9 +215,17 @@
   text-wrap: balance;
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: clamp(2.75rem, 5.5vw, 5rem);
-  line-height: 1.05;
+  font-size: 3rem;
+  line-height: 3.25rem;
   letter-spacing: -0.025em;
+  @media (width >= 48rem) {
+    font-size: 4rem;
+    line-height: 4.25rem;
+  }
+  @media (width >= 64rem) {
+    font-size: 5rem;
+    line-height: 5.25rem;
+  }
 }
 
 @utility t-h1 {
@@ -217,9 +233,13 @@
   font-family: var(--font-serif);
   font-weight: 400;
   font-variant-numeric: lining-nums tabular-nums;
-  font-size: clamp(2rem, 4vw, 3rem);
-  line-height: 1.05;
+  font-size: 2rem;
+  line-height: 2.5rem;
   letter-spacing: -0.01em;
+  @media (width >= 64rem) {
+    font-size: 3rem;
+    line-height: 3.25rem;
+  }
 }
 
 @utility t-h2 {
@@ -227,24 +247,32 @@
   font-family: var(--font-serif);
   font-weight: 400;
   font-variant-numeric: lining-nums tabular-nums;
-  font-size: clamp(1.5rem, 2.8vw, 2rem);
-  line-height: 1.2;
+  font-size: 1.5rem;
+  line-height: 2rem;
   letter-spacing: -0.005em;
+  @media (width >= 64rem) {
+    font-size: 2rem;
+    line-height: 2.5rem;
+  }
 }
 
 @utility t-h3 {
   text-wrap: balance;
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: 1.5rem;
-  line-height: 1.25;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  @media (width >= 48rem) {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
 }
 
 @utility t-lede {
   font-family: var(--font-sans);
   font-weight: 400;
   font-size: 1.25rem;
-  line-height: 1.5;
+  line-height: 1.75rem;
   color: color-mix(in oklab, var(--color-ink) 72%, var(--color-ivory));
   text-wrap: pretty;
 }
@@ -262,21 +290,21 @@
   font-family: var(--font-sans);
   font-weight: 500;
   font-size: 0.875rem;
-  line-height: 1.4;
+  line-height: 1.25rem;
 }
 
 @utility t-control {
   font-family: var(--font-sans);
   font-weight: 500;
   font-size: var(--text-sm);
-  line-height: 1.25;
+  line-height: 1.25rem;
 }
 
 @utility t-caption {
   font-family: var(--font-sans);
   font-weight: 400;
   font-size: var(--text-xs);
-  line-height: 1.5;
+  line-height: 1rem;
 }
 
 /* Label in the margin, words on the line. */
@@ -307,7 +335,7 @@
 /* The ring goes inside, clear of rounded corners: outside, a frame's clip
    or the next cell's ground would hide it. */
 @utility focus-inset {
-  --ring-offset: -6px;
+  --ring-offset: -8px;
 }
 
 /* An entry is one link, its title, stretched over it: a screen reader
@@ -323,7 +351,7 @@
   }
   &:focus-visible::after {
     outline: 2px solid var(--color-accent);
-    outline-offset: var(--ring-offset, 3px);
+    outline-offset: var(--ring-offset, 4px);
   }
 }
 
@@ -344,22 +372,38 @@
 
 /* The article, on Tufte's grid. */
 .prose {
+  /* Each size with its line, and the space between blocks, from the
+     ladder: on a phone 16 on 28, from 40rem 20 on 32. */
   --prose-text: 1rem;
+  --prose-line: 1.75rem;
+  --prose-gap: 1.25rem;
   --prose-h2: 1.5rem;
+  --prose-h2-line: 2rem;
+  --prose-h2-gap: 2.5rem;
   --prose-h3: 1.25rem;
+  --prose-h3-line: 1.75rem;
+  --prose-h3-gap: 2rem;
   --prose-code: 0.875rem;
   --prose-note: 0.875rem;
+  --prose-note-line: 1.25rem;
   --prose-sup: 0.75rem;
   @media (width >= 40rem) {
     --prose-text: 1.25rem;
+    --prose-line: 2rem;
+    --prose-gap: 1.5rem;
     --prose-h2: 2rem;
+    --prose-h2-line: 2.5rem;
+    --prose-h2-gap: 4rem;
     --prose-h3: 1.5rem;
+    --prose-h3-line: 2rem;
+    --prose-h3-gap: 3rem;
     --prose-code: 1rem;
     --prose-note: 1rem;
+    --prose-note-line: 1.5rem;
     --prose-sup: 0.875rem;
   }
   font-size: var(--prose-text);
-  line-height: 1.6;
+  line-height: var(--prose-line);
   color: var(--color-ink);
   /* A long path breaks: on a phone with large text, `/etc/lxc/…` would
      push the page sideways. */
@@ -369,7 +413,7 @@
     max-width: var(--measure);
   }
   & > * + * {
-    margin-top: 1.25em;
+    margin-top: var(--prose-gap);
   }
   & > :first-child {
     margin-top: 0;
@@ -378,29 +422,29 @@
     font-family: var(--font-serif);
     font-weight: 400;
     font-size: var(--prose-h2);
-    line-height: 1.2;
+    line-height: var(--prose-h2-line);
     letter-spacing: -0.005em;
     text-wrap: balance;
-    margin-top: 2.4em;
+    margin-top: var(--prose-h2-gap);
     scroll-margin-top: 2rem;
   }
   & h3 {
     font-family: var(--font-serif);
     font-weight: 400;
     font-size: var(--prose-h3);
-    line-height: 1.25;
+    line-height: var(--prose-h3-line);
     text-wrap: balance;
-    margin-top: 2.2em;
+    margin-top: var(--prose-h3-gap);
     scroll-margin-top: 2rem;
   }
   & h4 {
     font-weight: 500;
-    margin-top: 2em;
+    margin-top: var(--prose-h3-gap);
   }
   & h2 + *,
   & h3 + *,
   & h4 + * {
-    margin-top: 0.75em;
+    margin-top: 0.75rem;
   }
   & a {
     text-decoration-line: underline;
@@ -454,31 +498,31 @@
     color: color-mix(in oklab, var(--color-ink) 72%, var(--color-ivory));
   }
   & blockquote > * + * {
-    margin-top: 0.75em;
+    margin-top: 0.75rem;
   }
   & hr {
     border: 0;
     border-top: 1px solid var(--color-rule);
-    margin-block: 3em;
+    margin-block: var(--prose-h2-gap);
   }
   & :not(pre) > code {
     font-family: var(--font-mono);
     font-size: var(--prose-code);
-    padding: 0.12em 0.36em;
+    padding: 0 0.25rem;
     border-radius: var(--radius-control);
     background: var(--color-raised);
   }
   & > .code {
     position: relative;
-    margin-block: 1.75em;
+    margin-block: 2rem;
   }
   & > .code + .code {
-    margin-top: 1em;
+    margin-top: 1rem;
   }
   & pre {
     font-family: var(--font-mono);
     font-size: 0.875rem;
-    line-height: 1.65;
+    line-height: 1.5rem;
     padding: 1.25rem 1.5rem;
     border: 1px solid var(--color-rule);
     border-radius: var(--radius-panel);
@@ -554,7 +598,7 @@
   /* Screenshots arrive white, so a figure sits as paper on the night ground. */
   & > p:has(> img:only-child),
   & > p:has(> a:only-child > img:only-child) {
-    margin-block: 2.25em;
+    margin-block: 2rem;
   }
   & img {
     display: block;
@@ -582,7 +626,7 @@
     }
   }
   & > .video {
-    margin-block: 2.25em;
+    margin-block: 2rem;
   }
   & > .video .player {
     aspect-ratio: 16 / 9;
@@ -593,7 +637,7 @@
   & > .video figcaption {
     margin-top: 0.75rem;
     font-size: var(--text-sm);
-    line-height: 1.4;
+    line-height: 1.25rem;
     color: var(--color-graphite);
   }
   & > .video .player iframe {
@@ -610,6 +654,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 1rem;
+    line-height: 1.5rem;
     font-variant-numeric: tabular-nums;
   }
   & th {
@@ -621,7 +666,7 @@
   }
   & td {
     border-bottom: 1px solid var(--color-rule);
-    padding: 0.625rem 1rem 0.625rem 0;
+    padding: 0.75rem 1rem 0.75rem 0;
     vertical-align: top;
   }
   & sup {
@@ -675,13 +720,13 @@
     & .sidenote-toggle::after {
       content: "";
       position: absolute;
-      inset: -0.75rem -0.625rem;
+      inset: -0.75rem -0.5rem;
     }
   }
   & .sidenote {
     display: none;
     font-size: 0.875rem;
-    line-height: 1.55;
+    line-height: 1.25rem;
     letter-spacing: 0;
     color: var(--color-graphite);
     transition: color 120ms var(--ease-state);
@@ -696,16 +741,16 @@
   }
   & .sidenote-p + .sidenote-p {
     display: block;
-    margin-top: 0.5em;
+    margin-top: 0.5rem;
   }
   @media (width < 80rem) {
     & .sidenote-state:checked + .sidenote {
       display: block;
-      margin-block: 0.5em 0.75em;
+      margin-block: 0.5rem 0.75rem;
       padding-left: 1rem;
       border-left: 1px solid var(--color-rule);
       font-size: var(--prose-note);
-      line-height: 1.6;
+      line-height: var(--prose-note-line);
     }
   }
   /* A note that would meet the one above drops below it, by `clear`. */
@@ -717,8 +762,9 @@
       position: relative;
       width: var(--sidebar);
       margin-right: calc(-1 * (var(--sidebar) + 2.5rem));
-      margin-top: 0.35em;
-      margin-bottom: 1em;
+      /* Its first line centred on the line that calls it. */
+      margin-top: calc((var(--prose-line) - 1.25rem) / 2);
+      margin-bottom: 1rem;
     }
     & .sidenote-state {
       display: none;
@@ -737,7 +783,7 @@
       position: absolute;
       top: 0;
       right: 100%;
-      line-height: 1.6;
+      line-height: 1.25rem;
     }
   }
 }
