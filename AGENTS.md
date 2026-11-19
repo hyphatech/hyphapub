@@ -4,15 +4,18 @@ The source of [hypha.pub](https://hypha.pub), Hypha's engineering blog:
 an Astro site, built to static files and published by GitHub Pages. This
 file is for anyone changing it, human or agent. Readers start at the site.
 
-It shares hyphatech.io's design system: the palette, faces, mark and grid
-in `src/styles/site.css` and `src/layouts/Base.astro` are copied from the
-[hyphatech](https://github.com/hyphatech) site, not imported. A change to
-one belongs in both.
+It is drawn in Hypha's design language, which hyphatech.io and every
+image Hypha posts share, kept with Hypha's rules, outside this
+repository: read it before changing how a page looks. The palette,
+faces, mark, grid, masthead and footer in `src/styles/site.css` and
+`src/layouts/Base.astro` are hyphatech.io's, copied from the
+[hyphatech](https://github.com/hyphatech/hyphatech) site, not imported.
+A change to one belongs in both.
 
 `src/assets/og.jpg` is the image a shared link shows, for every page but
-a post with a `cover`. `design/og.html` draws it: open it in a browser
-1200 × 630 wide and save a screenshot. It is built under a name that
-hashes its bytes, so a site that cached the old card fetches the new one.
+a post with a `cover`, drawn with Hypha's other images. It is built
+under a name that hashes its bytes, so a site that cached the old card
+fetches the new one.
 
 ## Commands
 
@@ -47,24 +50,10 @@ own first line; the description still serves the feed, search and
 cards). Images go in `public/images/<slug>/`.
 
 A diagram is a figure too: an SVG drawn by hand into the same folder,
-never arrows in a code block. It sits on the paper a figure is set on,
-in hyphatech.io's colours for paper -- ink `#15120e`, graphite
-`#655d54`, rules `#d6cfc2`, a raised box `#ebe6dd`, and in a box of
-ink the night's own paper `#f3efe8` and graphite `#948c83` -- with the accent
-`#9a7410` kept for the one thing the figure is about: on its marks,
-never its text, which on paper it would leave too faint to read. The posts'
-figures under `public/images/` are the reference for its boxes, arrows
-and type. Its type is Inter Tight 400, carried inside the drawing --
-an image cannot load the page's fonts, and without it a reader who
-lacks the face sees another -- so a new figure copies their `<style>`
-whole. The face holds the Latin letters, quotes and dashes; a label
-outside them falls back.
-
-The text, its code and its figures keep one measure on hyphatech.io's
-margin grid, as its principles page is set: the contents in the margin,
-the words on the line. A footnote (`[^1]`) follows Tufte: a sidenote
-beside the line that calls it on a wide screen, and below that its
-numeral opens it under that line -- never at the end.
+in the design language's colours and type for a figure on paper; the
+posts' figures under `public/images/` are the reference, and a new one
+copies their `<style>` whole. A footnote is written `[^1]`, and set as
+a sidenote.
 
 A link that leaves hypha.pub opens in a new tab, in a post or in the
 layout: `src/lib/prose.ts` marks a post's, and `Base.astro` its own.
