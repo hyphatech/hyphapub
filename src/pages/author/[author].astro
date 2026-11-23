@@ -25,11 +25,11 @@ const { name, avatar, about } = author(key);
 <Base banded title={name} description={about ? `${name}: ${about}` : `Every post by ${name} on hypha.pub, newest first.`}>
   <Band>
     <header class="grid md:grid-cols-margin">
-      <div class="flex items-center gap-5 md:col-start-2 md:gap-6">
-        <img src={avatar} alt="" width="80" height="80" class="size-16 shrink-0 rounded-full bg-panel object-cover md:size-20" />
+      <div class="flex min-w-0 items-center gap-x-[calc(1rem+4px)] md:col-start-2 md:gap-x-[calc(1.5rem+4px)]">
+        <img src={avatar} alt="" width="96" height="96" class="avatar size-16 shrink-0 md:size-20 lg:size-24" />
         <div class="min-w-0">
           <h1 class="t-h1">{name}</h1>
-          {about && <p class="t-lede mt-2 max-w-[var(--measure)]">{about}</p>}
+          {about && <p class="t-lede mt-1">{about}</p>}
         </div>
       </div>
     </header>

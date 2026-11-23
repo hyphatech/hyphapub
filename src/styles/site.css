@@ -8,11 +8,11 @@
    and graphite only. */
 :root {
   --night: #15120e;
-  --paper: #f3efe8;
+  --paper: #f2f0ec;
   --graphite-on-night: #948c83; /* 5.6:1 */
   --graphite-on-paper: #655d54; /* 5.6:1 */
   --rule-on-night: #3d362c;
-  --rule-on-paper: #d6cfc2;
+  --rule-on-paper: #d6d2cb;
   --accent-on-night: #d4a820;
   --accent-on-paper: #d4a820;
   --rust: #b0541e;
@@ -305,6 +305,15 @@
   font-weight: 400;
   font-size: var(--text-xs);
   line-height: 1rem;
+}
+
+@utility avatar {
+  margin-inline-start: calc(3px + 1px);
+  border-radius: 999px;
+  object-fit: cover;
+  background: var(--color-panel);
+  outline: 1px solid color-mix(in oklab, var(--color-ink) 22%, transparent);
+  outline-offset: 3px;
 }
 
 /* Label in the margin, words on the line. */

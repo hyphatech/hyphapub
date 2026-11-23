@@ -13,7 +13,7 @@
     </marker>
   </defs>
 
-  <rect width="694" height="248" fill="#f3efe8"/>
+  <rect width="694" height="248" fill="#f2f0ec"/>
 
   <!-- Columns: the plan x=24..104, rounds x=136..236, 268..368, 400..500, the understanding x=540..670.
        Rows 44 tall, 10 apart: y=72, 126, 180; centres 94, 148, 202. The plan and the understanding sit on 148. -->
@@ -43,28 +43,28 @@
   <text x="450" y="40" font-size="10" fill="#655d54" letter-spacing="1.2" text-anchor="middle">ROUND 3</text>
 
   <!-- Layer 3: boxes and their text -->
-  <rect x="24" y="116" width="80" height="64" rx="8" fill="#ebe6dd" stroke="#d6cfc2"/>
+  <rect x="24" y="116" width="80" height="64" rx="8" fill="#eae7e1" stroke="#d6d2cb"/>
   <text x="64" y="144" font-size="13" fill="#15120e" text-anchor="middle">Your plan</text>
   <text x="64" y="161" font-size="11" fill="#655d54" text-anchor="middle">unsettled</text>
-  <rect x="136" y="72" width="100" height="44" rx="8" fill="#f3efe8" stroke="#15120e"/>
+  <rect x="136" y="72" width="100" height="44" rx="8" fill="#f2f0ec" stroke="#15120e"/>
   <text x="186" y="91" font-size="13" fill="#15120e" text-anchor="middle">Decision</text>
   <text x="186" y="106" font-size="11" fill="#655d54" text-anchor="middle">answer proposed</text>
-  <rect x="136" y="126" width="100" height="44" rx="8" fill="#f3efe8" stroke="#15120e"/>
+  <rect x="136" y="126" width="100" height="44" rx="8" fill="#f2f0ec" stroke="#15120e"/>
   <text x="186" y="145" font-size="13" fill="#15120e" text-anchor="middle">Decision</text>
   <text x="186" y="160" font-size="11" fill="#655d54" text-anchor="middle">answer proposed</text>
-  <rect x="268" y="72" width="100" height="44" rx="8" fill="#f3efe8" stroke="#15120e"/>
+  <rect x="268" y="72" width="100" height="44" rx="8" fill="#f2f0ec" stroke="#15120e"/>
   <text x="318" y="91" font-size="13" fill="#15120e" text-anchor="middle">Decision</text>
   <text x="318" y="106" font-size="11" fill="#655d54" text-anchor="middle">answer proposed</text>
-  <rect x="268" y="126" width="100" height="44" rx="8" fill="#f3efe8" stroke="#15120e"/>
+  <rect x="268" y="126" width="100" height="44" rx="8" fill="#f2f0ec" stroke="#15120e"/>
   <text x="318" y="145" font-size="13" fill="#15120e" text-anchor="middle">Decision</text>
   <text x="318" y="160" font-size="11" fill="#655d54" text-anchor="middle">answer proposed</text>
-  <rect x="400" y="72" width="100" height="44" rx="8" fill="#f3efe8" stroke="#15120e"/>
+  <rect x="400" y="72" width="100" height="44" rx="8" fill="#f2f0ec" stroke="#15120e"/>
   <text x="450" y="91" font-size="13" fill="#15120e" text-anchor="middle">Decision</text>
   <text x="450" y="106" font-size="11" fill="#655d54" text-anchor="middle">answer proposed</text>
-  <rect x="136" y="180" width="100" height="44" rx="8" fill="#f3efe8" stroke="#655d54" stroke-dasharray="4,3"/>
+  <rect x="136" y="180" width="100" height="44" rx="8" fill="#f2f0ec" stroke="#655d54" stroke-dasharray="4,3"/>
   <text x="186" y="199" font-size="13" fill="#15120e" text-anchor="middle">Fact</text>
   <text x="186" y="214" font-size="11" fill="#655d54" text-anchor="middle">a sub-agent finds</text>
-  <rect x="540" y="116" width="130" height="64" rx="8" fill="#ebe6dd" stroke="#d6cfc2"/>
+  <rect x="540" y="116" width="130" height="64" rx="8" fill="#eae7e1" stroke="#d6d2cb"/>
   <text x="605" y="144" font-size="13" fill="#15120e" text-anchor="middle">Shared</text>
   <text x="605" y="161" font-size="11" fill="#655d54" text-anchor="middle">understanding</text>
 </svg>
