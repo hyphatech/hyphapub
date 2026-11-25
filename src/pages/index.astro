@@ -9,14 +9,16 @@ import Archive from "@lucide/astro/icons/archive";
 import BookOpen from "@lucide/astro/icons/book-open";
 import Rss from "@lucide/astro/icons/rss";
 import { posts, ledeOf, opening } from "../lib/posts";
+import { blogSchema } from "../lib/schema";
 
+const description = "An engineering blog on AI, functional programming, system design and the history of IT.";
 const all = (await posts()).filter((post) => post.data.front);
 const [lead, ...rest] = all;
 
 const lede = lead && ledeOf(lead);
 ---
 
-<Base banded={!!lead} description="An engineering blog on AI, functional programming, system design and the history of IT.">
+<Base banded={!!lead} description={description} schema={blogSchema(description)}>
   {
     lead ? (
       <div>
@@ -26,7 +28,7 @@ const lede = lead && ledeOf(lead);
             <div class="grid md:grid-cols-margin">
               <div class="min-w-0 md:col-start-2">
                 <h2 id="lead" class="t-display max-w-[var(--measure)]">
-                  <a href={`/${lead.id}`} class="transition-opacity hover:opacity-80">
+                  <a href={`/${lead.id}/`} class="transition-opacity hover:opacity-80">
                     {lead.data.title}
                   </a>
                 </h2>
@@ -50,7 +52,7 @@ const lede = lead && ledeOf(lead);
             <div class:list={["prose max-w-[var(--measure)]", lead.data.cover && "mt-8"]}>
               <Fragment set:html={opening(lead).join("")} />
             </div>
-            <a href={`/${lead.id}`} class="btn mt-8" aria-label={`Continue reading ${lead.data.title}`}>
+            <a href={`/${lead.id}/`} class="btn mt-8" aria-label={`Continue reading ${lead.data.title}`}>
               <Icon icon={BookOpen} />
               Continue reading
             </a>
@@ -67,7 +69,7 @@ const lede = lead && ledeOf(lead);
       </div>
     ) : (
       <Empty title="Nothing on the front page yet." lede="Every post so far is in the archive. The feed tells you when the next one is out.">
-        <a class="btn" href="/archive"><Icon icon={Archive} />Read the archive</a>
+        <a class="btn" href="/archive/"><Icon icon={Archive} />Read the archive</a>
         <a class="btn" href="/rss.xml"><Icon icon={Rss} />Follow the feed</a>
       </Empty>
     )

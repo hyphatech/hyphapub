@@ -4,6 +4,7 @@ import Stream from "../../components/Stream.astro";
 import Band from "../../components/Band.astro";
 import { authors, author, type AuthorKey } from "../../lib/authors";
 import { posts, type Post } from "../../lib/posts";
+import { authorSchema } from "../../lib/schema";
 
 export async function getStaticPaths() {
   const all = await posts();
@@ -22,7 +23,7 @@ const { key, signed } = Astro.props;
 const { name, avatar, about } = author(key);
 ---
 
-<Base banded title={name} description={about ? `${name}: ${about}` : `Every post by ${name} on hypha.pub, newest first.`}>
+<Base banded profile schema={authorSchema(key)} title={name} description={about ? `${name}: ${about}` : `Every post by ${name} on hypha.pub, newest first.`}>
   <Band>
     <header class="grid md:grid-cols-margin">
       <div class="flex min-w-0 items-center gap-x-[calc(1rem+4px)] md:col-start-2 md:gap-x-[calc(1.5rem+4px)]">

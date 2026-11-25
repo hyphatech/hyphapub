@@ -9,8 +9,8 @@ import Clock from "@lucide/astro/icons/clock";
 import Copy from "@lucide/astro/icons/copy";
 import Check from "@lucide/astro/icons/check";
 import X from "@lucide/astro/icons/x";
-import { authors } from "../lib/authors";
-import { posts, minutes, ledeOf, type Post } from "../lib/posts";
+import { postSchema } from "../lib/schema";
+import { posts, minutes, ledeOf, cardOf, type Post } from "../lib/posts";
 
 /* Read next stays within a post's series: a series never leads out into another. */
 export async function getStaticPaths() {
@@ -36,7 +36,6 @@ const { Content, headings } = await render(post);
 /* The footnotes' heading is for screen readers, not a section. */
 const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-label");
 const contents = sections.length >= 2 ? sections : [];
-const { name: author } = authors[post.data.author];
 const lede = ledeOf(post);
 const plain = (s: string) => s.replace(/\*\*|__/g, "");
 const next = later;
@@ -47,7 +46,8 @@ const back = earlier;
   banded
   title={post.data.title}
   description={post.data.description}
-  article={{ image: post.data.cover, published: post.data.date, modified: post.data.updated, author }}
+  article={{ image: post.data.cover, card: cardOf(post), published: post.data.date, modified: post.data.updated, author: `/author/${post.data.author}/` }}
+  schema={postSchema(post)}
 >
   <article>
     <Band hero>
@@ -120,7 +120,7 @@ const back = earlier;
                     )
                   }
                   <span class="flex min-w-0 flex-col">
-                    <a href={`/${next.id}`} class="t-h3 entry-link stretch focus-inset group-hover:decoration-graphite">
+                    <a href={`/${next.id}/`} class="t-h3 entry-link stretch focus-inset group-hover:decoration-graphite">
                       {next.data.title}
                     </a>
                     <span class=" text-graphite mt-2 line-clamp-2">{next.data.description}</span>
@@ -138,7 +138,7 @@ const back = earlier;
                 {
                   back && (
                     <a
-                      href={`/${back.id}`}
+                      href={`/${back.id}/`}
                       class:list={["group t-control focus-inset flex min-h-12 items-center gap-3 px-7 py-4 text-graphite transition-colors hover:bg-panel", next && "border-t border-rule"]}
                     >
                       <span class="flex shrink-0 items-center gap-2">

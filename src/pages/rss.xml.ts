@@ -14,6 +14,7 @@ export async function GET(context: APIContext) {
     site,
     /* Without a trailing slash, as the old feed spelt its GUIDs. */
     trailingSlash: false,
+    customData: "<language>en</language>",
     items: (await posts()).map((post) => ({
       title: post.data.title,
       link: `/${post.id}`,

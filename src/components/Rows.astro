@@ -28,7 +28,7 @@ const { posts, level: Title = "h2", class: className } = Astro.props;
         >
           <div class="flex min-w-0 flex-col">
             <Title class="t-h3">
-              <a href={`/${post.id}`} class="entry-link stretch group-hover:decoration-graphite">
+              <a href={`/${post.id}/`} class="entry-link stretch group-hover:decoration-graphite">
                 {post.data.title}
               </a>
             </Title>

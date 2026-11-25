@@ -12,7 +12,7 @@ const posts = defineCollection({
     /* One or two sentences: the feed, search and share cards read it. */
     description: z.string(),
     author: z.enum(Object.keys(authors) as [keyof typeof authors]),
-    /* The front page's preview and the share card: a post's own page shows none. */
+    /* The front page's preview, and the share card of a post with no card: a post's own page shows none. */
     cover: z.string().optional(),
     /* False keeps a post off the front page only: the archive, feed and Read next keep it. */
     front: z.boolean().default(true),

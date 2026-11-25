@@ -13,6 +13,9 @@ export function minutes(post: Post): number {
   return Math.max(1, Math.round(words / 220));
 }
 
+const cards = import.meta.glob<string>("../assets/cards/*.jpg", { query: "?url", import: "default", eager: true });
+export const cardOf = (post: Post): string | undefined => cards[`../assets/cards/${post.id}.jpg`];
+
 const day = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", timeZone: "UTC" });
 const full = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 

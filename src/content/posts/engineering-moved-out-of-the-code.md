@@ -50,7 +50,7 @@ The strictest part of the jig is the compiler, the one reviewer that never gets 
 
 Code written by a machine has been doubted before. When John Backus's team built FORTRAN in the 1950s, programmers had watched the early "automatic programming" systems produce code many times slower than their own, and few believed a machine could write it as well as they did. So the team made the efficiency of the code FORTRAN generated its first goal, ahead of the language itself.[^8] Nobody reads a compiler's output to decide whether to trust it, and nobody thinks less of the people who stopped.
 
-Reviewing your agent's code line by line is [a road to nowhere](/more-eyes-wont-save-you), because agents write more than anyone can read, and a review is a judgement, never a proof. What I read is the jig. When a mistake gets through, I add a check, and that kind of mistake is gone for good.
+Reviewing your agent's code line by line is [a road to nowhere](/more-eyes-wont-save-you/), because agents write more than anyone can read, and a review is a judgement, never a proof. What I read is the jig. When a mistake gets through, I add a check, and that kind of mistake is gone for good.
 
 When the jig is right, what comes out of it is shockingly good. It reads as if one careful person wrote it. It calls the same thing by the same name everywhere, returns its errors instead of throwing them, arrives with tests that were written first and seen failing, and changes its documents in the same commit as its behaviour. It is more consistent than anything I wrote by hand.
 
