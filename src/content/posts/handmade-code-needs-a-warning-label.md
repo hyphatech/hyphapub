@@ -17,6 +17,6 @@ And agents bring to that work what no one can keep up for long. They hold far mo
 
 What's known as "AI slop" exists, of course, and so does the handmade kind (known as "shitcode"). But writing off a whole body of work for the tools behind it is an idiotic prejudice, with the blast radius of any other. I believe it grows in communities that pay for visible effort in stars and respect, and an agent that delivers the same quality without that much labour makes their currency worth less. What I personally need is a solved problem, a working result I can trust, and I couldn't care less how it was done.
 
-I find it reasonable to start labelling "HANDMADE" explicitly, like a cup from a market stall, so everyone knows up front it's the personal taste and approach of whoever made it. It could be graded too, after some mandatory qualification path, so you know before you install it whether that handmade code can be trusted at all, or you're trying to sell us another piece of pointless rubbish you spent so much time creating.
+I find it reasonable to demand a "HANDMADE" label, like the one on a cup from a market stall, so everyone knows up front it runs on someone's hunches. A label means little without a grade, of course, and a grade means nothing without a mandatory qualification behind it, so I know before I install it whether that code can be trusted at all, or whether you're trying to sell me another piece of pointless rubbish you spent far too long making.
 
 Yeah, I see your project on GitHub, cool. Handmade disclosure?
