@@ -7,7 +7,7 @@ series: agentic-engineering
 cover: /images/handmade-code-needs-a-warning-label/human-computers.jpg
 ---
 
-That demand says nothing about the actual work, though. Calculating by hand was respected work once, with whole floors of human computers at their machines, and today nobody would brag about a week spent on an equation a computer solves in a few seconds.
+Show today's engineers anything built with agents, and someone will demand an AI disclosure before they even look at what it does. That demand says nothing about the actual work, though. Calculating by hand was respected work once, with whole floors of human computers at their machines, and today nobody would brag about a week spent on an equation a computer solves in a few seconds.
 
 ![A long hall of rows of clerks, most of them women, each at a mechanical calculating machine, under a sign that reads Computing Division, Computing Section. The US Veterans Bureau's Computing Division in 1924, from the Library of Congress.](/images/handmade-code-needs-a-warning-label/human-computers.jpg)
 

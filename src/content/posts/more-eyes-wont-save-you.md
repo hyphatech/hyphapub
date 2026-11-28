@@ -18,7 +18,7 @@ None of these approaches scales, and the last one is where everyone ends up, bec
 
 Moreover, each merged PR can be perfectly fine on its own. But together, they turn into a mess no one can follow in full, and "production readiness" quietly stops meaning anything.
 
-The trouble is that the review process as we know it was built by humans for humans, based on the idea that "more eyes catch more mistakes" — an attempt to collectively overcome our cognitive limitations. Maybe we could just add more AI to that AI to keep things aligned? This brilliant idea works to some extent, but appears to be little more than a patchwork of shallow fixes that still have to be reviewed. Prompting → worktrees → slow and flaky CI. Repeat. Deploy. Feel free to use that MCP to figure out why the latest change is now producing two more runtime errors and why they affect the whole system, all of a sudden.
+The trouble is that the review process as we know it was built by humans for humans, based on the idea that "more eyes catch more mistakes" – an attempt to collectively overcome our cognitive limitations. Maybe we could just add more AI to that AI to keep things aligned? This brilliant idea works to some extent, but appears to be little more than a patchwork of shallow fixes that still have to be reviewed. Prompting → worktrees → slow and flaky CI. Repeat. Deploy. Feel free to use that MCP to figure out why the latest change is now producing two more runtime errors and why they affect the whole system, all of a sudden.
 
 So you add one more line to `AGENTS.md`, something like "think about the whole system before you change anything, you piece of crap", and hope the model takes it to heart next time. Prompting quality, you know.
 

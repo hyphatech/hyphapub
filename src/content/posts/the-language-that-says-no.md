@@ -152,7 +152,7 @@ let () =
 
 That one mechanism does more than end the colours. Code asks, and the handler around it decides, so what other languages need a dependency injection framework for comes close to being a property of the language. And a paused function keeps a real stack of its own, so the debuggers and profilers that walk the stack keep working on code that waits.[^retrofit-stack]
 
-TypeScript has an ambitious library after the same idea, Effect, where a program is a value of type `Effect<Success, Error, Requirements>`, "a description of a workflow or operation that is lazily executed", which tracks in its types the errors and dependencies OCaml leaves untyped.[^effect-ts] It is a library on top of the language, though, so the code that uses it is written as Effect values, in generators or pipelines, and calling it from plain TypeScript is a boundary of its own, another colour. OCaml has effects in the language itself, so a function that uses one is written like any other function, and the functions that call it do not change.
+TypeScript has an ambitious library built on the same idea, Effect, where a program is a value of type `Effect<Success, Error, Requirements>`, "a description of a workflow or operation that is lazily executed", which tracks in its types the errors and dependencies OCaml leaves untyped.[^effect-ts] It is a library on top of the language, though, so the code that uses it is written as Effect values, in generators or pipelines, and calling it from plain TypeScript is a boundary of its own, another colour. OCaml has effects in the language itself, so a function that uses one is written like any other function, and the functions that call it do not change.
 
 Eio is the library that puts effects to work for I/&#8288;O and concurrency in OCaml 5.[^eio] It sets a waiting function aside and runs others until its answer arrives, so the lookup can move to a database and `greet` does not change by a character:
 
@@ -206,17 +206,17 @@ The biggest bet is Jane Street's. Its people made it "the world's largest indust
 
 Bloomberg built BuckleScript, a compiler from OCaml to JavaScript, in 2016,[^bucklescript] and Melange carried it on inside the OCaml world when BuckleScript became ReScript.[^melange] Ahrefs, the SEO company, crawls the whole web every day with OCaml on more than four thousand servers,[^ahrefs] and in 2023 it moved all of its front ends to Melange as well.[^ahrefs-melange] MirageOS builds unikernels in OCaml, each an operating system made of only the libraries one application needs, and Docker's networking on Mac and Windows came from it.[^docker] Owl, begun at the University of Cambridge in 2016, does scientific and engineering computing in OCaml.[^owl]
 
-The objection that matters for agents is that models have read far less OCaml than TypeScript or Python, and Jane Street trains its own for that reason.[^jane-ai] Leroy's latest feedback is that the OCaml models write is "quite decent and quite similar in quality to more popular languages", and that "one thing that seems to help the generative AI is a type system".[^leroy-llm] Where a model does get it wrong, the compiler tells it so on its first try. In a language that describes, the same mistake gets through and waits for a user to find it.
+The objection that matters for agents is that models have read far less OCaml than TypeScript or Python, and Jane Street trains its own for that reason.[^jane-ai] Leroy's latest view is that the OCaml models write is "quite decent and quite similar in quality to more popular languages", and that "one thing that seems to help the generative AI is a type system".[^leroy-llm] Where a model does get it wrong, the compiler tells it so on its first try. In a language that describes, the same mistake gets through and waits for a user to find it.
 
 Writing code gets cheaper, and checking that it is correct does not.[^leroy-slop] A type checker is the cheapest check there is.
 
 ## One language to rule them all
 
-OCaml's problem was never a lack of libraries so much as libraries that fit together. A library that made its own choices about errors, JSON or time makes every one around it translate. A coherent ecosystem is what matters, and it is why Jane Street built its own, with its own standard library, its own concurrency and its own build tool, which became Dune, the one most OCaml projects build with.[^jane-world]
+OCaml's problem was never a lack of libraries so much as a lack of ones that fit together. A library that made its own choices about errors, JSON or time makes every one around it translate. A coherent ecosystem is what matters, and it is why Jane Street built its own, with its own standard library, its own concurrency and its own build tool, which became Dune, the one most OCaml projects build with.[^jane-world]
 
 OCaml 5 adds a second problem to the first. Effects are new, so most OCaml libraries were written before them and do not use them. Eio could only exist once OCaml 5 did. An ecosystem that uses OCaml 5 in full has to be built for it.
 
-And we build one — [Hypha Stack](https://hyphatech.io/stack), components made to fit together. [Spindle](https://hyphatech.io/stack/spindle) serves the API over HTTP, [wiretype](https://hyphatech.io/stack/wiretype) describes its data once, [rowtype](https://hyphatech.io/stack/rowtype) and [postgres-eio](https://hyphatech.io/stack/postgres-eio) put that data in Postgres, [spool](https://hyphatech.io/stack/spool) runs the jobs, and [solidtype](https://hyphatech.io/stack/solidtype) builds the UI, to name a few.
+And we build one – [Hypha Stack](https://hyphatech.io/stack), components made to fit together. [Spindle](https://hyphatech.io/stack/spindle) serves the API over HTTP, [wiretype](https://hyphatech.io/stack/wiretype) describes its data once, [rowtype](https://hyphatech.io/stack/rowtype) and [postgres-eio](https://hyphatech.io/stack/postgres-eio) put that data in Postgres, [spool](https://hyphatech.io/stack/spool) runs the jobs, and [solidtype](https://hyphatech.io/stack/solidtype) builds the UI, to name a few.
 
 Look at how little it takes. A line of an order, as wiretype's own example has it:
 
@@ -239,7 +239,7 @@ the API's OpenAPI document, and the same type in the front end, through a client
 
 So the server and the front end cannot disagree about what a line is. A change on the server that the front end has not caught up with is a compile error, found by whoever made the change, seconds after making it, with its file and line. In a stack that finds out at run time the same change ships, a user meets it as a broken page, and someone works back from there to the cause. SQL gets the same treatment, since rowtype checks every statement against the migrated database before anything ships.
 
-The same holds above the code. We are building an ontology of what a backend is made of — each concept, what it means, which component provides it, which checks hold it — and it is written in OCaml too.
+The same holds above the code. We are building an ontology of what a backend is made of – each concept, what it means, which component provides it, which checks hold it – and it is written in OCaml too.
 
 Milner did not trust the person at the computer at night, himself included, and he did not ask them to be more careful. He built a language in which the careless thing could not be written. An agent will stay up all night writing code, and it should, in a language that says no.
 

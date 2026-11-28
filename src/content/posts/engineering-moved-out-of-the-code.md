@@ -10,11 +10,11 @@ I drafted this post with an agent. Openings and closings are never easy, so I as
 
 Plenty of engineers would take that as proof that an LLM can't be trusted with anything, and blame any code it wrote before reading a line of it. Most arguments about AI and code I hear run on that reflex. Meanwhile everyone who works with an agent thinks of themselves as a 10x engineer. Sometimes the result is real slop, vibe-coded shit nobody can follow. Other times the same kind of LLM-assisted work comes out clean and deliberate, the kind of code a senior engineer would put their name to. Both get called "AI-generated code", and the LLM is the only thing they have in common.
 
-In February 2025 [Andrej Karpathy](https://karpathy.ai), who co-founded OpenAI and led AI at Tesla, named one of them: "There's a new kind of coding I call 'vibe coding', where you fully give in to the vibes, embrace exponentials, and forget that the code even exists."[^1] He meant weekend projects, and said so. The name escaped anyway, and came to cover every codebase nobody understands. A year later he gave the other activity its name, agentic engineering — designing the system and stating its constraints, then letting agents build what has already been reasoned through.[^2] He talked it through with Sequoia's Stephanie Zhan:
+In February 2025 [Andrej Karpathy](https://karpathy.ai), who co-founded OpenAI and led AI at Tesla, named one of them: "There's a new kind of coding I call 'vibe coding', where you fully give in to the vibes, embrace exponentials, and forget that the code even exists."[^1] He meant weekend projects, and said so. The name escaped anyway, and came to cover every codebase nobody understands. A year later he gave the other activity its name, agentic engineering – designing the system and stating its constraints, then letting agents build what has already been reasoned through.[^2] He talked it through with Sequoia's Stephanie Zhan:
 
 [Andrej Karpathy: From Vibe Coding to Agentic Engineering](https://www.youtube.com/watch?v=96jN2OCOfLs)
 
-What they share is the setup — in both, a person asks and an agent writes the code. So the critics see an agent at the keyboard and conclude that nobody did any engineering, which is exactly true of vibe coding. Whether the other one is engineering at all is less clear.
+What they share is the setup – in both, a person asks and an agent writes the code. So the critics see an agent at the keyboard and conclude that nobody did any engineering, which is exactly true of vibe coding. Whether the other one is engineering at all is less clear.
 
 ## A tool is something you wield
 
