@@ -40,7 +40,7 @@ export function opening(post: Post, most = 2): string[] {
   let paragraphs = 0;
   while (paragraphs < most) {
     const block = html.match(/^<(p|blockquote)>[\s\S]*?<\/\1>/);
-    if (!block || /<(img|input|label|code)\b/.test(block[0])) break;
+    if (!block || /<(img|code)\b|data-footnote-ref/.test(block[0])) break;
     taken.push(block[0]);
     if (block[1] === "p") paragraphs++;
     html = html.slice(block[0].length).trim();

@@ -1,134 +1,110 @@
+import type { Element, ElementContent, Parents, Properties } from "hast";
 import type { ShikiTransformer } from "shiki";
 import { defineHastPlugin } from "satteri";
 import sharp from "sharp";
 
+const el = (tagName: string, properties: Properties, children: ElementContent[] = []): Element => ({
+  type: "element",
+  tagName,
+  properties,
+  children,
+});
+
+const text = (value: string): ElementContent => ({ type: "text", value });
+
+const isElement = (node: unknown, tagName: string): node is Element =>
+  (node as Element | undefined)?.type === "element" && (node as Element).tagName === tagName;
+
+const elements = function* (node: Parents): Generator<Element> {
+  for (const child of node.children) {
+    if (child.type !== "element") continue;
+    yield child;
+    yield* elements(child);
+  }
+};
+
+const has = (node: Element, key: string) => node.properties[key] !== undefined;
+
 /* Every block of code is wrapped, so it can carry its copy button. */
 export const codeBlock: ShikiTransformer = {
   root(root) {
-    root.children = [
-      {
-        type: "element",
-        tagName: "div",
-        properties: { className: ["code"] },
-        children: root.children as never,
-      },
-    ];
+    root.children = [el("div", { className: ["code"] }, root.children as ElementContent[])];
   },
 };
 
-type Node = {
-  type: string;
-  tagName?: string;
-  value?: string;
-  properties?: Record<string, unknown>;
-  children?: Node[];
-};
+const notePrefix = "user-content-fn-";
 
-const walk = (node: Node, visit: (node: Node) => void) => {
-  visit(node);
-  node.children?.forEach((child) => walk(child, visit));
-};
-
-const has = (node: Node | undefined, key: string) => node?.properties?.[key] !== undefined;
-
-/* A checkbox and its label open a note without a script. The footnotes
-   at the end are dropped: each note is read once. */
-const sidenotes = () => {
-  const notes = new Map<string, Node[]>();
-  return defineHastPlugin({
+/* A note is set twice: beside its line in the margin on a wide screen,
+   and in the list at the end below that width, where the numeral links
+   to it, as an article's references are. Each is shown at its own width
+   only, so a screen reader meets one. Its paragraphs become spans, as it
+   sits inside the paragraph that calls it. */
+const sidenotes = () =>
+  defineHastPlugin({
     name: "sidenotes",
-    before(root) {
-      notes.clear();
-      walk(root as Node, (node) => {
-        const id = node.properties?.id;
-        if (node.tagName !== "li" || typeof id !== "string" || !id.includes("fn-")) return;
-        const paragraphs = (node.children ?? []).filter((c) => c.tagName === "p");
+    before(root, ctx) {
+      const notes = new Map<string, ElementContent[]>();
+      for (const li of elements(root)) {
+        const id = li.properties.id;
+        if (li.tagName !== "li" || typeof id !== "string" || !id.startsWith(notePrefix)) continue;
         notes.set(
           id,
-          paragraphs.map((p) => ({
-            type: "element",
-            tagName: "span",
-            properties: { className: ["sidenote-p"] },
-            children: (p.children ?? []).filter((c) => !(c.tagName === "a" && has(c, "dataFootnoteBackref"))),
-          })),
+          li.children
+            .filter((p) => isElement(p, "p"))
+            .map((p) =>
+              el(
+                "span",
+                { className: ["sidenote-p"] },
+                p.children.filter((c) => !(isElement(c, "a") && has(c, "dataFootnoteBackref"))),
+              ),
+            ),
         );
-      });
+      }
+      ctx.data.notes = notes;
     },
     element: {
       filter: ["sup", "section"],
       visit(node, ctx) {
         if (node.tagName === "section") {
-          if (has(node as Node, "dataFootnotes")) ctx.removeNode(node);
+          if (!has(node, "dataFootnotes")) return;
+          ctx.replaceNode(node, {
+            ...node,
+            properties: { ...node.properties, className: ["notes"] },
+            children: node.children.map((c) =>
+              isElement(c, "h2") ? { ...c, properties: { ...c.properties, className: ["notes-title"] }, children: [text("References")] } : c,
+            ),
+          });
           return;
         }
-        const ref = (node.children as Node[]).find((a) => a.tagName === "a" && has(a, "dataFootnoteRef"));
-        const href = ref?.properties?.href;
-        const id = typeof href === "string" ? decodeURIComponent(href.slice(1)) : undefined;
-        if (!id || !notes.has(id)) return;
-        const n = ctx.textContent(node);
-        const state = `sn-${id}`;
-        /* The label is hidden from a screen reader: it hears the box, named
-           for the note, and then the note. */
+        const ref = node.children.find((a): a is Element => isElement(a, "a") && has(a, "dataFootnoteRef"));
+        const href = ref?.properties.href;
+        const note = typeof href === "string" ? (ctx.data.notes as Map<string, ElementContent[]>).get(decodeURIComponent(href.slice(1))) : undefined;
+        if (!ref || !note) return;
         ctx.replaceNode(node, [
-          {
-            type: "element",
-            tagName: "sup",
-            properties: {},
-            children: [
-              {
-                type: "element",
-                tagName: "label",
-                properties: { htmlFor: state, className: ["sidenote-toggle"], ariaHidden: "true" },
-                children: [{ type: "text", value: n }],
-              },
-            ],
-          },
-          {
-            type: "element",
-            tagName: "input",
-            properties: { type: "checkbox", id: state, className: ["sidenote-state"], ariaLabel: `Note ${n}` },
-            children: [],
-          },
-          {
-            type: "element",
-            tagName: "span",
-            properties: { className: ["sidenote"], role: "note" },
-            children: [
-              { type: "element", tagName: "span", properties: { className: ["sidenote-n"] }, children: [{ type: "text", value: n }] },
-              ...notes.get(id)!,
-            ],
-          },
-        ] as never);
+          el("sup", {}, [{ ...ref, properties: { ...ref.properties, className: ["sidenote-toggle"] } }]),
+          el("span", { className: ["sidenote"], role: "note" }, [el("span", { className: ["sidenote-n"] }, [text(ctx.textContent(node))]), ...note]),
+        ]);
       },
     },
   });
-};
 
 /* A missing file is warned of and left unsized, never thrown: the content
    loader would log the error and ship the post without its text. */
-const figures = () => {
-  const sizes = new Map<string, Promise<{ width?: number; height?: number }>>();
-  const sizeOf = (src: string) => {
-    if (!sizes.has(src)) {
-      const file = new URL(`../../public${decodeURI(src)}`, import.meta.url);
-      sizes.set(
-        src,
-        sharp(decodeURIComponent(file.pathname))
-          .metadata()
-          .catch(() => {
-            console.warn(`A post's figure has no file in public/: ${src}`);
-            return {};
-          }),
-      );
-    }
-    return sizes.get(src)!;
-  };
-  return defineHastPlugin({
+const sizeOf = (src: string): Promise<{ width?: number; height?: number }> =>
+  sharp(decodeURIComponent(new URL(`../../public${src}`, import.meta.url).pathname))
+    .metadata()
+    .catch(() => {
+      console.warn(`A post's figure has no file in public/: ${src}`);
+      return {};
+    });
+
+const figures = () =>
+  defineHastPlugin({
     name: "figures",
     element: {
       filter: ["img"],
       async visit(node, ctx) {
-        const src = node.properties?.src;
+        const src = node.properties.src;
         if (typeof src !== "string" || !src.startsWith("/")) return;
         const { width, height } = await sizeOf(src);
         if (width && height) {
@@ -142,7 +118,6 @@ const figures = () => {
       },
     },
   });
-};
 
 const tables = () =>
   defineHastPlugin({
@@ -150,19 +125,19 @@ const tables = () =>
     element: {
       filter: ["table"],
       visit(node, ctx) {
-        ctx.wrapNode(node, { type: "element", tagName: "div", properties: { className: ["table-wrap"], tabIndex: 0 }, children: [] } as never);
+        ctx.wrapNode(node, el("div", { className: ["table-wrap"], tabIndex: 0 }));
       },
     },
   });
 
+const parse = (href: string) => (URL.canParse(href) ? new URL(href) : undefined);
+
 /* Played from YouTube's privacy-enhanced host. The link stays under it
    as its caption: a feed reader, which plays nothing, keeps that. */
 const youtubeId = (href: string) => {
-  try {
-    const url = new URL(href);
-    if (url.hostname === "youtu.be") return url.pathname.slice(1) || undefined;
-    if (url.hostname.endsWith("youtube.com") && url.pathname === "/watch") return url.searchParams.get("v") ?? undefined;
-  } catch {}
+  const url = parse(href);
+  if (url?.hostname === "youtu.be") return url.pathname.slice(1) || undefined;
+  if (url?.hostname.endsWith("youtube.com") && url.pathname === "/watch") return url.searchParams.get("v") ?? undefined;
   return undefined;
 };
 
@@ -172,32 +147,19 @@ const videos = () =>
     element: {
       filter: ["p"],
       visit(node, ctx) {
-        const children = (node.children as Node[]).filter((c) => !(c.type === "text" && !c.value?.trim()));
-        const link = children.length === 1 && children[0].tagName === "a" ? children[0] : undefined;
-        const href = link?.properties?.href;
+        const children = node.children.filter((c) => !(c.type === "text" && !c.value.trim()));
+        const link = children.length === 1 && isElement(children[0], "a") ? children[0] : undefined;
+        const href = link?.properties.href;
         const id = typeof href === "string" ? youtubeId(href) : undefined;
         if (!link || !id) return;
-        const player: Node = {
-          type: "element",
-          tagName: "iframe",
-          properties: {
-            src: `https://www.youtube-nocookie.com/embed/${id}`,
-            title: ctx.textContent(link as never),
-            loading: "lazy",
-            allow: "encrypted-media; picture-in-picture; fullscreen",
-            referrerPolicy: "strict-origin-when-cross-origin",
-          },
-          children: [],
-        };
-        ctx.replaceNode(node, {
-          type: "element",
-          tagName: "figure",
-          properties: { className: ["video"] },
-          children: [
-            { type: "element", tagName: "div", properties: { className: ["player"] }, children: [player] },
-            { type: "element", tagName: "figcaption", properties: {}, children: [link] },
-          ],
-        } as never);
+        const player = el("iframe", {
+          src: `https://www.youtube-nocookie.com/embed/${id}`,
+          title: ctx.textContent(link),
+          loading: "lazy",
+          allow: "encrypted-media; picture-in-picture; fullscreen",
+          referrerPolicy: "strict-origin-when-cross-origin",
+        });
+        ctx.replaceNode(node, el("figure", { className: ["video"] }, [el("div", { className: ["player"] }, [player]), el("figcaption", {}, [link])]));
       },
     },
   });
@@ -209,8 +171,9 @@ const outside = () =>
     element: {
       filter: ["a"],
       visit(node, ctx) {
-        const href = node.properties?.href;
-        if (typeof href !== "string" || !/^https?:/.test(href) || new URL(href).hostname === "hypha.pub") return;
+        const href = node.properties.href;
+        const url = typeof href === "string" && /^https?:/.test(href) ? parse(href) : undefined;
+        if (!url || url.hostname === "hypha.pub") return;
         ctx.setProperty(node, "target", "_blank");
         ctx.setProperty(node, "rel", "noopener");
       },

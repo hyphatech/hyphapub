@@ -277,7 +277,6 @@
   text-wrap: pretty;
 }
 
-/* The year, in the margin. */
 @utility t-number {
   font-family: var(--font-serif);
   font-weight: 400;
@@ -316,14 +315,13 @@
   outline-offset: 3px;
 }
 
-/* Label in the margin, words on the line. */
 @utility grid-cols-margin {
   grid-template-columns: calc(var(--margin) - 2.5rem) minmax(0, 1fr);
   column-gap: 2.5rem;
 }
 
-/* hyphatech.io's buttons. The clear border keeps its edge where forced
-   colours drop the fill. */
+/* The clear border keeps a button's edge where forced colours drop the
+   fill. */
 @utility btn-primary {
   @apply t-control rounded-control inline-flex h-10 pointer-coarse:h-11 cursor-pointer items-center gap-2 border border-transparent bg-ink px-5 text-ivory transition-opacity hover:opacity-85;
 }
@@ -379,10 +377,7 @@
   }
 }
 
-/* The article, on Tufte's grid. */
 .prose {
-  /* Each size with its line, and the space between blocks, from the
-     ladder: on a phone 16 on 28, from 40rem 20 on 32. */
   --prose-text: 1rem;
   --prose-line: 1.75rem;
   --prose-gap: 1.25rem;
@@ -555,7 +550,6 @@
   & pre code {
     font-family: inherit;
   }
-  /* Always shown to a finger, which has no hover. */
   & .copy {
     position: absolute;
     top: 0.5rem;
@@ -595,6 +589,7 @@
     color: var(--color-ink);
     background: var(--color-raised);
   }
+  /* Always shown to a finger, which has no hover. */
   @media (pointer: coarse) {
     & .copy {
       opacity: 1;
@@ -604,11 +599,11 @@
       height: 2.75rem;
     }
   }
-  /* Screenshots arrive white, so a figure sits as paper on the night ground. */
   & > p:has(> img:only-child),
   & > p:has(> a:only-child > img:only-child) {
     margin-block: 2rem;
   }
+  /* Screenshots arrive white, so a figure sits as paper on the night ground. */
   & img {
     display: block;
     max-width: 100%;
@@ -687,7 +682,7 @@
   & .sidenote-toggle {
     padding-inline: 0.1em;
     border-radius: 2px;
-    cursor: pointer;
+    color: inherit;
     text-decoration-line: underline;
     text-decoration-style: dotted;
     text-decoration-color: color-mix(in oklab, var(--color-graphite) 60%, transparent);
@@ -697,29 +692,14 @@
       color 120ms var(--ease-state),
       text-decoration-color 120ms var(--ease-state);
   }
-  /* A numeral and its note light up together, from either side. */
   & sup:hover .sidenote-toggle,
-  & sup:has(+ .sidenote-state + .sidenote:hover) .sidenote-toggle,
-  & sup:has(+ .sidenote-state:checked) .sidenote-toggle {
+  & sup:has(+ .sidenote:hover) .sidenote-toggle {
     color: var(--color-ink);
     text-decoration-color: var(--color-ink);
   }
-  & sup:hover + .sidenote-state + .sidenote,
+  & sup:hover + .sidenote,
   & .sidenote:hover {
     color: var(--color-ink);
-  }
-  /* Hidden in place, not removed, so focusing it never scrolls the page. */
-  & .sidenote-state {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: 0;
-    opacity: 0;
-    appearance: none;
-  }
-  & sup:has(+ .sidenote-state:focus-visible) .sidenote-toggle {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
   }
   /* To a finger, a control's height, without moving a line. */
   @media (pointer: coarse) {
@@ -752,15 +732,41 @@
     display: block;
     margin-top: 0.5rem;
   }
-  @media (width < 80rem) {
-    & .sidenote-state:checked + .sidenote {
-      display: block;
-      margin-block: 0.5rem 0.75rem;
-      padding-left: 1rem;
-      border-left: 1px solid var(--color-rule);
-      font-size: var(--prose-note);
-      line-height: var(--prose-note-line);
-    }
+  & > .notes {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-rule);
+    font-size: var(--prose-note);
+    line-height: var(--prose-note-line);
+    color: var(--color-graphite);
+  }
+  & .notes-title {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: var(--prose-h3);
+    line-height: var(--prose-h3-line);
+    font-weight: 400;
+    color: var(--color-ink);
+  }
+  & .notes ol {
+    margin: 1.5rem 0 0;
+    padding-left: 1.5rem;
+  }
+  & .notes li {
+    padding-left: 0.25rem;
+  }
+  & .notes li + li {
+    margin-top: 0.75rem;
+  }
+  & .notes li p + p {
+    margin-top: 0.5rem;
+  }
+  & .notes li:target {
+    color: var(--color-ink);
+  }
+  & .notes [data-footnote-backref] {
+    margin-left: 0.25rem;
+    text-decoration: none;
   }
   /* A note that would meet the one above drops below it, by `clear`. */
   @media (width >= 80rem) {
@@ -775,7 +781,7 @@
       margin-top: calc((var(--prose-line) - 1.25rem) / 2);
       margin-bottom: 1rem;
     }
-    & .sidenote-state {
+    & > .notes {
       display: none;
     }
     & .sidenote-toggle {
