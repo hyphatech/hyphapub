@@ -25,5 +25,9 @@ const posts = defineCollection({
     }),
 });
 
+const variants = defineCollection({
+  loader: glob({ pattern: "*/{tldr,slop}.md", base: "./src/content/variants" }),
+  schema: z.object({}),
+});
 
-export const collections = { posts };
+export const collections = { posts, variants };

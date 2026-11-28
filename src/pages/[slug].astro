@@ -5,23 +5,25 @@ import Icon from "../components/Icon.astro";
 import Arrow from "../components/Arrow.astro";
 import Byline from "../components/Byline.astro";
 import Band from "../components/Band.astro";
+import ReadAs from "../components/ReadAs.astro";
 import Title from "../components/Title.astro";
 import Clock from "@lucide/astro/icons/clock";
 import Copy from "@lucide/astro/icons/copy";
 import Check from "@lucide/astro/icons/check";
 import X from "@lucide/astro/icons/x";
 import { postSchema } from "../lib/schema";
-import { posts, minutes, ledeOf, cardOf, type Post } from "../lib/posts";
+import { posts, minutes, ledeOf, cardOf, variantsOf, type Post, type Variant } from "../lib/posts";
 
 /* Read next stays within a post's series: a series never leads out into another. */
 export async function getStaticPaths() {
   const all = await posts();
+  const variants = await variantsOf(all);
   return all.map((post) => {
     const run = all.filter((p) => p.data.series === post.data.series);
     const i = run.indexOf(post);
     return {
       params: { slug: post.id },
-      props: { post, later: run[i - 1], earlier: run[i + 1] },
+      props: { post, later: run[i - 1], earlier: run[i + 1], tldr: variants.get(post.id)?.tldr, slop: variants.get(post.id)?.slop },
     };
   });
 }
@@ -30,10 +32,19 @@ interface Props {
   post: Post;
   later?: Post;
   earlier?: Post;
+  tldr?: Variant;
+  slop?: Variant;
 }
 
-const { post, later, earlier } = Astro.props;
+const { post, later, earlier, tldr, slop } = Astro.props;
 const { Content, headings } = await render(post);
+const Tldr = tldr && (await render(tldr)).Content;
+const Slop = slop && (await render(slop)).Content;
+const modes = [
+  { key: "original" as const, name: "As written", minutes: minutes(post) },
+  ...(tldr ? [{ key: "tldr" as const, name: "TL;DR", minutes: minutes(tldr) }] : []),
+  ...(slop ? [{ key: "slop" as const, name: "Slop", minutes: minutes(slop) }] : []),
+];
 /* The footnotes' heading is for screen readers, not a section. */
 const sections = headings.filter((h) => h.depth === 2 && h.slug !== "footnote-label");
 const contents = sections.length >= 2 ? sections : [];
@@ -56,6 +67,7 @@ const back = earlier;
         <div class="min-w-0 md:col-start-2">
           <h1 class="t-display max-w-(--measure-title)"><Title post={post} /></h1>
           <div class="mt-8 md:mt-10"><Byline post={post} /></div>
+          {modes.length > 1 && <ReadAs modes={modes} />}
         </div>
       </header>
     </Band>
@@ -88,11 +100,26 @@ const back = earlier;
           )
         }
       </aside>
-      <div class="prose min-w-0 md:col-start-2">
+      <div class="prose min-w-0 md:col-start-2" data-mode-text>
         {/* The description opens the text it leads into, never the band above it. */}
         {lede && <p>{lede}</p>}
         <Content />
       </div>
+      {
+        /* In templates, so search, the feed and a reader without scripts see only the text as written. */
+        Tldr && (
+          <template id="mode-tldr">
+            <Tldr />
+          </template>
+        )
+      }
+      {
+        Slop && (
+          <template id="mode-slop">
+            <Slop />
+          </template>
+        )
+      }
     </div>
 
     <footer class="grid md:grid-cols-margin">
@@ -172,8 +199,9 @@ const back = earlier;
       status.textContent = "";
       requestAnimationFrame(() => (status.textContent = message));
     };
-    if (navigator.clipboard) {
-      document.querySelectorAll<HTMLElement>(".prose .code").forEach((block) => {
+    /* Armed again whenever another version of the text is put in. */
+    const arm = (root: ParentNode) =>
+      root.querySelectorAll<HTMLElement>(".code:not(:has(> .copy))").forEach((block) => {
         const button = document.createElement("button");
         button.type = "button";
         button.className = "copy";
@@ -208,6 +236,9 @@ const back = earlier;
         });
         block.append(button);
       });
+    if (navigator.clipboard) {
+      arm(document.querySelector(".prose")!);
+      addEventListener("read-as", () => arm(document.querySelector(".prose")!));
     }
   </script>
 
@@ -237,6 +268,47 @@ const back = earlier;
     scrollers.forEach(([box]) => watch.observe(box));
     /* Code is set in the mono, which can arrive after the first measure. */
     document.fonts.ready.then(() => scrollers.forEach(([box]) => fit(box)));
+  </script>
+
+  <script>
+    const control = document.querySelector<HTMLElement>("[data-read-as]");
+    if (control) {
+      control.hidden = false;
+      const text = document.querySelector<HTMLElement>("[data-mode-text]")!;
+      const contents = document.querySelector<HTMLElement>("[data-contents]");
+      const original = [...text.childNodes];
+      const group = control.querySelector<HTMLElement>("[role=radiogroup]")!;
+      const buttons = [...group.querySelectorAll<HTMLButtonElement>("button")];
+      const slide = () => {
+        const on = buttons.find((b) => b.getAttribute("aria-checked") === "true")!;
+        group.style.setProperty("--thumb-x", `${on.offsetLeft}px`);
+        group.style.setProperty("--thumb-w", `${on.offsetWidth}px`);
+      };
+      const set = (mode: string) => {
+        const template = document.querySelector<HTMLTemplateElement>(`#mode-${mode}`);
+        if (mode !== "original" && !template) return;
+        text.replaceChildren(...(template ? [template.content.cloneNode(true)] : original));
+        if (contents) contents.hidden = mode !== "original";
+        dispatchEvent(new Event("read-as"));
+        buttons.forEach((b) => b.setAttribute("aria-checked", String(b.dataset.mode === mode)));
+        slide();
+        const on = buttons.find((b) => b.dataset.mode === mode)!;
+        document.querySelector("[data-minutes]:not(button)")!.textContent = `${on.dataset.minutes} min read`;
+        const url = new URL(location.href);
+        if (mode === "original") url.searchParams.delete("read");
+        else url.searchParams.set("read", mode);
+        history.replaceState(null, "", url);
+        localStorage.setItem("read", mode);
+      };
+      buttons.forEach((b) => b.addEventListener("click", () => set(b.dataset.mode!)));
+      const asked = new URLSearchParams(location.search).get("read") ?? localStorage.getItem("read");
+      if (asked) set(asked);
+      slide();
+      /* Placed before it may move, so the first choice on arrival does not slide. */
+      requestAnimationFrame(() => (group.dataset.ready = ""));
+      document.fonts.ready.then(slide);
+      new ResizeObserver(slide).observe(group);
+    }
   </script>
 
   <script>

@@ -30,6 +30,6 @@ const { name, avatar } = authors[post.data.author];
       <Icon icon={Calendar} /><time datetime={post.data.date.toISOString()}>{fullDate(post.data.date)}</time>
     </dd>
     <dt class="sr-only">Reading time</dt>
-    <dd class="text-sm flex items-center gap-2 text-graphite"><Icon icon={Clock} />{minutes(post)} min read</dd>
+    <dd class="text-sm flex items-center gap-2 text-graphite"><Icon icon={Clock} /><span data-minutes>{minutes(post)} min read</span></dd>
   </dl>
 </div>

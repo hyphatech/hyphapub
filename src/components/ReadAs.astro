@@ -1,0 +1,80 @@
+---
+import Icon from "./Icon.astro";
+import PenLine from "@lucide/astro/icons/pen-line";
+import Zap from "@lucide/astro/icons/zap";
+import Sparkles from "@lucide/astro/icons/sparkles";
+
+interface Props {
+  modes: { key: "original" | "tldr" | "slop"; name: string; minutes: number }[];
+}
+
+const { modes } = Astro.props;
+const icons = { original: PenLine, tldr: Zap, slop: Sparkles };
+---
+
+<div class="mt-8 flex md:mt-10" data-read-as hidden>
+  <div class="read-as" role="radiogroup" aria-label="Read as">
+    <span class="thumb" aria-hidden="true"></span>
+    {
+      modes.map((m, i) => (
+        <button type="button" role="radio" data-mode={m.key} data-minutes={m.minutes} aria-checked={i === 0 ? "true" : "false"}>
+          <Icon icon={icons[m.key]} />
+          {m.name}
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .read-as {
+    position: relative;
+    display: inline-flex;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border: 1px solid var(--color-rule);
+    border-radius: 4px;
+    background: var(--color-panel);
+  }
+  /* One piece of ink slides under the choice, so the eye follows it. */
+  .thumb {
+    position: absolute;
+    top: 0.25rem;
+    bottom: 0.25rem;
+    left: 0;
+    width: var(--thumb-w, 0);
+    transform: translateX(var(--thumb-x, 0));
+    border-radius: 2px;
+    background: var(--color-ink);
+    transition:
+      transform 320ms var(--ease-glide),
+      width 320ms var(--ease-glide);
+  }
+  .read-as:not([data-ready]) .thumb {
+    transition: none;
+  }
+  button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2rem;
+    padding: 0 0.75rem;
+    border-radius: 2px;
+    font: 500 0.875rem / 1.25rem var(--font-sans);
+    color: var(--color-graphite);
+    cursor: pointer;
+    transition: color 200ms var(--ease-state);
+  }
+  button:hover {
+    color: var(--color-ink);
+  }
+  button[aria-checked="true"] {
+    color: var(--color-ivory);
+  }
+  @media (pointer: coarse) {
+    button {
+      height: 2.25rem;
+    }
+  }
+</style>

@@ -8,9 +8,22 @@ export async function posts(): Promise<Post[]> {
 }
 
 /* At 220 words a minute, code counted as words. */
-export function minutes(post: Post): number {
+export function minutes(post: { body?: string }): number {
   const words = (post.body ?? "").split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.round(words / 220));
+}
+
+type Mode = "tldr" | "slop";
+export type Variant = CollectionEntry<"variants">;
+
+export async function variantsOf(all: Post[]): Promise<Map<string, Partial<Record<Mode, Variant>>>> {
+  const found = new Map<string, Partial<Record<Mode, Variant>>>();
+  for (const v of await getCollection("variants")) {
+    const [slug, mode] = v.id.split("/") as [string, Mode];
+    if (!all.some((p) => p.id === slug)) throw new Error(`A variant names no post: ${v.id}`);
+    found.set(slug, { ...found.get(slug), [mode]: v });
+  }
+  return found;
 }
 
 const cards = import.meta.glob<string>("../assets/cards/*.jpg", { query: "?url", import: "default", eager: true });

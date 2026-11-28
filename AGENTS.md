@@ -60,6 +60,15 @@ A post is one Markdown file in `src/content/posts/`, its frontmatter:
   the layout: `src/lib/prose.ts` marks a post's, and `Base.astro` its
   own.
 
+## Versions
+
+A post may be read three ways, chosen under its byline: as written, its
+TL;DR and its slop. Its other versions are `tldr.md` and `slop.md` in
+`src/content/variants/<slug>/`, the text alone with no frontmatter; a
+post with neither shows no choice, and a version naming no post fails
+the build. The page carries only the text as written: search, the feed
+and a reader without scripts see nothing else. Both are made anew when the post's words change.
+
 ## Addresses
 
 - A post's file name is its address: `back-to-freebsd-part-1.md` is
