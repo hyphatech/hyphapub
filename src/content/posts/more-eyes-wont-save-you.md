@@ -1,5 +1,6 @@
 ---
 title: "More eyes won’t save you"
+lines: ["More eyes", "won’t save you"]
 date: 2026-10-15T12:00:00.000Z
 description: "Code review was built by humans for humans, on the idea that more eyes catch more mistakes. Then agents started writing the code."
 author: roman

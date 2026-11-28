@@ -1,0 +1,12 @@
+---
+import type { Post } from "../lib/posts";
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const { title, lines } = post.data;
+---
+
+{lines ? lines.map((line) => <span class="block">{line} </span>) : title}

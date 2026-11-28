@@ -95,6 +95,9 @@
   :root {
     --margin: 11.5rem;
     --measure: 42rem;
+    /* A post's title, on its page and atop the front page alike: wide enough
+       that a title of two short phrases keeps each on its line. */
+    --measure-title: 46rem;
     --measure-entry: 32rem;
     --sidebar: 12rem;
     --masthead: 7.5rem;

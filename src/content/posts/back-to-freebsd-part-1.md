@@ -1,5 +1,6 @@
 ---
 title: "Back to FreeBSD: Part 1 — Intro"
+lines: ["Back to FreeBSD:", "Part 1 — Intro"]
 date: 2026-02-20T18:33:48.307Z
 updated: 2026-03-26T11:21:21.154Z
 description: "Containers ran in production on FreeBSD thirteen years before Docker. So why does nobody talk about it?"

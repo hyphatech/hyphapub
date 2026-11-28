@@ -1,5 +1,6 @@
 ---
 title: "Handmade code needs a WARNING label"
+lines: ["Handmade code", "needs a", "WARNING label"]
 date: 2026-11-03T12:00:00.000Z
 description: "Show today's engineers anything built with agents, and someone will demand an AI disclosure before they even look at what it does."
 author: roman

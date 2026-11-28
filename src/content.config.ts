@@ -5,22 +5,25 @@ import { authors } from "./lib/authors";
 
 const posts = defineCollection({
   loader: glob({ pattern: "*.md", base: "./src/content/posts" }),
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    updated: z.coerce.date().optional(),
-    /* One or two sentences: the feed, search and share cards read it. */
-    description: z.string(),
-    author: z.enum(Object.keys(authors) as [keyof typeof authors]),
-    /* The front page's preview, and the share card of a post with no card: a post's own page shows none. */
-    cover: z.string().optional(),
-    /* False keeps a post off the front page only: the archive, feed and Read next keep it. */
-    front: z.boolean().default(true),
-    /* False sets no lede, for a post that opens on its own first line. */
-    lede: z.boolean().default(true),
-    /* Required: a post on its own is a series of one, and Read next stays within it. */
-    series: z.string(),
-  }),
+  schema: z
+    .object({
+      title: z.string(),
+      lines: z.array(z.string()).optional(),
+      date: z.coerce.date(),
+      updated: z.coerce.date().optional(),
+      description: z.string(),
+      author: z.enum(Object.keys(authors) as [keyof typeof authors]),
+      cover: z.string().optional(),
+      front: z.boolean().default(true),
+      lede: z.boolean().default(true),
+      /* Required: a post on its own is a series of one. */
+      series: z.string(),
+    })
+    .refine((p) => !p.lines || p.lines.join(" ") === p.title, {
+      message: "A post's lines must join into its title",
+      path: ["lines"],
+    }),
 });
+
 
 export const collections = { posts };

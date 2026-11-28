@@ -5,6 +5,7 @@ import Icon from "../components/Icon.astro";
 import Arrow from "../components/Arrow.astro";
 import Byline from "../components/Byline.astro";
 import Band from "../components/Band.astro";
+import Title from "../components/Title.astro";
 import Clock from "@lucide/astro/icons/clock";
 import Copy from "@lucide/astro/icons/copy";
 import Check from "@lucide/astro/icons/check";
@@ -53,8 +54,7 @@ const back = earlier;
     <Band hero>
       <header class="grid md:grid-cols-margin">
         <div class="min-w-0 md:col-start-2">
-          <h1 class="t-display max-w-[var(--measure)]">{post.data.title}</h1>
-          {lede && <p class="t-lede mt-6 max-w-[var(--measure)] md:mt-8">{lede}</p>}
+          <h1 class="t-display max-w-(--measure-title)"><Title post={post} /></h1>
           <div class="mt-8 md:mt-10"><Byline post={post} /></div>
         </div>
       </header>
@@ -89,6 +89,8 @@ const back = earlier;
         }
       </aside>
       <div class="prose min-w-0 md:col-start-2">
+        {/* The description opens the text it leads into, never the band above it. */}
+        {lede && <p>{lede}</p>}
         <Content />
       </div>
     </div>

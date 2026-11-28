@@ -1,5 +1,6 @@
 ---
 title: "Back to FreeBSD: Part 2 — Jails"
+lines: ["Back to FreeBSD:", "Part 2 — Jails"]
 date: 2026-03-26T18:34:47.944Z
 updated: 2026-03-26T19:18:09.983Z
 description: "Before we explore FreeBSD jails, it is worth refreshing our understanding of how Linux solved the same problem with LXC (Linux Containers)."

@@ -40,6 +40,7 @@ A post is one Markdown file in `src/content/posts/`, its frontmatter:
 | Key | Holds |
 |---|---|
 | `title` | its title |
+| `lines` | optional: the title line by line, where an even split would part a phrase; joined by spaces they must be the title |
 | `date` | when it was published |
 | `description` | one or two sentences, read by the feed, search and share cards |
 | `series` | a key the posts of a series share, a post on its own having one of its own: Read next stays within it |
@@ -47,7 +48,7 @@ A post is one Markdown file in `src/content/posts/`, its frontmatter:
 | `updated` | optional: when it last changed |
 | `cover` | optional: the front page's preview, and the share card of a post with no card of its own; a post's own page shows none |
 | `front: false` | optional: kept off the front page, in the archive only |
-| `lede: false` | optional: no lede under the title, for a post that opens on its own first line; the description still serves the feed, search and cards |
+| `lede: false` | optional: the description is not set as the text's first paragraph, for a post that opens on its own first line; it still serves the feed, search and cards |
 
 - **Images** go in `public/images/<slug>/`.
 - **A diagram** is a figure too: an SVG drawn by hand into the same

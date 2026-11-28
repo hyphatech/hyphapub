@@ -1,4 +1,5 @@
 ---
+import Title from "../components/Title.astro";
 import Base from "../layouts/Base.astro";
 import Empty from "../components/Empty.astro";
 import Band from "../components/Band.astro";
@@ -27,9 +28,9 @@ const lede = lead && ledeOf(lead);
           <Band hero>
             <div class="grid md:grid-cols-margin">
               <div class="min-w-0 md:col-start-2">
-                <h2 id="lead" class="t-display max-w-[var(--measure)]">
+                <h2 id="lead" class="t-display max-w-(--measure-title)">
                   <a href={`/${lead.id}/`} class="transition-opacity hover:opacity-80">
-                    {lead.data.title}
+                    <Title post={lead} />
                   </a>
                 </h2>
                 {lede && <p class="t-lede mt-8 max-w-[var(--measure)]">{lede}</p>}

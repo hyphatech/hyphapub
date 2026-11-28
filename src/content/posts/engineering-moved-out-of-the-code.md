@@ -1,5 +1,6 @@
 ---
 title: "Engineering moved out of the code"
+lines: ["Engineering", "moved out", "of the code"]
 date: 2026-10-16T12:00:00.000Z
 description: "Using an agent doesn’t make you an agentic engineer though, and you are ready for this conversation."
 author: roman

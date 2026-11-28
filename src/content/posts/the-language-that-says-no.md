@@ -1,5 +1,6 @@
 ---
 title: "The language that says no"
+lines: ["The language", "that says no"]
 date: 2026-10-21T12:00:00.000Z
 description: "Your agent will cut a corner tonight. Whether that corner ships depends on the language you gave it."
 author: roman
